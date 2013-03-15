@@ -1,5 +1,6 @@
 define(function(require){
 	var Backbone = require('backbone');
+	var Foundation = require('css!libraries/foundation/css/normalize.css');
 	var Foundation = require('css!libraries/foundation/css/foundation');
 	
 	var femView = Backbone.View.extend({
@@ -21,12 +22,12 @@ define(function(require){
 			//var clickedMenu = $(event.currentTarget).data('menu');
 			this.$('.js-view-item').hide();
 			this.$('.' + clickedMenu).show();
-			this.$('.left-side-menu').addClass('hide-for-small');
-			this.$('.right-panel').removeClass('hide-for-small');
+			this.$('.js-left-side-menu').addClass('hide-for-small').removeClass('hide-for-large');
+			this.$('.js-right-panel').removeClass('hide-for-small').addClass('hide-for-large');
 		},
 		eventShowMenu : function(){
-			this.$('.left-side-menu').removeClass('hide-for-small');
-			this.$('.right-panel').addClass('hide-for-small');
+			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
+			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
 		}
 	});
 	return femView;
