@@ -10,6 +10,8 @@ define(function(require){
 			this.render();
 			this.makeResponsive();
 			this.eventShowView('js-dashboard');
+			
+			this.menulength = this.$('.js-menu').length;
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
@@ -32,7 +34,7 @@ define(function(require){
 			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
 		},
 		makeResponsive : function(){
-			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/6)-1);
+			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/this.menulength)-1);
 		}
 	});
 	return femView;
