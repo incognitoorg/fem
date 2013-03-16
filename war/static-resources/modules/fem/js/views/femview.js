@@ -32,7 +32,7 @@ define(function(require){
 			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
 		},
 		makeResponsive : function(){
-			this.$('.js-left-side-menu p').height($('.js-left-side-menu').height()/6);
+			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/6)-1);
 		}
 	});
 	return femView;
