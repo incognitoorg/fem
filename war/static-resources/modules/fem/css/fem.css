@@ -1,5 +1,18 @@
+body{
+	height : 100%;
+}
+
 .back-to-menu{
 	position : fixed!important;
 	bottom: 0;
 	opacity : 0.9;
+}
+
+.section-container section .title a{
+	font-size : 20px!important;
+}
+
+
+.js-left-side-menu{
+	height : 100%;
 }

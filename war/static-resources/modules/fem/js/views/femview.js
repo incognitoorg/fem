@@ -6,8 +6,9 @@ define(function(require){
 	
 	var femView = Backbone.View.extend({
 		initialize : function(options){
+			console.log
 			this.render();
-			
+			this.makeResponsive();
 			this.eventShowView('js-dashboard');
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
@@ -29,6 +30,9 @@ define(function(require){
 		eventShowMenu : function(){
 			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
 			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
+		},
+		makeResponsive : function(){
+			this.$('.js-left-side-menu p').height($('.js-left-side-menu').height()/6);
 		}
 	});
 	return femView;
