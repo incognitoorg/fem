@@ -8,10 +8,10 @@ define(function(require){
 		initialize : function(options){
 			console.log
 			this.render();
+			this.menulength = this.$('.js-menu').length;
 			this.makeResponsive();
 			this.eventShowView('js-dashboard');
 			
-			this.menulength = this.$('.js-menu').length;
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
