@@ -2,6 +2,7 @@ define(function(require){
 	var Backbone = require('backbone');
 	var Foundation = require('css!libraries/foundation/css/normalize.css');
 	var Foundation = require('css!libraries/foundation/css/foundation');
+	var CSS = require('css!./../../css/fem.css');
 	
 	var femView = Backbone.View.extend({
 		initialize : function(options){
