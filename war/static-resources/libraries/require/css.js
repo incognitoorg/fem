@@ -111,10 +111,10 @@ define(['normalize'], function(normalize) {
     if (fileUrl.substr(fileUrl.length - 4, 4) != '.css' && !parse)
       fileUrl += '.css';
     
-    if((fileUrl.indexOf('components/') !== -1 || fileUrl.indexOf('modules/') !== -1) && "" !== theme){
+    /*if((fileUrl.indexOf('components/') !== -1 || fileUrl.indexOf('modules/') !== -1) && "" !== theme){
 		  var postFix = fileUrl.substr(name.length - 4, 4)
 		  fileUrl = fileUrl.replace(postFix,'')+"_"+theme+postFix;
-	}
+	}*/
     
     fileUrl = req.toUrl(fileUrl);
     
