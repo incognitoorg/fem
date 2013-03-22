@@ -7,7 +7,6 @@ define(function(require){
 	
 	var femView = Backbone.View.extend({
 		initialize : function(options){
-			console.log
 			this.render();
 			this.menulength = this.$('.js-menu').length;
 			this.makeResponsive();
