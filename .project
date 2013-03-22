@@ -21,7 +21,8 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.appengine.eclipse.core.gaeProjectChangeNotifier</name>
+			<name>com.google.appengine.eclipse.core.gaeProjectChangeNotifier
+			</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
