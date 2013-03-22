@@ -21,7 +21,6 @@ define(function(require){
 			  this.options.view.eventShowMenu();
 		  },
 		  showDashboard: function(e,f) {
-			  console.log(this);
 			  this.options.view.eventShowView('js-dashboard');
 		  },
 		  showNewExpense: function() {

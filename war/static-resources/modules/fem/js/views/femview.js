@@ -15,6 +15,8 @@ define(function(require){
 			
 			Backbone.history.start()
 
+			this.router.navigate('#menu');
+
 			this.eventShowView('js-dashboard');
 			
 		},
