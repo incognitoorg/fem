@@ -1,15 +1,21 @@
 define(function(require) {
 	
+	var fbGraphApi = require('http://connect.facebook.net/en_US/all.js');
+
+	console.log('FB loaded',FB);
+	FB.init({
+		appId      : '552196874810994', // App ID from the App Dashboard
+	    channelUrl : 'http://localhost:8888/', // Channel File for x-domain communication
+	    status     : true, // check the login status upon init?
+		cookie     : true, // set sessions cookies to allow your server to access the session?
+		xfbml      : true  // parse XFBML tags on this page?
+	});
+	
 	return {
 		getInstance : function() {
 			return {
 				initialize : function(options) {
-					require(['async!http://connect.facebook.net/en_US/all.js'],function(FB){
-						console.log('FB loaded',FB);
-						require(['fbgraph-initializer'],function(FBInitializer){
-							console.log('FB init called');
-						});
-					});
+					
 				},
 				checkAndDoLogin : function(){
 					FB.login(function(response) {

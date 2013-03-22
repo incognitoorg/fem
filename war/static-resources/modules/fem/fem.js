@@ -6,7 +6,7 @@ define(function(require){
 				initialize : function(options){
 					this.view = new FEMView(options);
 				}
-			}
+			};
 		}
-	}
+	};
 });
