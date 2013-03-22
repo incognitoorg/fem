@@ -2,8 +2,7 @@ define(function(require) {
 	"use strict";
 	var Backbone = require('backbone');
 	var Handlebars = require('handlebars');
-	//var fbgraphImplementer = require('components/fbgraph-implementer/fbgraph-implementer');
-	var FEM = require('modules/fem/fem');
+	var Login = require('components/loginform/loginform');
 	
 	var facebookAPIInstance;
 	var BootloaderView = Backbone.View.extend({
@@ -11,7 +10,7 @@ define(function(require) {
 			//facebookAPIInstance=fbgraphImplementer.getInstance();
 			//facebookAPIInstance.initialize();
 			this.render(options);
-			FEM.getInstance().initialize({el:this.$('.js-fem-container')});	
+			Login.getInstance().initialize({el:this.$('.js-login-container')});	
 		},
 		template : Handlebars.compile(require('text!./../../templates/bootloadertemplate.html')),
 		render : function(data){

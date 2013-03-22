@@ -12,7 +12,7 @@ define(function(require){
 			this.makeResponsive();
 			this.router = new AppRouter({view : this});
 			
-			Backbone.history.start()
+			Backbone.history.start();
 
 			this.router.navigate('#menu');
 
@@ -21,14 +21,14 @@ define(function(require){
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
-			$(this.el).html(this.template())
+			$(this.el).html(this.template());
 		},
 		events : {
 			'click .js-menu' : 'eventShowView',
 			'click .js-back-to-menu' : 'eventShowMenu'
 		},
 		eventShowView : function(event){
-			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event
+			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event;
 			//var clickedMenu = $(event.currentTarget).data('menu');
 			this.$('.js-view-item').hide();
 			this.$('.' + clickedMenu).show();
@@ -47,4 +47,4 @@ define(function(require){
 		}
 	});
 	return femView;
-})
+});
