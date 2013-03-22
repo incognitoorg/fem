@@ -3,6 +3,7 @@ define(function(require){
 	var Foundation = require('css!libraries/foundation/css/normalize.css');
 	var Foundation = require('css!libraries/foundation/css/foundation');
 	var CSS = require('css!./../../css/fem.css');
+	var AppRouter = require('./../router/femrouter');
 	
 	var femView = Backbone.View.extend({
 		initialize : function(options){
@@ -10,6 +11,10 @@ define(function(require){
 			this.render();
 			this.menulength = this.$('.js-menu').length;
 			this.makeResponsive();
+			this.router = new AppRouter({view : this});
+			
+			Backbone.history.start()
+
 			this.eventShowView('js-dashboard');
 			
 		},
@@ -28,10 +33,13 @@ define(function(require){
 			this.$('.' + clickedMenu).show();
 			this.$('.js-left-side-menu').addClass('hide-for-small').removeClass('hide-for-large');
 			this.$('.js-right-panel').removeClass('hide-for-small').addClass('hide-for-large');
+			var navLink = clickedMenu.toLowerCase().split('-').join('');
+			this.router.navigate("#"+navLink.substring(2,navLink.length));
 		},
 		eventShowMenu : function(){
 			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
 			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
+			this.router.navigate("#menu");
 		},
 		makeResponsive : function(){
 			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/this.menulength)-1);
