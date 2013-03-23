@@ -1,5 +1,5 @@
 define(function(require){
-	var FEMView = require('./js/views/femview')
+	var FEMView = require('./js/views/femview');
 	return {
 		getInstance : function(){
 			return {

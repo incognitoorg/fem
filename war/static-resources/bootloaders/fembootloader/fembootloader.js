@@ -7,7 +7,7 @@ define(function(require) {
 
 	return {
 		start : function() {
-			this.view = new BootloaderView({el:$('body')});
+			this.view = new BootloaderView({el:$('#appcontainer')});
 		}
 	};
 });

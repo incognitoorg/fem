@@ -1,15 +1,6 @@
 define(function(require) {
 	
-	var fbGraphApi = require('http://connect.facebook.net/en_US/all.js');
-
-	console.log('FB loaded',FB);
-	FB.init({
-		appId      : '552196874810994', // App ID from the App Dashboard
-	    channelUrl : 'http://localhost:8888/', // Channel File for x-domain communication
-	    status     : true, // check the login status upon init?
-		cookie     : true, // set sessions cookies to allow your server to access the session?
-		xfbml      : true  // parse XFBML tags on this page?
-	});
+	var FB = require('components/fbapi/fbapi');
 	
 	return {
 		getInstance : function() {

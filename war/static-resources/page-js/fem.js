@@ -9,6 +9,7 @@ requirejs.config({
 		css : 'libraries/require/css',
 		normalize : 'libraries/require/normalize',
 		async : 'libraries/require/async',
+		fb : 'libraries/require/fb',
 		text : 'libraries/require/text',
 		facade : 'libraries/core/facade',
 		mediator : 'libraries/core/mediator',
