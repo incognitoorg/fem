@@ -2,17 +2,22 @@ define(function(require) {
 	
 	var FB = require('components/fbapi/fbapi');
 	
-	return {
-		getInstance : function() {
+	/*return {
+		getInstance : function() {*/
 			return {
 				initialize : function(options) {
 					
 				},
-				checkAndDoLogin : function(){
+				checkAndDoLogin : function(options){
 					FB.login(function(response) {
-						   if (response.authResponse) {
+						if(options.callback){
+							options.callback.call(options.context || this, response);
+						}
+						
+						/*if (response.authResponse) {
 							   	 this.authToken = response.authResponse.accessToken;
 							     FB.api('/me', function(response) {
+							    	 console.log(response);
 							    	 $('.loginbutton').hide();
 							    	 $('.logoutbutton').show();
 							    	// $(".js-fem-container").show();
@@ -21,7 +26,7 @@ define(function(require) {
 							     });
 						   } else {
 						     console.log('User cancelled login or did not fully authorize.');
-						   }
+						   }*/
 					});
 				},
 				checkAndDoLogout : function(){
@@ -34,7 +39,7 @@ define(function(require) {
 					return this.authToken;
 				}
 			};
-		}
-	};
+	/*	}
+	};*/
 	
 });

@@ -4,10 +4,12 @@ define(function(require){
 	var Foundation = require('css!libraries/foundation/css/foundation');
 	var CSS = require('css!./../../css/fem.css');
 	var AppRouter = require('./../router/femrouter');
+	var Facade = require('facade');
 	
 	var femView = Backbone.View.extend({
 		initialize : function(options){
-			this.render();
+			this.registerSubscribers();
+			/*this.render();
 			this.menulength = this.$('.js-menu').length;
 			this.makeResponsive();
 			this.router = new AppRouter({view : this});
@@ -16,8 +18,12 @@ define(function(require){
 
 			this.router.navigate('#menu');
 
-			this.eventShowView('js-dashboard');
+			this.eventShowView('js-dashboard');*/
 			
+			
+		},
+		registerSubscribers : function(){
+			Facade.subscribe('LOGIN:SUCCESS',this.start,this);
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
@@ -44,6 +50,18 @@ define(function(require){
 		},
 		makeResponsive : function(){
 			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/this.menulength)-1);
+		},
+		start : function(){
+			this.render();
+			this.menulength = this.$('.js-menu').length;
+			this.makeResponsive();
+			this.router = new AppRouter({view : this});
+			
+			Backbone.history.start();
+
+			this.router.navigate('#menu');
+
+			this.eventShowView('js-dashboard');
 		}
 	});
 	return femView;
