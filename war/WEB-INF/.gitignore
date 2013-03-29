@@ -1,0 +1,8 @@
+/appengine-generated
+/lib
+/groupendpoint-v1-rest.discovery
+/groupendpoint-v1-rpc.discovery
+/groupendpoint-v1.api
+/userendpoint-v1-rest.discovery
+/userendpoint-v1-rpc.discovery
+/userendpoint-v1.api
