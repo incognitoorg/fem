@@ -13,31 +13,31 @@
 "use strict";
 define(['mediator'], function (mediator) {
 
-	var facade = {};
+	var Sandbox = {};
 
 	// * **param:** {string} subscriber Module name
 	// * **param:** {string} channel Event name
 	// * **param:** {object} callback Module
-	facade.subscribe = function (channel, /*subscriber,*/ callback, context) {
+	Sandbox.subscribe = function (channel, /*subscriber,*/ callback, context) {
 		return mediator.subscribe(channel, /*subscriber,*/ callback, context || this);
 	};
 
 	// * **param:** {string} channel Event name
-	facade.publish = function (channel) {
+	Sandbox.publish = function (channel) {
 		mediator.publish.apply(mediator, arguments);
 	};
 
 	
-	facade.registerChildren = function(children, parent){
+	Sandbox.registerChildren = function(children, parent){
 		mediator.registerChildren.apply(mediator, arguments);
 	};
 	
 	
-	facade.destroy = function(component){
+	Sandbox.destroy = function(component){
 		mediator.destroy.apply(mediator, arguments);
 	};
 	
-	facade.decorate = function(baseObject, decorations){
+	Sandbox.decorate = function(baseObject, decorations){
 		
 		if(debugMode){
 
@@ -45,7 +45,7 @@ define(['mediator'], function (mediator) {
 
 			for ( var index in baseObject) {
 				if(decorations[index]){
-					overridden.push(index)
+					overridden.push(index);
 				}
 			}
 
@@ -53,7 +53,7 @@ define(['mediator'], function (mediator) {
 				//console.error('Protocol breach, using decorate for overriding');
 				console.warn('Protocol breach, using decorate for overriding, You should be arrested for this.');
 				console.log('Overridden properties');
-				console.log(overridden.join())
+				console.log(overridden.join());
 			}
 		}
 		
@@ -72,9 +72,9 @@ define(['mediator'], function (mediator) {
 			_.extend(baseObject.rules, decorations.extendedRules);
 		}
 		return _.extend(baseObject, decorations);
-	}
+	};
 	
-	facade.override = function(baseObject,overriddens){
+	Sandbox.override = function(baseObject,overriddens){
 		
 		if(debugMode){
 			
@@ -92,7 +92,7 @@ define(['mediator'], function (mediator) {
 			var overrideRatio = overriddensize/baseObjectSize;
 			
 			if(overrideRatio>=0.5){
-				console.warn('You are overriding just too much, consider excluding base file and copy all properties/functions in extension')
+				console.warn('You are overriding just too much, consider excluding base file and copy all properties/functions in extension');
 				console.log('Properties/functions to copy');
 				console.log(_.difference(_.keys(baseObjectForSize), _.keys(overriddens)));
 			}
@@ -117,10 +117,10 @@ define(['mediator'], function (mediator) {
 		}
 		
 		return _.extend(baseObject, overriddens);
-	}
+	};
 	
 	
 
-	return facade;
+	return Sandbox;
 
 });
