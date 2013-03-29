@@ -15,7 +15,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value/>
+   <param-value>com.fem.google.cloud.endpoints.UserEndpoint,com.fem.google.cloud.endpoints.GroupEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>

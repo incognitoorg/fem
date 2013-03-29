@@ -1,5 +1,6 @@
 define(function(require) {
 	"use strict";
+	require('jquery');
 	var Backbone = require('backbone');
 	var Handlebars = require('handlebars');
 	var Login = require('components/login/login');

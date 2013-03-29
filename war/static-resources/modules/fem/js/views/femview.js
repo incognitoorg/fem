@@ -1,29 +1,22 @@
 define(function(require){
+	
+	require('css!libraries/foundation/css/normalize.css');
+	require('css!libraries/foundation/css/foundation');
+	require('css!./../../css/fem.css');
 	var Backbone = require('backbone');
-	var Foundation = require('css!libraries/foundation/css/normalize.css');
-	var Foundation = require('css!libraries/foundation/css/foundation');
-	var CSS = require('css!./../../css/fem.css');
 	var AppRouter = require('./../router/femrouter');
+	var FEMComponentManager = require('modules/fem-component-manager/fem-component-manager');
 	var Facade = require('facade');
 	
-	var femView = Backbone.View.extend({
+	
+	var FEMView = Backbone.View.extend({
 		initialize : function(options){
 			this.registerSubscribers();
-			/*this.render();
-			this.menulength = this.$('.js-menu').length;
-			this.makeResponsive();
-			this.router = new AppRouter({view : this});
-			
-			Backbone.history.start();
-
-			this.router.navigate('#menu');
-
-			this.eventShowView('js-dashboard');*/
-			
-			
+			FEMComponentManager.getInstance().initialize();
 		},
 		registerSubscribers : function(){
 			Facade.subscribe('LOGIN:SUCCESS',this.start,this);
+			Facade.subscribe('fem-newGroupCreated',this.redirectView,this);
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
@@ -35,13 +28,20 @@ define(function(require){
 		},
 		eventShowView : function(event){
 			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event;
-			//var clickedMenu = $(event.currentTarget).data('menu');
 			this.$('.js-view-item').hide();
 			this.$('.' + clickedMenu).show();
 			this.$('.js-left-side-menu').addClass('hide-for-small').removeClass('hide-for-large');
 			this.$('.js-right-panel').removeClass('hide-for-small').addClass('hide-for-large');
 			var navLink = clickedMenu.toLowerCase().split('-').join('');
 			this.router.navigate("#"+navLink.substring(2,navLink.length));
+
+			var componentElement = this.$('.'+clickedMenu);
+			var dataToPublish = {
+					'clickedMenu' : clickedMenu,
+					'element' : componentElement
+			};
+			
+			Facade.publish('fem-clickedMenu',dataToPublish);
 		},
 		eventShowMenu : function(){
 			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
@@ -62,7 +62,11 @@ define(function(require){
 			this.router.navigate('#menu');
 
 			this.eventShowView('js-dashboard');
+		},
+		redirectView : function(data){
+			console.log('data',data);
+			this.eventShowView('js-dashboard');
 		}
 	});
-	return femView;
+	return FEMView;
 });
