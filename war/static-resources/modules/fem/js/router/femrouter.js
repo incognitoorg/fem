@@ -43,4 +43,4 @@ define(function(require){
 	
 	return AppRouter;
 	
-})
+});
