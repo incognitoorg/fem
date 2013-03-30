@@ -32,6 +32,7 @@ requirejs.config({
 	waitSeconds : 60
 });
 
+//TODO : This module can be used in case we need to implement a rediect login which will require separate page for only login.
 require(['bootloaders/loginbootloader/loginbootloader'], function(bootoloader) {
 	bootoloader.start(/*{'debugMode':true,'analytics':true,'errorlogger':true}*/);
 });
