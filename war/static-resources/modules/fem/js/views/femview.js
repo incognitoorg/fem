@@ -9,7 +9,7 @@ define(function(require){
 	var Facade = require('facade');
 	
 	
-	var FEMView = Backbone.View.extend({
+	var FEMView = Sandbox.View.extend({
 		initialize : function(options){
 			this.registerSubscribers();
 			FEMComponentManager.getInstance().initialize();

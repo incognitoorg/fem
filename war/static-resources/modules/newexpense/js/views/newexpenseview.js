@@ -1,7 +1,7 @@
 define(function(require) {
 	var Backbone = require('backbone');
 
-	var NewExpenseView = Backbone.View.extend({
+	var NewExpenseView = Sandbox.View.extend({
 		initialize : function(options) {
 			this.options = _.extend({
 			//defaults here

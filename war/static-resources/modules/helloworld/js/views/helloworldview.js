@@ -3,7 +3,7 @@ define(function(require) {
 	var Backbone = require('backbone');
 	var Handlebars = require('handlebars');
 	
-	var HelloWorldView = Backbone.View.extend({
+	var HelloWorldView = Sandbox.View.extend({
 		initialize : function(){
 			this.render();
 		},

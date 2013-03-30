@@ -7,7 +7,7 @@ define(function(require) {
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
 
-	var FEMAddGroupView = Backbone.View.extend({
+	var FEMAddGroupView = Sandbox.View.extend({
 		initialize : function(options){
 			this.FBAuthToken=FBAPI.getAuthToken();
 			this.render();
