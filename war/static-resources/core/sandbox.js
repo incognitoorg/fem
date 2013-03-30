@@ -29,12 +29,14 @@ define(['mediator', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/moder
 		var callback = options.callback;
 		var errorCallback = options.errorCallback;
 		var context = options.context;
+		var data = options.data;
 		
 		$.ajax({
 		  'url':url,
 		  'type': type, 
 		  'contentType':contentType,
 		  'dataType': dataType,
+		  'data' : data,
 		  'success': function(response){
 			  
 			  if(response.data){
