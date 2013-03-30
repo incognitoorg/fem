@@ -51,7 +51,7 @@ define(['https://apis.google.com/js/client.js'],function(){
 			// Step 6: Execute the API request
 			request.execute(function(resp) {
 				if(options.callback){
-					options.callback.call(options.context||this, resp);
+					options.callback.call(options.context||this, {loginType : 'google', googleId : resp.id, data : resp});
 				}
 				/*var heading = document.createElement('h4');
 				var image = document.createElement('img');

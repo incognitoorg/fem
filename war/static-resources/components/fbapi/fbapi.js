@@ -26,7 +26,13 @@ define(function(require) {
 					     FB.api('/me', function(response) {
 					    	 
 					    	 if(options.callback){
-					    		 options.callback.call(options.context || this, response);
+					    		 options.callback.call(options.context || this, {
+					    		     loginType:'facebook', 
+					    		     facebookId:response.id,
+					    		     firstName : response.first_name,
+					    		     lastName : response.last_name,
+					    		     data : response
+					    		 });
 					    	 }
 					     });
 				   } else {
