@@ -1,13 +1,3 @@
-/**
- * @VE.UITECH
- * @author  Vinayak Sakhare
- * @date	July 2012
- * 
- * Created for development purposes. To avoid validations while 
- * developing.
- * 
- * */
-
 var debugMode = false;
 var isCorporate = false;
 var theme="default";

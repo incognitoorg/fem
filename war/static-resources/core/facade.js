@@ -1,15 +1,3 @@
-/**
- * 
- * @VE.UITECH
- * 
- * @author  Vishwanath Arondekar
- * @date	August 2012
- * 
- * Interface for core utility for component life-cycle management.
- * 
- * 
- * */
-
 "use strict";
 define(['mediator'], function (mediator) {
 

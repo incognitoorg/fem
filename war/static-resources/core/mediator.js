@@ -1,15 +1,3 @@
-/**
- * 
- * @VE.UITECH
- * 
- * @author  Vishwanath Arondekar
- * @date	August 2012
- * 
- * Core utility for component life-cycle management.
- * 
- * 
- * */
-
 "use strict";
 define(['require', 'jquery','underscore', 'backbone'], function (require) {
 
