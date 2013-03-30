@@ -251,17 +251,25 @@ public class UserEndpoint {
 	public User doLogin(User user) {
 		//TODO : Add support for all other log in type ie google and direct register and login
 		
-		String facebookId = user.getFacebookId();
+		String apiId = null;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query q = pm.newQuery(
-								"select from com.fem.google.cloud.endpoints.User " +
-								"where facebookId == facebookIdParam " +
-								"parameters String facebookIdParam "
-				);
+		
+		Query q = pm.newQuery(User.class);
+
+		if("google".equalsIgnoreCase(user.getLoginType())) {
+			apiId = user.getGoogleId();
+			q.setFilter("googleId == googleIdParam");
+			q.declareParameters("String googleIdParam");
+		} else if("facebook".equalsIgnoreCase(user.getLoginType())) {
+			apiId = user.getFacebookId();
+			q.setFilter("facebookId == facebookIdParam");
+			q.declareParameters("String facebookIdParam");
+		}
+		
 		List<User> execute = null;
 		
-		execute = (List<User>)q.execute(facebookId);
+		execute = (List<User>)q.execute(apiId);
 		if(execute.size()>0){
 			user = execute.get(0);
 		} else {
@@ -270,9 +278,11 @@ public class UserEndpoint {
 			user = this.insertUser(user);
 		}
 		
-		
-		
 		System.out.println("UserEndpoint.doLogin()");
+		System.out.println(user.getLoginType());
+		System.out.println(user.getUserId());
+		System.out.println(user.getFacebookId());
+		System.out.println(user.getGoogleId());
 		return user;
 	}
 	
