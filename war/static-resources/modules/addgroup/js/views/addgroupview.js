@@ -2,7 +2,7 @@ define(function(require) {
 
 	require('jquery');
 	var Backbone = require('backbone');
-	var Facade = require('facade');
+	var Sandbox = require('sandbox');
 	var FBAPI = require('components/fbapi/fbapi');
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
@@ -14,7 +14,7 @@ define(function(require) {
 			this.pluginInitializer();
 			this.initializeSubComponents();
 		},
-		template : Handlebars.compile(require('text!./../../templates/femaddgrouptemplate.html')),
+		template : Handlebars.compile(require('text!./../../templates/addgrouptemplate.html')),
 		render : function(){
 			$(this.el).html(this.template());
 		},
@@ -47,13 +47,13 @@ define(function(require) {
 					// Prevent the value from being inserted in "#name"
 					return false;
 				},
-				minLength: 2
+				minLength:3
 			});
 			this.$('span.ui-helper-hidden-accessible').hide();
 		},
 		initializeSubComponents : function(){
 			var that=this;
-			require(['modules/fem-friend-manager/fem-friend-manager'],function(FEMFriendManager){
+			require(['modules/friendmanager/friendmanager'],function(FEMFriendManager){
 				that.friendManager = FEMFriendManager.getInstance().initialize();
 				that.friendCollection = new that.friendManager.friendCollection();
 			});
@@ -92,7 +92,7 @@ define(function(require) {
 				'members'	:	this.friendCollection
 			}));
 			console.log('this.collection',this.collection);
-			Facade.publish('fem-newGroupCreated',this.collection);
+			Sandbox.publish('fem-newGroupCreated',this.collection);
 		}
 	});
 	return FEMAddGroupView;

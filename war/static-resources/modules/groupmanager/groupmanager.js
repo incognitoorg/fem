@@ -1,7 +1,7 @@
 define(function(require) {
 	
-	var FEMGroupCollection = require('./js/collection/femgroupcollection');
-	var FEMGroupModel = require('./js/model/femgroupmodel');
+	var FEMGroupCollection = require('./js/collection/groupcollection');
+	var FEMGroupModel = require('./js/model/groupmodel');
 
 	return {
 		getInstance : function(){
@@ -17,7 +17,7 @@ define(function(require) {
 				createGroup : function(options){
 					console.log('inside createGroup function',options);
 					var that=this;
-					require(['modules/fem-add-group/fem-add-group'],function(FEMAddGroupModule){
+					require(['modules/addgroup/addgroup'],function(FEMAddGroupModule){
 						FEMAddGroupModule.getInstance().initialize({'el':options.element,'model':FEMGroupModel,'collection':that.collection});
 					});
 				},

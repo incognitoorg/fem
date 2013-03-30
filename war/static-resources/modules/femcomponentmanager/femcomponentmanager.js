@@ -1,11 +1,11 @@
 define(function(require) {
 	
-	var Facade = require('facade');
+	var Sandbox = require('sandbox');
 	
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
-		'js-create-group'		:		'modules/fem-group-manager/fem-group-manager',
-		'js-edit-group'			:		'modules/fem-group-manager/fem-group-manager',
+		'js-create-group'		:		'modules/groupmanager/groupmanager',
+		'js-edit-group'			:		'modules/groupmanager/groupmanager',
 		'js-new-expense'		:		'',
 		'js-expense-history'	:		'',
 		'js-dashboard'			:		'',
@@ -36,7 +36,7 @@ define(function(require) {
 					this.registerSubscribers();
 				},
 				registerSubscribers : function(){
-					Facade.subscribe('fem-clickedMenu',this.initializeFEMComponent,this);
+					Sandbox.subscribe('fem-clickedMenu',this.initializeFEMComponent,this);
 				},
 				initializeFEMComponent : function(publishedData){
 					console.log('publishedData',publishedData);

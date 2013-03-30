@@ -1,6 +1,6 @@
 define(function(require) {
 	
-	var FEMAddGroupView = require('./js/views/femaddgroupview');
+	var FEMAddGroupView = require('./js/views/addgroupview');
 	
 	return {
 		getInstance : function(){
