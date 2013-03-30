@@ -14,10 +14,7 @@ requirejs.config({
 		mediator : 'libraries/core/mediator',
 		debugmode : 'libraries/debugmode/debugmode',
 		errorlogger : 'libraries/errorlogger/errorlogger',
-		persistence : 'libraries/lawnchair/lawnchair',
-		analytics : [ 'http://lab.verchaska.com/analytics/piwik',
-				'components/piwik/piwikfallback' ]
-
+		persistence : 'libraries/lawnchair/lawnchair'
 	},
 	shim : {
 		'backbone' : {

@@ -16,10 +16,7 @@ requirejs.config({
 		debugmode : 'libraries/debugmode/debugmode',
 		errorlogger : 'libraries/errorlogger/errorlogger',
 		persistence : 'libraries/lawnchair/lawnchair',
-		fbgraphinitializer : 'components/fbgraph-initializer/fbgraph-initializer'/*
-		analytics : [ 'http://lab.verchaska.com/analytics/piwik',
-				'libraries/piwik/piwikfallback' ]*/
-
+		fbgraphinitializer : 'components/fbgraph-initializer/fbgraph-initializer'
 	},
 	shim : {
 		'backbone' : {
