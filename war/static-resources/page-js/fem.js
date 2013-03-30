@@ -12,6 +12,8 @@ requirejs.config({
 		fb : 'libraries/require/fb',
 		text : 'libraries/require/text',
 		facade : 'core/facade',
+		sandbox : 'core/sandbox',
+		locallayer : 'core/locallayer',
 		mediator : 'core/mediator',
 		debugmode : 'libraries/debugmode/debugmode',
 		errorlogger : 'libraries/errorlogger/errorlogger',

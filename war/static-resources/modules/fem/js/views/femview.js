@@ -5,8 +5,8 @@ define(function(require){
 	require('css!./../../css/fem.css');
 	var Backbone = require('backbone');
 	var AppRouter = require('./../router/femrouter');
-	var FEMComponentManager = require('modules/fem-component-manager/fem-component-manager');
-	var Facade = require('facade');
+	var FEMComponentManager = require('modules/femcomponentmanager/femcomponentmanager');
+	var Sandbox = require('sandbox');
 	
 	
 	var FEMView = Sandbox.View.extend({
@@ -15,8 +15,8 @@ define(function(require){
 			FEMComponentManager.getInstance().initialize();
 		},
 		registerSubscribers : function(){
-			Facade.subscribe('LOGIN:SUCCESS',this.start,this);
-			Facade.subscribe('fem-newGroupCreated',this.redirectView,this);
+			Sandbox.subscribe('LOGIN:SUCCESS',this.start,this);
+			Sandbox.subscribe('fem-newGroupCreated',this.redirectView,this);
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
@@ -41,7 +41,7 @@ define(function(require){
 					'element' : componentElement
 			};
 			
-			Facade.publish('fem-clickedMenu',dataToPublish);
+			Sandbox.publish('fem-clickedMenu',dataToPublish);
 		},
 		eventShowMenu : function(){
 			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
