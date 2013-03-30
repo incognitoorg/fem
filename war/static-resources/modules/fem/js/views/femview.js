@@ -51,14 +51,14 @@ define(function(require){
 		makeResponsive : function(){
 			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/this.menulength)-1);
 		},
-		start : function(){
+		start : function(userdata){
 			this.render();
 			this.menulength = this.$('.js-menu').length;
+			//Trying to make height responsive. Experimental. May need to throw this away.
 			this.makeResponsive();
-			this.router = new AppRouter({view : this});
 			
+			this.router = new AppRouter({view : this});
 			Backbone.history.start();
-
 			this.router.navigate('#menu');
 
 			this.eventShowView('js-dashboard');
