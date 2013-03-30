@@ -1,5 +1,7 @@
 package com.fem.google.cloud.endpoints;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+
+import org.datanucleus.query.evaluator.InMemoryQueryResult;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -239,7 +243,38 @@ public class UserEndpoint {
 		    return returnList;
 		  }
 	
-	
+	@ApiMethod(
+ 			httpMethod = "POST", 
+ 			name = "user.login",
+			path="user/doLogin"
+	)
+	public User doLogin(User user) {
+		//TODO : Add support for all other log in type ie google and direct register and login
+		
+		String facebookId = user.getFacebookId();
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query q = pm.newQuery(
+								"select from com.fem.google.cloud.endpoints.User " +
+								"where facebookId == facebookIdParam " +
+								"parameters String facebookIdParam "
+				);
+		List<User> execute = null;
+		
+		execute = (List<User>)q.execute(facebookId);
+		if(execute.size()>0){
+			user = execute.get(0);
+		} else {
+			SecureRandom random = new SecureRandom();
+			user.setUserId(new BigInteger(130, random).toString(32));
+			user = this.insertUser(user);
+		}
+		
+		
+		
+		System.out.println("UserEndpoint.doLogin()");
+		return user;
+	}
 	
 	
 

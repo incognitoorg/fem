@@ -17,11 +17,35 @@ public class User implements Serializable {
 	private String userId; 
 	
 	private String userName;
+	private String firstName;
+	private String lastName;
+	private String fullName;
 	private String password;
 	private String facebookId;
 	private String googleId;
 	private String email;
 	private String mergeId;
+	private String loginType;
+
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 	
 	
 	
@@ -66,5 +90,11 @@ public class User implements Serializable {
 	}
 	public void setMergeId(String mergeId) {
 		this.mergeId = mergeId;
+	}
+	public String getLoginType() {
+		return loginType;
+	}
+	public void setLoginType(String loginType) {
+		this.loginType = loginType;
 	}
 }
