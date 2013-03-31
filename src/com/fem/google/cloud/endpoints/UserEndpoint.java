@@ -177,6 +177,7 @@ public class UserEndpoint {
 	 * This method is supposed to retrieve all the groups of a user with id.
 	 * @param id UserId of the user whose groups to be fetched
 	 * */
+	@SuppressWarnings("unchecked")
 	@ApiMethod(
  			httpMethod = "GET", 
  			name = "user.groups",
@@ -185,9 +186,31 @@ public class UserEndpoint {
 	public List<Group> getGroups(@Named("id") String id) {
 		
 		List<Group> alGroups = new ArrayList<Group>();
-		Group objGroup = new Group();
-		objGroup.setGroupName("Test Group for list");
-		alGroups.add(objGroup);
+		GroupMemberMapping groupMemberMapping = null;
+		int iCounter = 0;
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query q = pm.newQuery(GroupMemberMapping.class);
+
+		q.setFilter("userId == userIdParam");
+		q.declareParameters("String userIdParam");
+		
+		List<GroupMemberMapping> execute = null;
+		
+		execute = (List<GroupMemberMapping>)q.execute(id);
+		
+		while(iCounter < execute.size()){
+			groupMemberMapping = execute.get(iCounter++);
+			
+			q = pm.newQuery(Group.class);
+			
+			q.setFilter("groupId == groupIdParam");
+			q.declareParameters("String groupIdParam");
+			
+			alGroups.addAll((List<Group>) q.execute(groupMemberMapping.getGroupId()));
+		}
+		
 		return alGroups;
 	}
 	
@@ -196,6 +219,7 @@ public class UserEndpoint {
 	 * @param userId UserId of the user whose groups to be fetched
 	 * @param groupId Group id of which information is to be fetched.
 	 * */
+	@SuppressWarnings("unchecked")
 	@ApiMethod(
  			httpMethod = "GET", 
  			name = "user.groups.group",
@@ -204,8 +228,16 @@ public class UserEndpoint {
 	public Group getGroup(@Named("userId") String userId, @Named("groupId") String groupId) {
 		Group objGroup = new Group();
 		
-		objGroup.setGroupName("Test in getting only one group as per id provided");
-		objGroup.setGroupId(groupId);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query q = pm.newQuery(Group.class);
+		
+		q.setFilter("groupId == groupIdParam");
+		q.declareParameters("String groupIdParam");
+		
+		List<Group> groups = (List<Group>) q.execute(groupId);
+		
+		objGroup = groups.get(0);
 		
 		return objGroup;
 	}
@@ -243,6 +275,7 @@ public class UserEndpoint {
 		    return returnList;
 		  }
 	
+	@SuppressWarnings("unchecked")
 	@ApiMethod(
  			httpMethod = "POST", 
  			name = "user.login",
