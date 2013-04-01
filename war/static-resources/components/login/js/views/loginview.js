@@ -48,6 +48,7 @@ define(function(require){
 		loginSucceded : function(response){
 			console.log('In loginSucceded');
 			console.log(response);
+			this.userInfo = this.normalizeUserData(response);
 			this.hide();
 			Sandbox.publish('LOGIN:SUCCESS', {data : this.normalizeUserData(response)});
 		},
