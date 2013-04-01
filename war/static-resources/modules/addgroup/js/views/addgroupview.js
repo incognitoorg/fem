@@ -4,6 +4,7 @@ define(function(require) {
 	var Backbone = require('backbone');
 	var Sandbox = require('sandbox');
 	var FBAPI = require('components/fbapi/fbapi');
+	var user = require('components/login/login');
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
 
@@ -87,12 +88,21 @@ define(function(require) {
 			this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
 		},
 		eventSaveGroup : function(){
-			this.collection.add(new this.model({
-				'name' 		: 	this.$('.js-group-name').val(),
-				'members'	:	this.friendCollection
-			}));
+			var groupModel = new this.model({
+				'groupName' 		: 	this.$('.js-group-name').val(),
+				'members'	:	this.friendCollection.models,
+				'groupOwnerId' : user.getInfo().userId
+			});
 			console.log('this.collection',this.collection);
-			Sandbox.publish('fem-newGroupCreated',this.collection);
+			var addAjaxOptions = {
+					url : '_ah/api/groupendpoint/v1/group',
+					callback : this.loginSucceded, 
+					errorCallback : this.somethingBadHappend,
+					context : this,
+					data : JSON.stringify(groupModel.attributes)
+				};
+			Sandbox.doAdd(addAjaxOptions);
+			Sandbox.publish('fem-newGroupCreated',this.model.attributes);
 		}
 	});
 	return FEMAddGroupView;
