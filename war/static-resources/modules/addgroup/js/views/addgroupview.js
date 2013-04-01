@@ -96,13 +96,16 @@ define(function(require) {
 			console.log('this.collection',this.collection);
 			var addAjaxOptions = {
 					url : '_ah/api/groupendpoint/v1/group',
-					callback : this.loginSucceded, 
+					callback : this.groupAddedSuccessFully, 
 					errorCallback : this.somethingBadHappend,
 					context : this,
 					data : JSON.stringify(groupModel.attributes)
 				};
 			Sandbox.doAdd(addAjaxOptions);
 			Sandbox.publish('fem-newGroupCreated',this.model.attributes);
+		},
+		groupAddedSuccessFully : function(){
+			console.log('Yeyy, Group added successfully. Now go add some expenses.');
 		}
 	});
 	return FEMAddGroupView;
