@@ -96,6 +96,13 @@ define(['mediator', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/moder
 		if(Modernizr.localstorage && isSyncEnabled){
 			loallayer.doAdd(data);
 		} else {
+			
+			var data = _.extend(data, {
+					dataType: 'json',
+					contentType: 'application/json',
+					type : 'POST'
+			});
+			
 			this.doAjax(data);
 		}
 	};
