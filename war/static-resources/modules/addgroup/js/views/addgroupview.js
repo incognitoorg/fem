@@ -20,13 +20,13 @@ define(function(require) {
 			$(this.el).html(this.template());
 		},
 		pluginInitializer : function(){
-			var that=this;
+			var self=this;
 			this.$('.js-friend-selector').autocomplete({
 				source: function(request, add) {
 					$this = $(this);
 					// Call out to the Graph API for the friends list
 					$.ajax({
-						url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + that.FBAuthToken + '&pretty=0&sdk=joey',
+						url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + self.FBAuthToken + '&pretty=0&sdk=joey',
 						dataType: "jsonp",
 						success: function(results){
 							// Filter the results and return a label/value object array  
@@ -35,7 +35,7 @@ define(function(require) {
 								if (results.data[i].name.toLowerCase().indexOf($(".js-friend-selector").val().toLowerCase()) >= 0)
 								formatted.push({
 									label: results.data[i].name,
-									value: results.data[i].id
+									value: results.data[i]
 								});
 							}
 							add(formatted);
@@ -44,8 +44,9 @@ define(function(require) {
 				},
 				select: function(event, ui) {
 					// Fill in the input fields
-					that.$('.js-friend-selector').val(ui.item.label);
-					// Prevent the value from being inserted in "#name"
+					//self.$('.js-friend-selector').val(ui.item.label);
+					self.$('.js-friend-selector').val('').focus();
+					self.addFriendToGroup(ui.item.value);
 					return false;
 				},
 				minLength:3
@@ -53,10 +54,10 @@ define(function(require) {
 			this.$('span.ui-helper-hidden-accessible').hide();
 		},
 		initializeSubComponents : function(){
-			var that=this;
+			var self=this;
 			require(['modules/friendmanager/friendmanager'],function(FEMFriendManager){
-				that.friendManager = FEMFriendManager.getInstance().initialize();
-				that.friendCollection = new that.friendManager.friendCollection();
+				self.friendManager = FEMFriendManager.getInstance().initialize();
+				self.friendCollection = new self.friendManager.friendCollection();
 			});
 		},
 		events : {
@@ -68,9 +69,9 @@ define(function(require) {
 		renderSelectedFriends : function(friendModel){
 			this.$('.js-selected-friends-list').append(this.friendManager.friendTemplate(friendModel));
 		},
-		addFriendToGroup : function(name){
+		addFriendToGroup : function(friendInfo){
 			this.$('.js-selected-friends').show();
-			this.friendModel = new this.friendManager.friendModel({'name':name});
+			this.friendModel = new this.friendManager.friendModel({'fullName':friendInfo.name, facebookId : friendInfo.id});
 			this.friendCollection.add(this.friendModel);
 			this.renderSelectedFriends(this.friendModel);
 		},
@@ -88,9 +89,17 @@ define(function(require) {
 			this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
 		},
 		eventSaveGroup : function(){
+		    var self = this;
 			var groupModel = new this.model({
 				'groupName' 		: 	this.$('.js-group-name').val(),
-				'members'	:	this.friendCollection.models,
+				'members'	:	(function(){
+				    var membersArray = [];
+				    _.each(self.friendCollection.models, function(el){
+				    	membersArray.push(el.attributes); 
+				    });
+				    membersArray.push(user.getInfo());
+				    return membersArray;
+				})(),
 				'groupOwnerId' : user.getInfo().userId
 			});
 			console.log('this.collection',this.collection);

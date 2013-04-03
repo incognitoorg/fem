@@ -97,9 +97,9 @@ public class GroupMemberMappingEndpoint {
 			GroupMemberMapping groupmembermapping) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsGroupMemberMapping(groupmembermapping)) {
+			/*if (containsGroupMemberMapping(groupmembermapping)) {
 				throw new EntityExistsException("Object already exists");
-			}
+			}*/
 			mgr.makePersistent(groupmembermapping);
 		} finally {
 			mgr.close();

@@ -99,9 +99,9 @@ public class UserEndpoint {
 	public User insertUser(User user) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsUser(user)) {
+			/*if (containsUser(user)) {
 				throw new EntityExistsException("Object already exists");
-			}
+			}*/
 			mgr.makePersistent(user);
 		} finally {
 			mgr.close();
@@ -306,8 +306,6 @@ public class UserEndpoint {
 		if(execute.size()>0){
 			user = execute.get(0);
 		} else {
-			SecureRandom random = new SecureRandom();
-			user.setUserId(new BigInteger(130, random).toString(32));
 			user = this.insertUser(user);
 		}
 		

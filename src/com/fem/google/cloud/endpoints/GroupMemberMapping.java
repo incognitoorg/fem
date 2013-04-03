@@ -1,26 +1,29 @@
 package com.fem.google.cloud.endpoints;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class GroupMemberMapping {
 
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private String mappingId;
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    private String mappingId;
 	
 	private String userId;
 	private String groupId;
-	
-	public String getMappingId() {
-		return mappingId;
+	public String getGroupId() {
+		return groupId;
 	}
-	public void setMappingId(String mappingId) {
-		this.mappingId = mappingId;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 	public String getUserId() {
 		return userId;
@@ -28,11 +31,15 @@ public class GroupMemberMapping {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getGroupId() {
-		return groupId;
+	public String getMappingId() {
+		return mappingId;
 	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setMappingId(String mappingId) {
+		this.mappingId = mappingId;
 	}
+	
+	
+	
+
 	
 }

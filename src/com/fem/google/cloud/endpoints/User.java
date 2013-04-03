@@ -2,6 +2,7 @@ package com.fem.google.cloud.endpoints;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -13,8 +14,9 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 6181797377962410874L;
 
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private String userId; 
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    private String userId;
 	
 	private String userName;
 	private String firstName;
@@ -45,15 +47,6 @@ public class User implements Serializable {
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
-	}
-	
-	
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 	public String getUserName() {
 		return userName;
@@ -97,4 +90,12 @@ public class User implements Serializable {
 	public void setLoginType(String loginType) {
 		this.loginType = loginType;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	
 }

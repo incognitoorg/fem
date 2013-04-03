@@ -1,21 +1,20 @@
 package com.fem.google.cloud.endpoints;
 
-import com.fem.google.cloud.endpoints.PMF;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import javax.persistence.EntityNotFoundException;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 @Api(name = "groupendpoint")
 public class GroupEndpoint {
@@ -73,7 +72,7 @@ public class GroupEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
-	public Group getGroup(@Named("id") Long id) {
+	public Group getGroup(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
 		Group group = null;
 		try {
@@ -99,7 +98,37 @@ public class GroupEndpoint {
 			/*if (containsGroup(group)) {
 				throw new EntityExistsException("Object already exists");
 			}*/
-			mgr.makePersistent(group);
+			
+			ArrayList<User> alMembers = group.getMembers();
+			
+			ArrayList<User> alMembersToPutInGroup = new ArrayList<User>();
+			/*for (Iterator iterator = alMembers.iterator(); iterator.hasNext();) {
+				User user = (User) iterator.next();
+				if(user.getUserId()==null){
+					//TODO : To put this in transaction
+					alMembersToPutInGroup.add(new UserEndpoint().insertUser(user));
+				}
+			}
+			
+			group.setMembers(alMembersToPutInGroup);*/
+			
+			
+			alMembersToPutInGroup = group.getMembers();
+			
+			group = mgr.makePersistent(group);
+			
+			for (Iterator iterator = alMembersToPutInGroup.iterator(); iterator.hasNext();) {
+				User user = (User) iterator.next();
+				GroupMemberMapping objGroupMemberMapping = new GroupMemberMapping();
+				objGroupMemberMapping.setGroupId(group.getGroupId());
+				objGroupMemberMapping.setUserId(user.getUserId());
+				//TODO : To put this in transaction
+				new GroupMemberMappingEndpoint().insertGroupMemberMapping(objGroupMemberMapping);
+			}
+			
+			
+			
+			
 		} finally {
 			mgr.close();
 		}

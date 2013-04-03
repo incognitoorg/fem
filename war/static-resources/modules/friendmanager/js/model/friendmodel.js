@@ -5,7 +5,7 @@ define(function(require) {
 	
 	var FEMUserModel = Backbone.Model.extend({
 		defaults : {
-			'userId' : '',
+			/*'userId' : '',*/
 			'userName' 	: 		'',
 			'firstName'	:		'',
 			'lastName' : ''

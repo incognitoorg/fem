@@ -1,5 +1,9 @@
 package com.fem.google.cloud.endpoints;
 
+import java.util.ArrayList;
+
+import javax.jdo.annotations.Element;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -11,21 +15,22 @@ public class Group {
 
 	
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long groupId;
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    private String groupId;
 
 	private String groupName;
 	private String groupType;
 	private String groupOwnerId;
 	
+
+	@Persistent(embeddedElement = "true", defaultFetchGroup = "true")
+	@Element(embedded="userId")
+	private ArrayList<User> members;
 	
 	
-	public Long getGroupId() {
-		return groupId;
-	}
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
+	
+	
 	public String getGroupName() {
 		return groupName;
 	}
@@ -44,6 +49,20 @@ public class Group {
 	public void setGroupOwerId(String groupOwnerId) {
 		this.groupOwnerId = groupOwnerId;
 	}
+	public ArrayList<User> getMembers() {
+		return members;
+	}
+	public void setMembers(ArrayList<User> members) {
+		this.members = members;
+	}
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	
+	
 
 	
 	
