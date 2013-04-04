@@ -22,7 +22,11 @@ define(['mediator', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/moder
 	};
 	
 	Sandbox.doAjax = function(options){
-		var url = options.url;
+		var prefix = '';
+		//prefix = "https://fem1-vishwanath.appspot.com/";
+		//prefix = "http://localhost:8888/";
+		
+		var url = prefix+options.url;
 		var type = options.type;
 		var contentType = options.contentType;
 		var dataType = options.dataType;
