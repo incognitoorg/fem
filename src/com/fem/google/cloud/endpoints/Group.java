@@ -24,9 +24,12 @@ public class Group {
 	private String groupOwnerId;
 	
 
-	@Persistent(embeddedElement = "true", defaultFetchGroup = "true")
-	@Element(embedded="userId")
+	/*@Persistent(embeddedElement = "true", defaultFetchGroup = "true")
+	@Element(embedded="userId")*/
 	private ArrayList<User> members;
+	
+	private ArrayList<String> membersIdList;
+	
 	
 	
 	
@@ -60,6 +63,13 @@ public class Group {
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	
+	public ArrayList<String> getMembersIdList() {
+		return membersIdList;
+	}
+	public void setMembersIdList(ArrayList<String> membersIdList) {
+		this.membersIdList = membersIdList;
 	}
 	
 	

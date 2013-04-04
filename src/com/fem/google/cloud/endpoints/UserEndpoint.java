@@ -282,8 +282,14 @@ public class UserEndpoint {
 			path="user/doLogin"
 	)
 	public User doLogin(User user) {
-		//TODO : Add support for all other log in type ie google and direct register and login
+		user = getOrInsertUser(user);
+		//TODO : To implement session handling
+		return user;
 		
+	}
+	
+	public User getOrInsertUser(User user){
+		//TODO : Add support for app register and login
 		String apiId = null;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -316,7 +322,5 @@ public class UserEndpoint {
 		System.out.println(user.getGoogleId());
 		return user;
 	}
-	
-	
 
 }

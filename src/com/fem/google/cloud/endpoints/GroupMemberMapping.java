@@ -19,6 +19,7 @@ public class GroupMemberMapping {
 	
 	private String userId;
 	private String groupId;
+	
 	public String getGroupId() {
 		return groupId;
 	}

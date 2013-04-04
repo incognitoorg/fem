@@ -99,33 +99,36 @@ public class GroupEndpoint {
 				throw new EntityExistsException("Object already exists");
 			}*/
 			
-			ArrayList<User> alMembers = group.getMembers();
+			ArrayList<User> alMembersFromClient = group.getMembers();
 			
-			ArrayList<User> alMembersToPutInGroup = new ArrayList<User>();
-			/*for (Iterator iterator = alMembers.iterator(); iterator.hasNext();) {
+			
+			ArrayList<User> alTotalMembers = new ArrayList<User>();
+			for (Iterator iterator = alMembersFromClient.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				if(user.getUserId()==null){
 					//TODO : To put this in transaction
-					alMembersToPutInGroup.add(new UserEndpoint().insertUser(user));
+					 user = new UserEndpoint().getOrInsertUser(user);
 				}
+				alTotalMembers.add(user);
 			}
 			
-			group.setMembers(alMembersToPutInGroup);*/
+			group.setMembers(null);
 			
-			
-			alMembersToPutInGroup = group.getMembers();
-			
-			group = mgr.makePersistent(group);
-			
-			for (Iterator iterator = alMembersToPutInGroup.iterator(); iterator.hasNext();) {
+			//Pushing to databse since needs 
+
+			ArrayList<String> alMembersIdList = new ArrayList<String>();
+			for (Iterator iterator = alTotalMembers.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				GroupMemberMapping objGroupMemberMapping = new GroupMemberMapping();
 				objGroupMemberMapping.setGroupId(group.getGroupId());
 				objGroupMemberMapping.setUserId(user.getUserId());
+				alMembersIdList.add(user.getUserId());
 				//TODO : To put this in transaction
 				new GroupMemberMappingEndpoint().insertGroupMemberMapping(objGroupMemberMapping);
 			}
 			
+			group.setMembersIdList(alMembersIdList);
+			group = mgr.makePersistent(group);
 			
 			
 			
