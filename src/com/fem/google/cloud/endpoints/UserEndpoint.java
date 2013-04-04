@@ -288,6 +288,8 @@ public class UserEndpoint {
 		
 	}
 	
+	
+	@ApiMethod(path="userendpoint/user/getorinsertuser")
 	public User getOrInsertUser(User user){
 		//TODO : Add support for app register and login
 		String apiId = null;

@@ -112,24 +112,24 @@ public class GroupEndpoint {
 				alTotalMembers.add(user);
 			}
 			
-			group.setMembers(null);
-			
-			//Pushing to databse since needs 
-
 			ArrayList<String> alMembersIdList = new ArrayList<String>();
+			group.setMembers(null);
+			for (Iterator iterator = alTotalMembers.iterator(); iterator.hasNext();) {
+				User user = (User) iterator.next();
+				alMembersIdList.add(user.getUserId());
+			}
+			//Pushing to databse since needs group id
+			group.setMembersIdList(alMembersIdList);
+			group = mgr.makePersistent(group);
+			
 			for (Iterator iterator = alTotalMembers.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				GroupMemberMapping objGroupMemberMapping = new GroupMemberMapping();
 				objGroupMemberMapping.setGroupId(group.getGroupId());
 				objGroupMemberMapping.setUserId(user.getUserId());
-				alMembersIdList.add(user.getUserId());
 				//TODO : To put this in transaction
 				new GroupMemberMappingEndpoint().insertGroupMemberMapping(objGroupMemberMapping);
 			}
-			
-			group.setMembersIdList(alMembersIdList);
-			group = mgr.makePersistent(group);
-			
 			
 			
 		} finally {
