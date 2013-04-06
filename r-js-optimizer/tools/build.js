@@ -1,6 +1,6 @@
 {
-	baseUrl: "./../../public/resources",
-	include: '../page-js/home.js',
+	baseUrl: "./../../war/static-resources",
+	include: '../page-js/fem.js',
 	optimize: "uglify",
 	uglify: {
         toplevel: true,
@@ -48,37 +48,37 @@
         loggingLevel: 'WARNING'
     },
     skipModuleInsertion: false,
-	paths: {
+    paths : {
 		backbone : 'libraries/backbone/backbone',
 		jquery : 'libraries/jquery/jquery',
 		underscore : 'libraries/underscore/underscore',
 		handlebars : 'libraries/handlebars/handlebarshelpers',
 		handlebarshelpers : 'libraries/handlebars/handlebars',
-		css : 'libraries/require-jquery/css',
-		normalize : 'libraries/require-jquery/normalize',
-		async : 'libraries/require-jquery/async',
-		text : 'libraries/require-jquery/text',
-		facade : 'libraries/core/facade',
-		mediator : 'libraries/core/mediator',
+		css : 'libraries/require/css',
+		normalize : 'libraries/require/normalize',
+		async : 'libraries/require/async',
+		/*fb : 'libraries/require/fb',*/
+		text : 'libraries/require/text',
+		facade : 'core/facade',
+		envvariables : 'core/envvariables',
+		sandbox : 'core/sandbox',
+		locallayer : 'core/locallayer',
+		mediator : 'core/mediator',
 		debugmode : 'libraries/debugmode/debugmode',
 		errorlogger : 'libraries/errorlogger/errorlogger',
-		lawnchair : 'libraries/lawnchair/lawnchair',
-		analytics : 'libraries/piwik/piwikfallback'
-																																			
-   },
+		persistence : 'libraries/lawnchair/lawnchair',
+		fbgraphinitializer : 'components/fbgraph-initializer/fbgraph-initializer'
+	},
 	shim : {
 		'backbone' : {
-			//These script dependencies should be loaded before loading
-			//backbone.js
 			deps : [ 'underscore', 'jquery' ],
-			//Once loaded, use the global 'Backbone' as the
-			//module value.
 			exports : 'Backbone'
 		},
 		'handlebars' : {
-			//These script dependencies should be loaded before loading
-			//handlebarshelpers.js
 			deps : [ 'handlebarshelpers' ]
+		},
+		'persistence' : {
+			exports : 'Lawnchair'
 		}
 	},
 	 //Inlines the text for any text! dependencies, to avoid the separate
@@ -92,7 +92,7 @@
     
     /*skipCSS : true,*/
     
-    dir : './../../public/built-resources',
+    dir : './../../war/built-static-resources',
     modules: [
         //First set up the common build layer.
        /* {
@@ -130,10 +130,10 @@
         //needs to be delayed from loading until common.js finishes.
         //That loading sequence is controlled in page1.js.
         
-        {
+       /* {
         	//module names are relative to baseUrl/paths config
-            /*name: 'app/main1',
-            exclude: ['../common']*/
+            name: 'app/main1',
+            exclude: ['../common']
         	name :'bootloaders/bootloader/bootloader',
             include: ['bootloaders/bootloader/bootloader'],
             exclude: ['backbone','handlebars','modules/common/ibepagecontroller/ibepagecontroller']
@@ -177,8 +177,12 @@
         	name :'modules/air/bookingsummary/bookingsummary',
             include: ['modules/air/bookingsummary/bookingsummary'],
         	exclude: ['backbone','handlebars','underscore','jquery']
+        }*/
+        {
+        	name :'bootloaders/fembootloader/fembootloader',
+            include: ['bootloaders/fembootloader/fembootloader'],
+        	exclude: ['backbone','handlebars','underscore','jquery']
         }
-        
         
 
     ]
