@@ -71,7 +71,7 @@ define(function(require) {
 		},
 		addFriendToGroup : function(friendInfo){
 			this.$('.js-selected-friends').show();
-			this.friendModel = new this.friendManager.friendModel({'fullName':friendInfo.name, facebookId : friendInfo.id, loginType : 'facebook'});
+			this.friendModel = new this.friendManager.friendModel({'fullName':friendInfo.name, 'name' :friendInfo.name,  facebookId : friendInfo.id, loginType : 'facebook'});
 			this.friendCollection.add(this.friendModel);
 			this.renderSelectedFriends(this.friendModel);
 		},
