@@ -47,28 +47,24 @@ define(function (require) {
 		  'dataType': dataType,
 		  'data' : data,
 		  'success': function(response){
-			  
-			  if(response.data){
-				  var data = response.data;
-				 if(response.status==="success"){
-					 callback.call(context, data);
-				 }else if(response.status==="fail"){
-					 errorCallback.call(context, data);
-				 }else if(response.status==="error"){
-					 errorCallback.call(context, response.message);
-				 } 
-			  }else{
-				  callback.call(context, response);
-			  }
-			  
+				 callback.call(context, response);
 		  },
 		  'error': function(response){
-			  errorCallback.call(context, response);
+			  if(errorCallback){
+				  errorCallback.call(context, response);
+			  } else {
+				  errorFallback.call(reposne, data);
+			  }
 			  
 		  }
 		});
 	};
 	
+	
+	
+	function errorFallback(){
+		console.log('Something bad happened while communicating with back end, you are on your own. Here is what I have for you.', reposne, data);
+	}
 	
 	Sandbox.View = Backbone.View;
 	Sandbox.Model = Backbone.Model;
@@ -87,8 +83,14 @@ define(function (require) {
 	
 	Sandbox.doGet = function(data){
 		if(Modernizr.localstorage && isSyncEnabled){
-			loallayer.doUpdate(data);
+			loallayer.doGet(data);
 		} else {
+			var data = _.extend(data, {
+				dataType: 'json',
+				contentType: 'application/json',
+				type : 'GET'
+			});
+		
 			this.doAjax(data);
 		}
 	};
