@@ -16,13 +16,16 @@ define(function(require) {
 				},
 				createGroup : function(options){
 					console.log('inside createGroup function',options);
-					var that=this;
+					var self=this;
 					require(['modules/addgroup/addgroup'],function(FEMAddGroupModule){
-						FEMAddGroupModule.getInstance().initialize({'el':options.element,'model':FEMGroupModel,'collection':that.collection});
+						FEMAddGroupModule.getInstance().initialize({'el':options.el,'model':FEMGroupModel,'collection':self.collection});
 					});
 				},
 				editGroup : function(options){
-					
+					var self=this;
+					require(['modules/selectgroup/selectgroup'],function(FEMSelectGroupModule){
+						FEMSelectGroupModule.getInstance().initialize({'el':options.el,'model':FEMGroupModel,'collection':self.collection});
+					});
 				},
 				getGroups : function(){
 					

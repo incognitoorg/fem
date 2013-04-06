@@ -5,7 +5,8 @@ define(function(require) {
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
 		'js-create-group'		:		'modules/groupmanager/groupmanager',
-		'js-edit-group'			:		'modules/groupmanager/groupmanager',
+		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
+		'js-edit-group'			:		'modules/selectgroup/selectgroup',
 		'js-new-expense'		:		'',
 		'js-expense-history'	:		'',
 		'js-dashboard'			:		'',
@@ -36,17 +37,20 @@ define(function(require) {
 					this.registerSubscribers();
 				},
 				registerSubscribers : function(){
-					Sandbox.subscribe('fem-clickedMenu',this.initializeFEMComponent,this);
+					Sandbox.subscribe('FEM:MENU:CLICK',this.showFEMComponent,this);
 				},
-				initializeFEMComponent : function(publishedData){
+				showFEMComponent : function(publishedData){
 					console.log('publishedData',publishedData);
 					if(!componentMapper[publishedData.clickedMenu]){
 						require([componentPathMapper[publishedData.clickedMenu]],function(FEMComponent){
 							componentMapper[publishedData.clickedMenu]=FEMComponent.getInstance();
-							componentMapper[publishedData.clickedMenu].initialize({'moduleName':publishedData.clickedMenu,'element':publishedData['element']});
+							componentMapper[publishedData.clickedMenu].initialize({'moduleName':publishedData.clickedMenu,'el':publishedData['element']});
 						});
 					}else {
 						$(publishedData['element']).show();
+						if(componentMapper[publishedData.clickedMenu].reInitialize){
+							componentMapper[publishedData.clickedMenu].reInitialize();
+						}
 					}
 				}
 			};
