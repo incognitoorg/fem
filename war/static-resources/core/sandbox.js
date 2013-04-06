@@ -1,6 +1,11 @@
 "use strict";
-define(['mediator', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js', 'locallayer'], function (mediator, modernizer) {
+define(function (require) {
 
+	var mediator = require('mediator'), 
+	modernizer = 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js',
+	EnvVariables = require('envvariables'),
+	locallayer = require('locallayer');
+	
 	
 	var isSyncEnabled = false;
 	
@@ -23,7 +28,7 @@ define(['mediator', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/moder
 	
 	Sandbox.doAjax = function(options){
 		var prefix = '';
-		//prefix = "https://fem1-vishwanath.appspot.com/";
+		//prefix = "https://fem2-vishwanath.appspot.com/";
 		//prefix = "http://localhost:8888/";
 		
 		var url = prefix+options.url;
