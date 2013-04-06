@@ -1,0 +1,8 @@
+.js-group-entry{
+	height: 2em;
+	cursor: pointer;
+}
+
+.js-group-entry:hover{
+	background-color: gray;
+}
