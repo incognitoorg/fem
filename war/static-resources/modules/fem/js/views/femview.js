@@ -30,8 +30,8 @@ define(function(require){
 			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event;
 			this.$('.js-view-item').hide();
 			this.$('.' + clickedMenu).show();
-			this.$('.js-left-side-menu').addClass('hide-for-small').removeClass('hide-for-large');
-			this.$('.js-right-panel').removeClass('hide-for-small').addClass('hide-for-large');
+			this.$('.js-left-side-menu').addClass('hide-for-small');
+			this.$('.js-right-panel').removeClass('hide-for-small');
 			var navLink = clickedMenu.toLowerCase().split('-').join('');
 			this.router.navigate("#"+navLink.substring(2,navLink.length));
 
@@ -44,8 +44,8 @@ define(function(require){
 			Sandbox.publish('fem-clickedMenu',dataToPublish);
 		},
 		eventShowMenu : function(){
-			this.$('.js-left-side-menu').removeClass('hide-for-small').addClass('hide-for-large');
-			this.$('.js-right-panel').addClass('hide-for-small').removeClass('hide-for-large');
+			this.$('.js-left-side-menu').removeClass('hide-for-small');
+			this.$('.js-right-panel').addClass('hide-for-small');
 			this.router.navigate("#menu");
 		},
 		makeResponsive : function(){
