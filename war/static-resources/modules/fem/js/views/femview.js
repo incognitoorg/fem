@@ -41,7 +41,7 @@ define(function(require){
 					'element' : componentElement
 			};
 			
-			Sandbox.publish('fem-clickedMenu',dataToPublish);
+			Sandbox.publish('FEM:MENU:CLICK',dataToPublish);
 		},
 		eventShowMenu : function(){
 			this.$('.js-left-side-menu').removeClass('hide-for-small');
