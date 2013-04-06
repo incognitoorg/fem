@@ -131,6 +131,7 @@ public class GroupEndpoint {
 				new GroupMemberMappingEndpoint().insertGroupMemberMapping(objGroupMemberMapping);
 			}
 			
+			this.generateIOUEntries(alTotalMembers, group);
 			
 		} finally {
 			mgr.close();
@@ -138,6 +139,33 @@ public class GroupEndpoint {
 		return group;
 	}
 
+	
+	private Object generateIOUEntries(ArrayList<User> allMembers, Group objGroup){
+		
+		for (int i = 0; i < allMembers.size(); i++) {
+
+			User fromUser = allMembers.get(i);
+			
+			for (int j = i+1; j < allMembers.size(); j++) {
+				User toUser = allMembers.get(j);
+				
+				IOU objIOU = new IOU();
+				
+				objIOU.setGroupId(objGroup.getGroupId());
+				objIOU.setFromUserId(fromUser.getUserId());
+				objIOU.setToUserId(toUser.getUserId());
+				objIOU.setAmount(0);
+				
+				new IOUEndpoint().insertIOU(objIOU);
+				
+			}
+		}
+		
+		
+		return null;
+		
+	}
+	
 	/**
 	 * This method is used for updating an existing entity. If the entity does not
 	 * exist in the datastore, an exception is thrown.

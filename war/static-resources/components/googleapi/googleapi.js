@@ -1,10 +1,12 @@
-define(['https://apis.google.com/js/client.js'],function(){
+define(['https://apis.google.com/js/client.js', 'http://www.google.com/jsapi'],function(){
 
 
 
 	var clientId = '935658127321.apps.googleusercontent.com';
 	var apiKey = 'AIzaSyAdjHPT5Pb7Nu56WJ_nlrMGOAgUAtKjiPM';
 	var scopes = 'https://www.googleapis.com/auth/plus.me';
+
+
 
 	function handleClientLoad() {
 		// Step 2: Reference the API key
@@ -14,23 +16,13 @@ define(['https://apis.google.com/js/client.js'],function(){
 
 	function checkAuth(options) {
 		gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, function(authResult){
-			
 			makeApiCall(options);
-			
-		} );
+		});
 	}
 
 	function handleAuthResult(authResult) {
 		console.log('Authorized in handleAuthResult');
 		console.log(authResult);
-		/*var authorizeButton = document.getElementById('authorize-button');
-		if (authResult && !authResult.error) {
-			authorizeButton.style.visibility = 'hidden';
-			makeApiCall();
-		} else {
-			authorizeButton.style.visibility = '';
-			authorizeButton.onclick = handleAuthClick;
-		}*/
 		makeApiCall();
 	}
 
@@ -67,8 +59,73 @@ define(['https://apis.google.com/js/client.js'],function(){
 
 
 	}
+
+
+
+
+
+
+
+	var contactsService;
+
+	function getMyContacts() {
+		var contactsFeedUri = 'https://www.google.com/m8/feeds/contacts/default/full';
+		var query = new google.gdata.contacts.ContactQuery(contactsFeedUri);
+
+		// Set the maximum of the result set to be 5
+		query.setMaxResults(5);
+
+		contactsService.getContactFeed(query, handleContactsFeed, handleError);
+	}
+
+	var handleContactsFeed = function(result) {
+		var entries = result.feed.entry;
+
+		for (var i = 0; i < entries.length; i++) {
+			var contactEntry = entries[i];
+			var emailAddresses = contactEntry.getEmailAddresses();
+
+			for (var j = 0; j < emailAddresses.length; j++) {
+				var emailAddress = emailAddresses[j].getAddress();
+				alert('email = ' + emailAddress);
+			}    
+		}
+	};
+
+	function handleError(e) {
+		alert("There was an error!");
+		alert(e.cause ? e.cause.statusText : e.message);
+	}
+
+
+	function setupContactsService() {
+	  contactsService = new google.gdata.contacts.ContactsService('exampleCo-exampleApp-1.0');
+	}
+
+	function logMeIn() {
+	  var scope = 'https://www.google.com/m8/feeds';
+	  var token = google.accounts.user.login(scope);
+	}
+
+	function getContacts() {
+	  setupContactsService();
+	  logMeIn();
+	  getMyContacts();
+	}
+	
+	
+
+
+
+
+
+
+
+
+
 	return {
-		checkAndDoLogin : checkAuth
+		checkAndDoLogin : checkAuth,
+		getContacts : getContacts
 	};
 
 });
