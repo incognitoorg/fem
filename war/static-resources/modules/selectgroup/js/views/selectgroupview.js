@@ -4,6 +4,8 @@ define(function(require) {
 
 	var user = require('components/login/login');
 	
+	require('css!./../../css/selectgroup.css');
+	
 	var SelectGroupView = Sandbox.View.extend({
 		initialize : function(options) {
 			this.options = _.extend({
@@ -15,6 +17,9 @@ define(function(require) {
 		template : Handlebars.compile(require('text!./../../templates/selectgrouptemplate.html')),
 		render : function(data) {
 			//$(this.el).html(this.template(data));
+		},
+		events : {
+			'click .js-group-entry' : 'groupClicked'
 		},
 		getGroups : function(){
 			var data = {
@@ -31,6 +36,9 @@ define(function(require) {
 		},
 		reInitialize : function(){
 			this.getGroups();
+		},
+		groupClicked : function(event){
+			Sandbox.publish('GROUP:SELECTED', $(event.currentTarget).data('groupId'));
 		}
 	});
 
