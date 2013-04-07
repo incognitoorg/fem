@@ -1,8 +1,15 @@
 .js-group-entry{
 	height: 2em;
+	line-height : 2em;
 	cursor: pointer;
 }
 
 .js-group-entry:hover{
 	background-color: gray;
+}
+
+
+div.js-group-entry:nth-child(2n){
+	background-color: #CCC;
+	margin : auto 0;
 }
