@@ -27,9 +27,7 @@ define(function (require) {
 	};
 	
 	Sandbox.doAjax = function(options){
-		var prefix = '';
-		prefix = "https://fem2-vishwanath.appspot.com/";
-		//prefix = "http://localhost:8888/";
+		var prefix = EnvVariables.API_URL;
 		
 		var url = prefix+options.url;
 		var type = options.type;
