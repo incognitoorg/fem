@@ -1,10 +1,14 @@
-define(['https://apis.google.com/js/client.js', 'http://www.google.com/jsapi'],function(){
+define(function(require){
 
+	var googleClient = require('https://apis.google.com/js/client.js'), 
+	googleLoad = require('http://www.google.com/jsapi'),
+	EnvVariables = require('envvariables');
 
-
-	var clientId = '935658127321.apps.googleusercontent.com';
-	var apiKey = 'AIzaSyAdjHPT5Pb7Nu56WJ_nlrMGOAgUAtKjiPM';
-	var scopes = 'https://www.googleapis.com/auth/plus.me';
+	
+	
+	var clientId = EnvVariables.GOOGLE_CLIENT_ID;//'935658127321.apps.googleusercontent.com';
+	var apiKey = EnvVariables.GOOGLE_API_KEY;//'AIzaSyAdjHPT5Pb7Nu56WJ_nlrMGOAgUAtKjiPM';
+	var scopes = EnvVariables.GOOGLE_API_SCOPE;//'https://www.googleapis.com/auth/plus.me';
 
 
 
