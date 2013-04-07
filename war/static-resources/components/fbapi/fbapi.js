@@ -4,8 +4,8 @@ define(function(require) {
 	
 	 // init the Facebook JS SDK
     FB.init( {
-    	//appId: '476625022390528', // http://localhost:8888		//srikanth's local appId
-        appId: '505558516167469', // http://fem2-vishwanath.appspot.com
+    	appId: '476625022390528', // http://localhost:8888		//srikanth's local appId
+        //appId: '505558516167469', // http://fem2-vishwanath.appspot.com
         //channelUrl: 'http://localhost:8888/channel.html', // Channel File for x-domain communication
         status: true, // check the login status upon init?
         cookie: true, // set sessions cookies to allow your server to access the session?
