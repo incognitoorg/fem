@@ -28,7 +28,7 @@ define(function (require) {
 	
 	Sandbox.doAjax = function(options){
 		var prefix = '';
-		//prefix = "https://fem2-vishwanath.appspot.com/";
+		prefix = "https://fem2-vishwanath.appspot.com/";
 		//prefix = "http://localhost:8888/";
 		
 		var url = prefix+options.url;
