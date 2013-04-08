@@ -124,3 +124,5 @@ define(function (require) {
 	return Sandbox;
 
 });
+//I dont like doing this, but this helps
+var debugMode = false;
