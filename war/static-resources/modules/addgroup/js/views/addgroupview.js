@@ -5,6 +5,7 @@ define(function(require) {
 	var Sandbox = require('sandbox');
 	var FBAPI = require('components/fbapi/fbapi');
 	var user = require('components/login/login');
+	var FormValidator = require("./../validator/addgroupvalidator");
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
 
@@ -13,6 +14,7 @@ define(function(require) {
 			this.FBAuthToken=FBAPI.getAuthToken();
 			this.render();
 			this.pluginInitializer();
+			this.registerValidator();
 			this.initializeSubComponents();
 		},
 		template : Handlebars.compile(require('text!./../../templates/addgrouptemplate.html')),
@@ -21,31 +23,51 @@ define(function(require) {
 		},
 		pluginInitializer : function(){
 			var self=this;
-			this.$('.js-friend-selector').autocomplete({
-				source: function(request, add) {
-					$this = $(this);
-					// Call out to the Graph API for the friends list
-					$.ajax({
-						url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + self.FBAuthToken + '&pretty=0&sdk=joey',
-						dataType: "jsonp",
-						success: function(results){
-							// Filter the results and return a label/value object array  
+			this.$('.js-fb-friend-selector').autocomplete({
+				source: (function(){
+					var isDataObtained = false;
+					var dataObtained = [];
+					return function(request, add) {
+						$this = $(this);
+						var element = this.element;
+						
+						function filterData(data, query){
 							var formatted = [];
-							for(var i = 0; i< results.data.length; i++) {
-								if (results.data[i].name.toLowerCase().indexOf($(".js-friend-selector").val().toLowerCase()) >= 0)
-								formatted.push({
-									label: results.data[i].name,
-									value: results.data[i]
-								});
+							for(var i = 0; i< data.length; i++) {
+								console.log(data[i]);
+								console.log(data[i].name);
+								if (data[i].name.toLowerCase().indexOf($(element).val().toLowerCase()) >= 0)
+									formatted.push({
+										label: data[i].name,
+										value: data[i]
+									});
 							}
+							return formatted;
+						}
+					
+						if(!isDataObtained){
+							// Call out to the Graph API for the friends list
+							$.ajax({
+								url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + self.FBAuthToken + '&pretty=0&sdk=joey',
+								dataType: "jsonp",
+								success: function(results){
+									isDataObtained = true;
+									dataObtained = results.data;
+									// Filter the results and return a label/value object array  
+									var formatted = filterData(results.data);
+									add(formatted);
+								}
+							});
+						} else {
+							var formatted = filterData(dataObtained);
 							add(formatted);
 						}
-					});
-				},
+					};
+				}()),
 				select: function(event, ui) {
 					// Fill in the input fields
 					//self.$('.js-friend-selector').val(ui.item.label);
-					self.$('.js-friend-selector').val('').focus();
+					self.$('.js-fb-friend-selector').val('').focus();
 					self.addFriendToGroup(ui.item.value);
 					return false;
 				},
@@ -65,6 +87,9 @@ define(function(require) {
 			'click .js-invite-friend'					:	'eventInviteFriend',
 			'click .js-selected-friend-item-remove'		:	'eventRemoveSelectedFriend',
 			'click .js-save-group'						:	'eventSaveGroup'
+		},
+		registerValidator : function(){
+			FormValidator.initialize({'element':this.$(".js-add-group-form"),'errorWidth':'86%'});
 		},
 		renderSelectedFriends : function(friendModel){
 			this.$('.js-selected-friends-list').append(this.friendManager.friendTemplate(friendModel));
@@ -89,6 +114,11 @@ define(function(require) {
 			this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
 		},
 		eventSaveGroup : function(){
+			
+			if(!$('.js-add-group-form').valid()){
+				return;
+			}
+			
 		    var self = this;
 			var groupModel = new this.model({
 				'groupName' 		: 	this.$('.js-group-name').val(),
