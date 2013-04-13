@@ -1,10 +1,10 @@
 define(function(require) {
 
 	require('jquery');
-	var Backbone = require('backbone');
 	var Sandbox = require('sandbox');
 	var FBAPI = require('components/fbapi/fbapi');
-	var user = require('components/login/login');
+	var GoogleAPi = require('components/googleapi/googleapi');
+	var userInfo = require('components/login/login').getInfo();
 	var FormValidator = require("./../validator/addgroupvalidator");
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
@@ -20,7 +20,18 @@ define(function(require) {
 		},
 		template : Handlebars.compile(require('text!./../../templates/addgrouptemplate.html')),
 		render : function(){
+			console.log('userInfo',userInfo);
+			
 			$(this.el).html(this.template());
+			
+			var loginType = userInfo.loginType;
+			
+			
+			this.$('.js-fb-autocomplete').css('display', loginType==='facebook'?'':'none');
+			this.$('.js-fb-login').css('display', loginType!='facebook'?'':'none');
+			this.$('.js-google-autocomplete').css('display', loginType==='google'?'':'none' );
+			this.$('.js-google-login').css('display',  loginType!=='google'?'':'none');
+			
 		},
 		pluginInitializer : function(){
 			var self=this;
@@ -69,11 +80,107 @@ define(function(require) {
 					// Fill in the input fields
 					//self.$('.js-friend-selector').val(ui.item.label);
 					self.$('.js-fb-friend-selector').val('').focus();
-					self.addFriendToGroup(ui.item.value);
+					var friendInfo = ui.item.value;
+					var normalizedFriendInfo = {
+						'fullName' : friendInfo.name,
+						'name' : friendInfo.name,
+						facebookId : friendInfo.id,
+						loginType : 'facebook'
+					};
+					self.addFriendToGroup(normalizedFriendInfo);
 					return false;
 				},
 				minLength:3
 			});
+			
+			
+			var googleAccessToken = GoogleAPi.getAuthToken();
+			this.$('.js-google-friend-selector').autocomplete({
+				source: (function(){
+					var isDataObtained = false;
+					var dataObtained = [];
+					return function(request, add) {
+						$this = $(this);
+						var element = this.element;
+						
+						function filterData(data, query){
+							var formatted = [];
+							for(var i = 0; i< data.length; i++) {
+								console.log(data[i]);
+								console.log(data[i].name);
+								if (data[i].title.$t.toLowerCase().indexOf($(element).val().toLowerCase()) >= 0)
+									formatted.push({
+										label: data[i].title.$t,
+										value: data[i]
+									});
+							}
+							return formatted;
+						}
+					
+						
+						if(!isDataObtained){
+							// Call out to the Graph API for the friends list
+							$.ajax({
+								url: "https://www.google.com/m8/feeds/contacts/default/full?alt=json&max-results=9999",
+				                dataType: "jsonp",
+				                headers: "GData-Version: 3.0",
+				                data:{access_token: googleAccessToken},
+								success: function(results){
+									isDataObtained = true;
+									dataObtained = results.feed.entry;
+									// Filter the results and return a label/value object array  
+									var formatted = filterData(dataObtained);
+									add(formatted);
+								}
+							});
+						} else {
+							var formatted = filterData(dataObtained);
+							add(formatted);
+						}
+					};
+				}()),
+				select: function(event, ui) {
+					// Fill in the input fields
+					//self.$('.js-friend-selector').val(ui.item.label);
+					self.$('.js-google-friend-selector').val('').focus();
+					
+					var friendInfo = ui.item.value;
+					var normalizedFriendInfo = {
+						fullName : friendInfo.title.$t,
+						name : friendInfo.title.$t,
+						googleId : '',
+						loginType : 'google'
+					};
+					
+					self.addFriendToGroup(normalizedFriendInfo);
+					return false;
+				},
+				minLength:3
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			this.$('span.ui-helper-hidden-accessible').hide();
 		},
 		initializeSubComponents : function(){
@@ -96,14 +203,16 @@ define(function(require) {
 			this.$('.js-selected-friends-list').append(this.friendManager.friendTemplate(friendModel));
 		},
 		addFriendToGroup : function(friendInfo){
+			
+			
+			console.log('friendInfo',friendInfo);
+			
+			var info = {'fullName':friendInfo.fullName, 'name' :friendInfo.name,  facebookId : friendInfo.facebookId, loginType : friendInfo.loginType};
+			
 			this.$('.js-selected-friends').show();
-			this.friendModel = new this.friendManager.friendModel({'fullName':friendInfo.name, 'name' :friendInfo.name,  facebookId : friendInfo.id, loginType : 'facebook'});
+			this.friendModel = new this.friendManager.friendModel(info);
 			this.friendCollection.add(this.friendModel);
 			this.renderSelectedFriends(this.friendModel);
-		},
-		eventAddFriend : function(event){
-			this.addFriendToGroup(this.$('.js-friend-selector').val());
-			this.$('.js-friend-selector').val('');
 		},
 		eventInviteFriend : function(event){
 			this.addFriendToGroup(this.$('.js-invite-friend-mail').val());
@@ -128,10 +237,10 @@ define(function(require) {
 				    _.each(self.friendCollection.models, function(el){
 				    	membersArray.push(el.attributes); 
 				    });
-				    membersArray.push(user.getInfo());
+				    membersArray.push(userInfo);
 				    return membersArray;
 				})(),
-				'groupOwnerId' : user.getInfo().userId
+				'groupOwnerId' : userInfo.userId
 			});
 			console.log('this.collection',this.collection);
 			var addAjaxOptions = {

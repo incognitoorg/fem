@@ -6,11 +6,12 @@ define(function(require){
 
 	
 	
+	
 	var clientId = EnvVariables.GOOGLE_CLIENT_ID;//'935658127321.apps.googleusercontent.com';
 	var apiKey = EnvVariables.GOOGLE_API_KEY;//'AIzaSyAdjHPT5Pb7Nu56WJ_nlrMGOAgUAtKjiPM';
 	var scopes = EnvVariables.GOOGLE_API_SCOPE;//'https://www.googleapis.com/auth/plus.me';
 
-
+	var authToken= '';
 
 	function handleClientLoad() {
 		// Step 2: Reference the API key
@@ -20,13 +21,12 @@ define(function(require){
 
 	function checkAuth(options) {
 		gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, function(authResult){
+			authToken = authResult.access_token;
 			makeApiCall(options);
 		});
 	}
 
 	function handleAuthResult(authResult) {
-		console.log('Authorized in handleAuthResult');
-		console.log(authResult);
 		makeApiCall();
 	}
 
@@ -49,13 +49,6 @@ define(function(require){
 				if(options.callback){
 					options.callback.call(options.context||this, {loginType : 'google', googleId : resp.id, data : resp});
 				}
-				/*var heading = document.createElement('h4');
-				var image = document.createElement('img');
-				image.src = resp.image.url;
-				heading.appendChild(image);
-				heading.appendChild(document.createTextNode(resp.displayName));
-
-				document.getElementById('content').appendChild(heading);*/
 			});
 		});
 
@@ -129,7 +122,10 @@ define(function(require){
 
 	return {
 		checkAndDoLogin : checkAuth,
-		getContacts : getContacts
+		getContacts : getContacts,
+		getAuthToken :  function(){
+			return authToken;
+		}
 	};
 
 });
