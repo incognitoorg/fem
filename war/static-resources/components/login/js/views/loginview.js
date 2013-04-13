@@ -1,5 +1,4 @@
 define(function(require){
-	var Backbone = require('backbone');
 	var Normalize = require('css!libraries/foundation/css/normalize.css');
 	var Foundation = require('css!libraries/foundation/css/foundation');
 	
