@@ -15,13 +15,57 @@
 
 
   <body>
+  <script>
+  
+  var require = {
+		baseUrl : '/static-resources/',
+		paths : {
+			backbone : 'libraries/backbone/backbone',
+			jquery : 'libraries/jquery/jquery',
+			underscore : 'libraries/underscore/underscore',
+			handlebars : 'libraries/handlebars/handlebarshelpers',
+			handlebarshelpers : 'libraries/handlebars/handlebars',
+			css : 'libraries/require/css',
+			normalize : 'libraries/require/normalize',
+			async : 'libraries/require/async',
+			text : 'libraries/require/text',
+			facade : 'core/facade',
+			envvariables : 'core/envvariables',
+			sandbox : 'core/sandbox',
+			locallayer : 'core/locallayer',
+			mediator : 'core/mediator',
+			debugmode : 'libraries/debugmode/debugmode',
+			errorlogger : 'libraries/errorlogger/errorlogger',
+			persistence : 'libraries/lawnchair/lawnchair',
+			fbgraphinitializer : 'components/fbgraph-initializer/fbgraph-initializer'
+		},
+		shim : {
+			'backbone' : {
+				deps : [ 'underscore', 'jquery' ],
+				exports : 'Backbone'
+			},
+			'handlebars' : {
+				deps : [ 'handlebarshelpers' ]
+			},
+			'persistence' : {
+				exports : 'Lawnchair'
+			}
+		},
+		waitSeconds : 60,
+		urlArgs: "v=0.8",
+		deps : ['page-js/fem']
+	};
+
+  
+  
+  </script>
   <!--
   Facebook login button, FB Api put it here directly
    <div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>	
    -->  
    	<div id="appcontainer">
     </div>
-    <script data-main="static-resources/page-js/fem" src="static-resources/libraries/require/require.js" type="text/javascript" ></script>
+    <script src="static-resources/libraries/require/require.js" type="text/javascript" ></script>
  	<!-- <script data-main="static-resources/page-js/login" src="static-resources/libraries/require/require.js" type="text/javascript" ></script> -->  
   </body>
 </html>
