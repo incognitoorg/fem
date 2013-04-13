@@ -11,3 +11,8 @@
 .ui-menu-item>a{
 	color : black;
 }
+
+.add-group-form fieldset{
+	padding: 0;
+	margin: 0 0 15px 0!important;
+}
