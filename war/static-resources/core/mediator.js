@@ -146,7 +146,10 @@ define(['require', 'jquery','underscore', 'backbone'], function (require) {
 		});
 
 		if(component instanceof Backbone.View){
-			//component.remove();
+			//Should find better way of destroying the view
+			component.stopListening();
+			component.off();
+			component.undelegateEvents(); 
 		}
 
 		_.each(children, function(child){
