@@ -48,11 +48,12 @@ define(function(require) {
 							for(var i = 0; i< data.length; i++) {
 								console.log(data[i]);
 								console.log(data[i].name);
-								if (data[i].name.toLowerCase().indexOf($(element).val().toLowerCase()) >= 0)
+								if (data[i].name.toLowerCase().indexOf($(element).val().toLowerCase()) >= 0){
 									formatted.push({
 										label: data[i].name,
 										value: data[i]
 									});
+								}
 							}
 							return formatted;
 						}
@@ -230,7 +231,7 @@ define(function(require) {
 			}
 			
 		    var self = this;
-			var groupModel = new this.model({
+			this.model = new self.friendManager.friendModel({
 				'groupName' 		: 	this.$('.js-group-name').val(),
 				'members'	:	(function(){
 				    var membersArray = [];
@@ -248,13 +249,15 @@ define(function(require) {
 					callback : this.groupAddedSuccessFully, 
 					errorCallback : this.somethingBadHappend,
 					context : this,
-					data : JSON.stringify(groupModel.attributes)
+					data : JSON.stringify(this.model.attributes)
 				};
 			Sandbox.doAdd(addAjaxOptions);
-			Sandbox.publish('fem-newGroupCreated',this.model.attributes);
 		},
 		groupAddedSuccessFully : function(){
 			console.log('Yeyy, Group added successfully. Now go add some expenses.');
+			Sandbox.publish('fem-newGroupCreated',this.model.attributes);
+			Sandbox.publish('FEM:DESTROY:COMPONENT',{name : 'js-create-group'});
+			
 		}
 	});
 	return FEMAddGroupView;
