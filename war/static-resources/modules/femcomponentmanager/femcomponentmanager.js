@@ -4,7 +4,7 @@ define(function(require) {
 	
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
-		'js-create-group'		:		'modules/groupmanager/groupmanager',
+		'js-create-group'		:		'modules/addgroup/addgroup',
 		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
 		'js-edit-group'			:		'modules/selectgroup/selectgroup',
 		'js-new-expense'		:		'',
@@ -38,6 +38,8 @@ define(function(require) {
 				},
 				registerSubscribers : function(){
 					Sandbox.subscribe('FEM:MENU:CLICK',this.showFEMComponent,this);
+					Sandbox.subscribe('FEM:DESTROY:COMPONENT',this.destroyFEMComponent,this);
+					
 				},
 				showFEMComponent : function(publishedData){
 					console.log('publishedData',publishedData);
@@ -52,6 +54,10 @@ define(function(require) {
 							componentMapper[publishedData.clickedMenu].reInitialize();
 						}
 					}
+				},
+				destroyFEMComponent : function(data){
+					Sandbox.destroy(componentMapper[data.name]);
+					componentMapper[data.name]=null;
 				}
 			};
 		}
