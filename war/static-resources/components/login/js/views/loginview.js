@@ -10,6 +10,12 @@ define(function(require){
 	
 	var LoginView = Backbone.View.extend({
 		initialize : function(options){
+			var userInfo = this.getFromSession();
+			if(userInfo && JSON.parse(userInfo)){
+				this.userInfo = JSON.parse(userInfo);
+				this.startApp(userInfo);
+				return;
+			}
 			this.options = _.extend({
 				//defaults here
 			}, options);
@@ -49,7 +55,11 @@ define(function(require){
 			console.log(response);
 			this.userInfo = this.normalizeUserData(response);
 			this.hide();
-			Sandbox.publish('LOGIN:SUCCESS', {data : this.normalizeUserData(response)});
+			this.addInSession();
+			this.startApp();
+		},
+		startApp : function(){
+			Sandbox.publish('LOGIN:SUCCESS', {data : this.userInfo});
 		},
 		somethingBadHappend : function(){
 			console.log('Something bad happened, find out who did that and kill them');
@@ -60,6 +70,12 @@ define(function(require){
 		//TODO : Normalize data from different services in one common format
 		normalizeUserData : function(data){
 			return data;
+		},
+		addInSession : function(){
+			localStorage.setItem('user', JSON.stringify(this.userInfo));
+		},
+		getFromSession : function(){
+			return localStorage.getItem('user');
 		}
 	});
 	

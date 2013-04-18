@@ -9,8 +9,8 @@ define(function(require) {
 	var BootloaderView = Backbone.View.extend({
 		initialize : function(options){
 			this.render(options);
-			Login.initialize({el:this.$('.js-login-container')});
 			FEM.getInstance().initialize({el:this.$('.js-fem-container')});
+			Login.initialize({el:this.$('.js-login-container')});
 		},
 		template : Handlebars.compile(require('text!./../../templates/bootloadertemplate.html')),
 		render : function(data){
