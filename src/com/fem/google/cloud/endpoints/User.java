@@ -1,6 +1,7 @@
 package com.fem.google.cloud.endpoints;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -28,6 +29,8 @@ public class User implements Serializable {
 	private String email;
 	private String mergeId;
 	private String loginType;
+	private Date lastLoggedInAt;
+	private String accessToken;
 
 	
 	public String getFirstName() {
@@ -96,6 +99,19 @@ public class User implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	public Date getLastLoggedInAt() {
+		return lastLoggedInAt;
+	}
+	public void setLastLoggedInAt(Date lastLoggedInAt) {
+		this.lastLoggedInAt = lastLoggedInAt;
+	}
+	public String getAccessToken() {
+		return accessToken;
+	}
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+	
 	
 	
 }
