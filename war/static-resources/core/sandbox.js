@@ -7,7 +7,7 @@ define(function (require) {
 	locallayer = require('locallayer');
 	
 	
-	var isOffline = true;
+	var isOffline = false;
 	
 	var Sandbox = {};
 	Sandbox.subscribe = function (channel, /*subscriber,*/ callback, context) {
