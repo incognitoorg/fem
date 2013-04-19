@@ -21,11 +21,8 @@ public class Group {
 
 	private String groupName;
 	private String groupType;
-	private String groupOwnerId;
+	private String ownerId;
 	
-
-	/*@Persistent(embeddedElement = "true", defaultFetchGroup = "true")
-	@Element(embedded="userId")*/
 	private ArrayList<User> members;
 	
 	private ArrayList<String> membersIdList;
@@ -46,11 +43,11 @@ public class Group {
 	public void setGroupType(String groupType) {
 		this.groupType = groupType;
 	}
-	public String getGroupOwerId() {
-		return groupOwnerId;
+	public String getOwnerId() {
+		return ownerId;
 	}
-	public void setGroupOwerId(String groupOwnerId) {
-		this.groupOwnerId = groupOwnerId;
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 	public ArrayList<User> getMembers() {
 		return members;
