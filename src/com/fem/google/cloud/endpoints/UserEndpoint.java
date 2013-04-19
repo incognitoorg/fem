@@ -1,19 +1,16 @@
 package com.fem.google.cloud.endpoints;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-
-import org.datanucleus.query.evaluator.InMemoryQueryResult;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -78,6 +75,7 @@ public class UserEndpoint {
 	 * @return The entity with primary key id.
 	 */
 	public User getUser(@Named("id") String id) {
+		
 		PersistenceManager mgr = getPersistenceManager();
 		User user = null;
 		try {
@@ -86,6 +84,7 @@ public class UserEndpoint {
 			mgr.close();
 		}
 		return user;
+		
 	}
 
 	/**
@@ -284,6 +283,8 @@ public class UserEndpoint {
 	public User doLogin(User user) {
 		user = getOrInsertUser(user);
 		//TODO : To implement session handling
+		user.setLastLoggedInAt(new Date());
+		user.setAccessToken(UUID.randomUUID().toString());
 		return user;
 		
 	}
@@ -324,5 +325,5 @@ public class UserEndpoint {
 		System.out.println(user.getGoogleId());
 		return user;
 	}
-
+	
 }
