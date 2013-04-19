@@ -48,7 +48,7 @@ define(function(require){
 				data : JSON.stringify(data)
 				
 			};
-			Sandbox.doAjax(ajaxOptions);
+			Sandbox.doPost(ajaxOptions);
 		},
 		loginSucceded : function(response){
 			console.log('In loginSucceded');
@@ -72,10 +72,10 @@ define(function(require){
 			return data;
 		},
 		addInSession : function(){
-			localStorage.setItem('user', JSON.stringify(this.userInfo));
+			localStorage.setItem('loggedInUser',JSON.stringify( this.userInfo));
 		},
 		getFromSession : function(){
-			return localStorage.getItem('user');
+			return localStorage.getItem('loggedInUser');
 		}
 	});
 	
