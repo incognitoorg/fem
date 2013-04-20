@@ -2,7 +2,6 @@ package com.fem.google.cloud.endpoints;
 
 import java.util.ArrayList;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;

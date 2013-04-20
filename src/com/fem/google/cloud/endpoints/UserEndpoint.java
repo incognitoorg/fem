@@ -274,7 +274,6 @@ public class UserEndpoint {
 		    return returnList;
 		  }
 	
-	@SuppressWarnings("unchecked")
 	@ApiMethod(
  			httpMethod = "POST", 
  			name = "user.login",
@@ -290,6 +289,7 @@ public class UserEndpoint {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@ApiMethod(path="userendpoint/user/getorinsertuser")
 	public User getOrInsertUser(User user){
 		//TODO : Add support for app register and login

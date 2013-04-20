@@ -1,21 +1,24 @@
 package com.fem.google.cloud.endpoints;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.persistence.EntityNotFoundException;
+import com.fem.google.cloud.endpoints.PMF;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
-@Api(name = "groupmembermappingendpoint")
-public class GroupMemberMappingEndpoint {
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
+@Api(name = "expenseinfoendpoint")
+public class ExpenseInfoEndpoint {
 
 	/**
 	 * This method lists all the entities inserted in datastore.
@@ -25,17 +28,17 @@ public class GroupMemberMappingEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	public CollectionResponse<GroupMemberMapping> listGroupMemberMapping(
+	public CollectionResponse<ExpenseInfo> listExpenseInfo(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
-		List<GroupMemberMapping> execute = null;
+		List<ExpenseInfo> execute = null;
 
 		try {
 			mgr = getPersistenceManager();
-			Query query = mgr.newQuery(GroupMemberMapping.class);
+			Query query = mgr.newQuery(ExpenseInfo.class);
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();
@@ -47,21 +50,21 @@ public class GroupMemberMappingEndpoint {
 				query.setRange(0, limit);
 			}
 
-			execute = (List<GroupMemberMapping>) query.execute();
+			execute = (List<ExpenseInfo>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
 
 			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
-			for (GroupMemberMapping obj : execute)
+			for (ExpenseInfo obj : execute)
 				;
 		} finally {
 			mgr.close();
 		}
 
-		return CollectionResponse.<GroupMemberMapping> builder()
-				.setItems(execute).setNextPageToken(cursorString).build();
+		return CollectionResponse.<ExpenseInfo> builder().setItems(execute)
+				.setNextPageToken(cursorString).build();
 	}
 
 	/**
@@ -70,16 +73,15 @@ public class GroupMemberMappingEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
-	public GroupMemberMapping getGroupMemberMapping(@Named("id") String id) {
+	public ExpenseInfo getExpenseInfo(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
-		GroupMemberMapping groupmembermapping = null;
+		ExpenseInfo expenseinfo = null;
 		try {
-			groupmembermapping = mgr
-					.getObjectById(GroupMemberMapping.class, id);
+			expenseinfo = mgr.getObjectById(ExpenseInfo.class, id);
 		} finally {
 			mgr.close();
 		}
-		return groupmembermapping;
+		return expenseinfo;
 	}
 
 	/**
@@ -87,21 +89,20 @@ public class GroupMemberMappingEndpoint {
 	 * exists in the datastore, an exception is thrown.
 	 * It uses HTTP POST method.
 	 *
-	 * @param groupmembermapping the entity to be inserted.
+	 * @param expenseinfo the entity to be inserted.
 	 * @return The inserted entity.
 	 */
-	public GroupMemberMapping insertGroupMemberMapping(
-			GroupMemberMapping groupmembermapping) {
+	public ExpenseInfo insertExpenseInfo(ExpenseInfo expenseinfo) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			/*if (containsGroupMemberMapping(groupmembermapping)) {
+			if (containsExpenseInfo(expenseinfo)) {
 				throw new EntityExistsException("Object already exists");
-			}*/
-			mgr.makePersistent(groupmembermapping);
+			}
+			mgr.makePersistent(expenseinfo);
 		} finally {
 			mgr.close();
 		}
-		return groupmembermapping;
+		return expenseinfo;
 	}
 
 	/**
@@ -109,21 +110,20 @@ public class GroupMemberMappingEndpoint {
 	 * exist in the datastore, an exception is thrown.
 	 * It uses HTTP PUT method.
 	 *
-	 * @param groupmembermapping the entity to be updated.
+	 * @param expenseinfo the entity to be updated.
 	 * @return The updated entity.
 	 */
-	public GroupMemberMapping updateGroupMemberMapping(
-			GroupMemberMapping groupmembermapping) {
+	public ExpenseInfo updateExpenseInfo(ExpenseInfo expenseinfo) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (!containsGroupMemberMapping(groupmembermapping)) {
+			if (!containsExpenseInfo(expenseinfo)) {
 				throw new EntityNotFoundException("Object does not exist");
 			}
-			mgr.makePersistent(groupmembermapping);
+			mgr.makePersistent(expenseinfo);
 		} finally {
 			mgr.close();
 		}
-		return groupmembermapping;
+		return expenseinfo;
 	}
 
 	/**
@@ -133,26 +133,23 @@ public class GroupMemberMappingEndpoint {
 	 * @param id the primary key of the entity to be deleted.
 	 * @return The deleted entity.
 	 */
-	public GroupMemberMapping removeGroupMemberMapping(@Named("id") String id) {
+	public ExpenseInfo removeExpenseInfo(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
-		GroupMemberMapping groupmembermapping = null;
+		ExpenseInfo expenseinfo = null;
 		try {
-			groupmembermapping = mgr
-					.getObjectById(GroupMemberMapping.class, id);
-			mgr.deletePersistent(groupmembermapping);
+			expenseinfo = mgr.getObjectById(ExpenseInfo.class, id);
+			mgr.deletePersistent(expenseinfo);
 		} finally {
 			mgr.close();
 		}
-		return groupmembermapping;
+		return expenseinfo;
 	}
 
-	private boolean containsGroupMemberMapping(
-			GroupMemberMapping groupmembermapping) {
+	private boolean containsExpenseInfo(ExpenseInfo expenseinfo) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(GroupMemberMapping.class,
-					groupmembermapping.getMappingId());
+			mgr.getObjectById(ExpenseInfo.class, expenseinfo.getExpenseInfoId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

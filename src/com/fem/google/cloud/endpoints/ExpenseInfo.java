@@ -8,21 +8,21 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class GroupMemberMapping {
-
+public class ExpenseInfo {
+	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-    private String mappingId;
+    private String expenseInfoId;
 	
 	private String userId;
-	private String groupId;
+	private double amount;
 	
-	public String getGroupId() {
-		return groupId;
+	public String getExpenseInfoId() {
+		return expenseInfoId;
 	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setExpenseInfoId(String expenseInfoId) {
+		this.expenseInfoId = expenseInfoId;
 	}
 	public String getUserId() {
 		return userId;
@@ -30,15 +30,11 @@ public class GroupMemberMapping {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getMappingId() {
-		return mappingId;
+	public double getAmount() {
+		return amount;
 	}
-	public void setMappingId(String mappingId) {
-		this.mappingId = mappingId;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
-	
-	
-	
 
-	
 }
