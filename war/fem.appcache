@@ -13,14 +13,6 @@ CACHE:
 /
 
 #style sheets
-static-resources/components/login/css/login.css
-static-resources/libraries/foundation/css/foundation.css
-static-resources/libraries/foundation/css/normalize.css
-static-resources/libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css
-static-resources/modules/addgroup/css/addgroup.css
-static-resources/modules/fem/css/fem.css
-static-resources/modules/fem/css/fonts/fonts.css
-static-resources/plugins/jquery/formvalidation/css/formvalidation.css
 
 #style sheet images
 static-resources/plugins/jquery/formvalidation/css/img/error.png
@@ -38,57 +30,8 @@ http://www.red-team-design.com/wp-content/uploads/2011/09/login-sprite.png
 
 
 #javascript files
-boilerplate.js
-https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.gbImWQmOpE8.O/m=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AItRSTMYWnAb4OSriW7BFQvMXJDPST0YeQ/cb=gapi.loaded_0
-static-resources/page-js/fem.js
-static-resources/bootloaders/fembootloader/fembootloader.js
-static-resources/bootloaders/fembootloader/js/views/bootloaderview.js
-http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js
-static-resources/components/login/login.js
-static-resources/modules/fem/fem.js
-static-resources/libraries/require/text.js
-http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js
-http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.min.js
-http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js
-static-resources/libraries/handlebars/handlebarshelpers.js
-static-resources/components/login/js/views/loginview.js
-static-resources/modules/fem/js/views/femview.js
-static-resources/libraries/require/css.js
-static-resources/core/sandbox.js
-static-resources/components/fbapi/fbapi.js
-static-resources/components/googleapi/googleapi.js
-static-resources/modules/fem/js/router/femrouter.js
-static-resources/modules/femcomponentmanager/femcomponentmanager.js
-static-resources/libraries/require/normalize.js
-static-resources/core/mediator.js
-static-resources/core/envvariables.js
-static-resources/core/locallayer.js
-http://connect.facebook.net/en_US/all/debug.js
-https://apis.google.com/js/client.js
-http://www.google.com/jsapi
-static-resources/modules/groupmanager/groupmanager.js
-static-resources/modules/groupmanager/js/collection/groupcollection.js
-static-resources/modules/groupmanager/js/model/groupmodel.js
-static-resources/modules/addgroup/addgroup.js
-static-resources/modules/addgroup/js/views/addgroupview.js
-static-resources/modules/addgroup/js/validator/addgroupvalidator.js
-http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js
-static-resources/plugins/jquery/formvalidation/formvalidation.js
-static-resources/plugins/jquery/formvalidation/js/jquery.validate.js
-static-resources/plugins/jquery/formvalidation/js/jquery.validate-override.js
-static-resources/modules/friendmanager/friendmanager.js
-static-resources/modules/friendmanager/js/collection/friendcollection.js
-static-resources/modules/friendmanager/js/model/friendmodel.js
-static-resources/modules/selectgroup/selectgroup.js
-static-resources/libraries/require/require.js
-
 
 #Templates
-static-resources/bootloaders/fembootloader/templates/bootloadertemplate.html
-static-resources/modules/friendmanager/templates/friendtemplate.html
-static-resources/components/login/templates/loginform.html
-static-resources/modules/addgroup/templates/addgrouptemplate.html
-static-resources/modules/fem/templates/femtemplate.html
 
 NETWORK:
 *
