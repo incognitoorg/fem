@@ -1,6 +1,5 @@
 define(function(require){
 	var Normalize = require('css!libraries/foundation/css/normalize.css');
-	var Foundation = require('css!libraries/foundation/css/foundation');
 	
 	var Sandbox = require('sandbox');
 	var CSS = require('css!./../../css/login.css');
@@ -14,6 +13,7 @@ define(function(require){
 			if(userInfo && JSON.parse(userInfo)){
 				this.userInfo = JSON.parse(userInfo);
 				this.startApp(userInfo);
+				$(this.el).hide();
 				return;
 			}
 			this.options = _.extend({
@@ -21,9 +21,8 @@ define(function(require){
 			}, options);
 			this.render();
 		},
-		template : Handlebars.compile(require('text!../../templates/loginform.html')),
 		render : function(){
-			$(this.el).html(this.template());
+			//$(this.el).html(this.template());
 		},
 		events : {
 			'click .facebook' : 'eventDoFacebookLogin',
