@@ -6,6 +6,7 @@ define(function(require) {
 	var GoogleAPi = require('components/googleapi/googleapi');
 	var userInfo = require('components/login/login').getInfo();
 	var FormValidator = require("./../validator/addgroupvalidator");
+	var FEMFriendManager = require('modules/friendmanager/friendmanager');
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
 	require('css!../../css/addgroup.css');
@@ -162,10 +163,8 @@ define(function(require) {
 		},
 		initializeSubComponents : function(){
 			var self=this;
-			require(['modules/friendmanager/friendmanager'],function(FEMFriendManager){
-				self.friendManager = FEMFriendManager.getInstance().initialize();
-				self.friendCollection = new self.friendManager.friendCollection();
-			});
+			self.friendManager = FEMFriendManager.getInstance().initialize();
+			self.friendCollection = new self.friendManager.friendCollection();
 		},
 		events : {
 			'click .js-add-friend'						:	'eventAddFriend',
@@ -217,16 +216,16 @@ define(function(require) {
 				    membersArray.push(userInfo);
 				    return membersArray;
 				})(),
-				'groupOwnerId' : userInfo.userId
+				'ownerId' : userInfo.userId
 			});
 			console.log('this.collection',this.collection);
 			var addAjaxOptions = {
-					url : '_ah/api/groupendpoint/v1/group',
-					callback : this.groupAddedSuccessFully, 
-					errorCallback : this.somethingBadHappend,
-					context : this,
-					data : JSON.stringify(this.model.attributes)
-				};
+				url : '_ah/api/groupendpoint/v1/group',
+				callback : this.groupAddedSuccessFully, 
+				errorCallback : this.somethingBadHappend,
+				context : this,
+				data : this.model.attributes
+			};
 			Sandbox.doAdd(addAjaxOptions);
 		},
 		groupAddedSuccessFully : function(){
