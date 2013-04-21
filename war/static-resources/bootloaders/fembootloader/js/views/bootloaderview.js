@@ -12,9 +12,7 @@ define(function(require) {
 			FEM.getInstance().initialize({el:this.$('.js-fem-container')});
 			Login.initialize({el:this.$('.js-login-container')});
 		},
-		template : Handlebars.compile(require('text!./../../templates/bootloadertemplate.html')),
 		render : function(data){
-			$(this.el).html(this.template(data));
 		}
 	});
 	
