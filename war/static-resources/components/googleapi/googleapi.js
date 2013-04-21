@@ -1,7 +1,7 @@
 define(function(require){
 
 	var googleClient = require('https://apis.google.com/js/client.js'), 
-	googleLoad = require('http://www.google.com/jsapi'),
+	//googleLoad = require('http://www.google.com/jsapi'),
 	EnvVariables = require('envvariables');
 
 	
