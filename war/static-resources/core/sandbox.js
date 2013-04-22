@@ -73,7 +73,7 @@ define(function (require) {
 	
 
 	Sandbox.doUpdate= function(data){
-		if(Modernizr.localstorage && isOffline){
+		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doUpdate(data);
 		} else {
 			this.doAjax(data);
@@ -82,7 +82,7 @@ define(function (require) {
 	
 	Sandbox.doGet = function(data){
 	    var callback = data.callback;
-		if(Modernizr.localstorage && isOffline){
+		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doGet(data);
 		} else {
 			var extendedData = _.extend(data, {
@@ -117,7 +117,7 @@ define(function (require) {
 	};
 	
 	Sandbox.doDelete = function(data){
-		if(Modernizr.localstorage && isOffline){
+		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doDelete(data);
 		} else {
 			this.doAjax(data);
@@ -129,7 +129,7 @@ define(function (require) {
 		
 		
 		
-		if(Modernizr.localstorage && isOffline){
+		if(Modernizr.localstorage && !navigator.onLine){
 			var URL = data.url;
 			var endPointURL = URL.substr(URL.indexOf('endpoint'));
 			
@@ -190,7 +190,7 @@ define(function (require) {
 	};
 	
 	Sandbox.doPost = function(data){
-		if(Modernizr.localstorage && isOffline){
+		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doPost(data);
 		} else {
 			
