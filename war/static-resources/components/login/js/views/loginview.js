@@ -13,7 +13,8 @@ define(function(require){
 			if(userInfo && JSON.parse(userInfo)){
 				this.userInfo = JSON.parse(userInfo);
 				this.startApp(userInfo);
-				$(this.el).hide();
+				document.getElementById('js-loader').setAttribute('style', 'display:none');
+				//$(this.el).hide();
 				return;
 			}
 			this.options = _.extend({
@@ -36,6 +37,10 @@ define(function(require){
 			GoogleAPI.checkAndDoLogin({callback : this.doActualLogin, context : this});
 		},
 		doActualLogin : function(data){
+			var heightForLoader = document.getElementById('login').offsetHeight;
+			document.getElementById('logincontainer').setAttribute('style', 'display:none;');
+			document.getElementById('js-loader').setAttribute('style', 'height:'+ heightForLoader +'px');
+
 			var ajaxOptions = {
 				url : '_ah/api/userendpoint/v1/user/doLogin',
 				callback : this.loginSucceded, 
@@ -50,6 +55,8 @@ define(function(require){
 			Sandbox.doPost(ajaxOptions);
 		},
 		loginSucceded : function(response){
+			document.getElementById('js-loader').setAttribute('style', 'display:none');
+
 			console.log('In loginSucceded');
 			console.log(response);
 			this.userInfo = this.normalizeUserData(response);

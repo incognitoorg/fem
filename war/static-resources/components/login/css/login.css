@@ -344,3 +344,9 @@ button:-moz-focus-inner {
 	border: 0;
 	padding: 0;
 }
+
+.js-loader{
+	background: url(images/loader.gif) no-repeat;
+	background-position: 50%;
+}
+

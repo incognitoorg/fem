@@ -15,23 +15,34 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>FEM Version 1</title>
 
-
+<style type="text/css">
+::selection {
+	color: inherit;
+}
+::-moz-selection {
+	color: inherit;
+}
+</style>
 <link rel=stylesheet
-	href=built-static-resources/libraries/foundation/css/foundation.min.css>
+	href="static-resources/libraries/foundation/css/foundation.min.css">
 </head>
 <link rel=stylesheet
-	href=built-static-resources/components/login/css/login.css>
+	href="static-resources/components/login/css/login.css">
 </head>
 
 
 <body>
+	
 	<div id="appcontainer">
 		<div class="bootloader">
-			<div class="js-fem-container"></div>
-			<div class="js-login-container">
-				<div class="row">
+			<div class="js-fem-container" ></div>
+			<div class="js-login-container" >
+				<div class=row>
+					<div id=js-loader class=js-loader></div>
+				</div>
+				<div class="row" id='logincontainer'>
 					<div class="large-3 columns">&nbsp;</div>
-					<form id="login" class="small-12 large-6 columns">
+					<form id="login" class="small-12 large-6 columns" id=loginform>
 						<h1>Log In</h1>
 						<fieldset id="inputs">
 							<input id="username" type="text" placeholder="Username"
@@ -57,6 +68,15 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	var heightForLoader = document.getElementById('login').offsetHeight;
+	var userInfo = localStorage.getItem('loggedInUser');
+	if(userInfo && JSON.parse(userInfo)){
+		this.userInfo = JSON.parse(userInfo);
+		document.getElementById('logincontainer').setAttribute('style', 'display:none;');
+		document.getElementById('js-loader').setAttribute('style', 'height:'+ heightForLoader +'px')
+	}
+	</script>
 	<!-- Find solution for forcing update to this file -->
 	<script src=boilerplate.js></script>
 	<script src="static-resources/libraries/require/require.js"

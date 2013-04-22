@@ -1,10 +1,11 @@
 CACHE MANIFEST
 
-#version 1.0 4-20-2013
+#version 1.0.1.1 4-20-2013
 
 CACHE:
 
 #images
+
 
 
 #internal HTML documents
@@ -26,7 +27,6 @@ http://m-static.ak.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif
 http://m-static.ak.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif
 http://m-static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png
 http://m-static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png
-http://www.red-team-design.com/wp-content/uploads/2011/09/login-sprite.png
 
 #javascript files
 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en_GB.uL2s6PO4pxs.O/m=client/rt=j/sv=1/d=1/ed=1/am=UQ/rs=AItRSTMgYdreCr5LW46QrtKFQbWAuZlFLw/cb=gapi.loaded_0
