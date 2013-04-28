@@ -1,13 +1,18 @@
 div.carousel>div{
-	float: left;
-	width: 33%;
 	position: absolute;
+	height: 100%;
+	float: left;
 }
 
 
 .carousel{
 	position:relative;
 	overflow : hidden;
+	height: 106px;
 }
-
+.item .navigator{
+	position: absolute;
+	bottom: 0;
+	
+}
 
