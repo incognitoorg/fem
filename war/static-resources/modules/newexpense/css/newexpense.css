@@ -1,0 +1,13 @@
+div.carousel>div{
+	float: left;
+	width: 33%;
+	position: absolute;
+}
+
+
+.carousel{
+	position:relative;
+	overflow : hidden;
+}
+
+
