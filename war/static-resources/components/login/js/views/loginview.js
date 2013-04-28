@@ -7,6 +7,11 @@ define(function(require){
 	var FBAPI = require('components/fbapi/fbapi');
 	var GoogleAPI = require('components/googleapi/googleapi');
 	
+	var APIMapper = {
+			//facebook : FBAPI,
+			google : GoogleAPI
+	};
+	
 	var LoginView = Backbone.View.extend({
 		initialize : function(options){
 			var userInfo = this.getFromSession();
@@ -14,7 +19,7 @@ define(function(require){
 				this.userInfo = JSON.parse(userInfo);
 				this.startApp(userInfo);
 				document.getElementById('js-loader').setAttribute('style', 'display:none');
-				//$(this.el).hide();
+				this.hide();
 				return;
 			}
 			this.options = _.extend({
@@ -59,7 +64,12 @@ define(function(require){
 
 			console.log('In loginSucceded');
 			console.log(response);
+			
+			
+			
 			this.userInfo = this.normalizeUserData(response);
+			this.userInfo[response.loginType]=this.userInfo[response.loginType] || {}; 
+			this.userInfo[response.loginType].authToken = APIMapper[response.loginType].getAuthToken();
 			this.hide();
 			this.addInSession();
 			this.startApp();

@@ -16,7 +16,7 @@ define(function(require){
 		'js-create-group'		:		'modules/addgroup/addgroup',
 		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
 		'js-edit-group'			:		'modules/selectgroup/selectgroup',
-		'js-new-expense'		:		'',
+		'js-new-expense'		:		'modules/newexpense/newexpense',
 		'js-expense-history'	:		'',
 		'js-dashboard'			:		'',
 		'js-profile'			:		''
@@ -26,7 +26,7 @@ define(function(require){
 	//Used to just further the flow without errors. Can be removed once all the components have been created.
 	this.femDashboard={};
 	this.femProfile={};
-	this.femCreateExpense={};
+	//this.femCreateExpense={};
 	this.femEditExpense={};
 	
 	//Module instance mapper for identifying component
@@ -40,12 +40,13 @@ define(function(require){
 	};
 	
 	
-	
-	
+	var menuHeight = 0;
+	var is_mobile = null;
 	
 	var FEMView = Sandbox.View.extend({
 		initialize : function(options){
 			this.registerSubscribers();
+			
 		},
 		registerSubscribers : function(){
 			Sandbox.subscribe('LOGIN:SUCCESS',this.start,this);
@@ -59,14 +60,16 @@ define(function(require){
 		},
 		events : {
 			'click .js-menu' : 'eventShowView',
-			'click .js-back-to-menu' : 'eventShowMenu'
+			'click .js-back-to-menu' : 'eventShowMenu',
+			'click .js-show-menu' : 'showMenu',
+			'click .js-hide-menu' : 'hideMenu',
 		},
 		eventShowView : function(event){
 			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event;
 			this.$('.js-view-item').hide();
 			this.$('.' + clickedMenu).show();
-			this.$('.js-left-side-menu').addClass('hide-for-small');
-			this.$('.js-right-panel').removeClass('hide-for-small');
+			/*this.$('.js-left-side-menu').addClass('hide-for-small');
+			this.$('.js-right-panel').removeClass('hide-for-small');*/
 			var navLink = clickedMenu.toLowerCase().split('-').join('');
 			this.router.navigate("#"+navLink.substring(2,navLink.length));
 
@@ -79,8 +82,8 @@ define(function(require){
 			Sandbox.publish('FEM:MENU:CLICK',dataToPublish);
 		},
 		eventShowMenu : function(){
-			this.$('.js-left-side-menu').removeClass('hide-for-small');
-			this.$('.js-right-panel').addClass('hide-for-small');
+			/*this.$('.js-left-side-menu').removeClass('hide-for-small');
+			this.$('.js-right-panel').addClass('hide-for-small');*/
 			this.router.navigate("#menu");
 		},
 		makeResponsive : function(){
@@ -89,9 +92,24 @@ define(function(require){
 		start : function(userdata){
 			var redirectURL = location.href.substr(location.href.indexOf('#'));
 			this.render();
+			
+			//TODO : Put this in some common place
+			if( $('.is-mobile').css('display') == 'none' ) {
+		        is_mobile = true;      
+		    }
+			
+			menuHeight = this.$('.js-fixed-section').height();
+			
+			if(is_mobile){
+				this.$('.js-left-side-menu').css({position:'absolute', 'z-index':1, top:-menuHeight});
+				this.$('.js-right-panel').css({position:'absolute',top:this.$('.js-show-hide-section').height()});
+			}
+			
+			
+			
 			this.menulength = this.$('.js-menu').length;
 			//Trying to make height responsive. Experimental. May need to throw this away.
-			this.makeResponsive();
+			//this.makeResponsive();
 			
 			this.router = new AppRouter({view : this});
 			Backbone.history.start();
@@ -119,10 +137,35 @@ define(function(require){
 					componentMapper[publishedData.clickedMenu].reInitialize();
 				}
 			}
+			this.hideMenu();
 		},
 		destroyFEMComponent : function(data){
 			Sandbox.destroy(componentMapper[data.name]);
 			componentMapper[data.name]=null;
+		},
+		showMenu : function(){
+			var self = this;
+			if(is_mobile){
+				this.$('.js-left-side-menu').animate({
+				    top: 0,
+				  }, 1000, function() {
+				    // Animation complete.
+					  self.$('.js-hide-menu').show();
+					  self.$('.js-show-menu').hide();
+				  });
+			}
+		},
+		hideMenu : function(){
+			var self = this;
+			if(is_mobile){
+				self.$('.js-show-menu').show();
+				self.$('.js-hide-menu').hide();
+				this.$('.js-left-side-menu').animate({
+				    top: -menuHeight,
+				  }, 1000, function() {
+				    // Animation complete.
+				  });
+			}
 		}
 	});
 	return FEMView;

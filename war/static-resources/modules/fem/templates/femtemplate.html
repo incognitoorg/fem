@@ -2,11 +2,12 @@
 	<div class="small-12 large-12 columns">
 
 		<div class="row">
-			<div class="small-12 large-4 columns js-left-side-menu">
+			<div class="small-12 large-4 columns js-left-side-menu" style="">
 
 
 				<div class="docs section-container accordion" data-section=""
 					data-options="deep_linking: false" style="">
+					<div class=js-fixed-section>
 					<section class="section js-menu" data-menu="js-dashboard">
 						<p class="title" style="left: 0px;">
 							<a>Dashboard</a>
@@ -39,11 +40,23 @@
 							<a>Profile</a>
 						</p>
 					</section>
-
+					</div>
+					<div class="hide-for-large js-show-hide-section" >
+						<section class="section js-show-menu" style="display:none;">
+							<p class="title" style="left: 0px;">
+								<a>Show Menu</a>
+							</p>
+						</section>
+						<section class="section js-hide-menu" >
+							<p class="title" style="left: 0px;">
+								<a>Hide Menu</a>
+							</p>
+						</section>
+					</div>
 				</div>
 
 			</div>
-			<div class="small-12 large-8 columns hide-for-small js-right-panel">
+			<div class="small-12 large-8 columns js-right-panel">
 				<div class=row>
 					<div class="small-12  columns js-dashboard js-view-item">Dashboard here</div>
 					<div class="small-12  columns js-new-expense js-view-item">
@@ -85,13 +98,13 @@
 					<div class="small-12  columns js-expense-history js-view-item">Expense history here</div>
 					<div class="small-12  columns js-edit-group js-view-item">Edit Group here</div>
 					<div class="small-12  columns js-profile js-view-item">Profile here</div>
-					<div class="small-12 small-centered hide-for-large hide-for-medium back-to-menu section-container js-back-to-menu">
+					<!-- <div class="small-12 small-centered hide-for-large hide-for-medium back-to-menu section-container js-back-to-menu">
 						<section class="section ">
 							<p class="title" style="left: 0px;">
 								<a>Back to Menu</a>
 							</p>
 						</section>
-					</div>	
+					</div>	 -->
 				</div>
 			</div>
 		</div>

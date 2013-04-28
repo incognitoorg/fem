@@ -52,7 +52,7 @@ define(function (require) {
 			  if(errorCallback){
 				  errorCallback.call(context, response);
 			  } else {
-				  errorFallback.call(resposne, data);
+				  errorFallback.call(response, data);
 			  }
 			  
 		  }
@@ -61,8 +61,8 @@ define(function (require) {
 	
 	
 	
-	function errorFallback(){
-		console.log('Something bad happened while communicating with back end, you are on your own. Here is what I have for you.', reposne, data);
+	function errorFallback(response, data){
+		console.log('Something bad happened while communicating with back end, you are on your own. Here is what I have for you.', response, data);
 	}
 	
 	Sandbox.View = Backbone.View;

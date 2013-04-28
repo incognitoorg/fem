@@ -38,7 +38,7 @@ define(function(require) {
 			this.getGroups();
 		},
 		groupClicked : function(event){
-			Sandbox.publish('GROUP:SELECTED', $(event.currentTarget).data('groupId'));
+			Sandbox.publish('GROUP:SELECTED:'+this.options.owner || 'ALL', $(event.currentTarget).data('groupId'));
 		}
 	});
 

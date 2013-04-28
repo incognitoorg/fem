@@ -13,7 +13,7 @@ define(function(require) {
 
 	var FEMAddGroupView = Sandbox.View.extend({
 		initialize : function(options){
-			this.FBAuthToken=FBAPI.getAuthToken();
+			
 			this.render();
 			this.pluginInitializer();
 			this.registerValidator();
@@ -36,6 +36,7 @@ define(function(require) {
 		},
 		pluginInitializer : function(){
 			var self=this;
+			this.FBAuthToken=userInfo.facebook && userInfo.facebook.authToken;//TODO : This token expires in two months
 			this.$('.js-fb-friend-selector').autocomplete({
 				source: (function(){
 					var isDataObtained = false;
@@ -96,7 +97,7 @@ define(function(require) {
 			});
 			
 			
-			var googleAccessToken = GoogleAPi.getAuthToken();
+			var googleAccessToken = userInfo.google && userInfo.google.authToken;
 			this.$('.js-google-friend-selector').autocomplete({
 				source: (function(){
 					var isDataObtained = false;
