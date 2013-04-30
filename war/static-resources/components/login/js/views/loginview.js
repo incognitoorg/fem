@@ -8,7 +8,7 @@ define(function(require){
 	var GoogleAPI = require('components/googleapi/googleapi');
 	
 	var APIMapper = {
-			//facebook : FBAPI,
+			facebook : FBAPI,
 			google : GoogleAPI
 	};
 	
