@@ -17,3 +17,7 @@ body{
 .section-container{
 	margin-bottom:0!important;
 }
+
+.js-right-panel>div>div{
+	height : 100%;
+}
