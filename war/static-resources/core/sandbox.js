@@ -38,6 +38,7 @@ define(function (require) {
 		var errorCallback = options.errorCallback;
 		var context = options.context;
 		var data = options.data;
+		var loader = options.loader;
 		
 		$.ajax({
 		  'url':url,
@@ -45,8 +46,12 @@ define(function (require) {
 		  'contentType':contentType,
 		  'dataType': dataType,
 		  'data' : data,
+		  'beforeSend' : function(){
+			  loader && loader.addClass('js-loader');
+		  },
 		  'success': function(response){
 				  callback.call(context, response);
+				  loader && loader.removeClass('js-loader');
 		  },
 		  'error': function(response){
 			  if(errorCallback){
@@ -54,6 +59,7 @@ define(function (require) {
 			  } else {
 				  errorFallback.call(response, data);
 			  }
+			  loader && loader.removeClass('js-loader');
 			  
 		  }
 		});
