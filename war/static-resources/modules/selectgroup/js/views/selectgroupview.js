@@ -27,6 +27,7 @@ define(function(require) {
 				callback : this.renderGroups,
 				context : this,
 				dataType: 'json',
+				loader : this.$('.groups-container')
 			};
 			Sandbox.doGet(data);
 		},

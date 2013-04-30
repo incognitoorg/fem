@@ -15,7 +15,7 @@ define(function(require){
 	var componentPathMapper = {
 		'js-create-group'		:		'modules/addgroup/addgroup',
 		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
-		'js-edit-group'			:		'modules/selectgroup/selectgroup',
+		'js-edit-group'			:		'modules/selectgroup/selectgroup', //TODO : Add wrapper of editgroup here and then in build.js
 		'js-new-expense'		:		'modules/newexpense/newexpense',
 		'js-expense-history'	:		'',
 		'js-dashboard'			:		'',

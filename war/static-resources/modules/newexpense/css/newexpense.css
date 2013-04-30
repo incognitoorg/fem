@@ -13,6 +13,9 @@ div.carousel>div{
 .item .navigator{
 	position: absolute;
 	bottom: 0;
-	
 }
 
+input[type="checkbox"]{
+	width:40px;
+	height:40px;
+}
