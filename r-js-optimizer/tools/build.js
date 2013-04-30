@@ -187,17 +187,12 @@
         	name :'modules/selectgroup/selectgroup',
             include: ['modules/selectgroup/selectgroup'],
         	exclude: ['backbone','handlebars','underscore','jquery', 'bootloaders/fembootloader/fembootloader','components/login/login', 'modules/fem/fem','modules/addgroup/addgroup']
+        },
+        {
+        	name :'modules/newexpense/newexpense',
+            include: ['modules/newexpense/newexpense'],
+        	exclude: ['backbone','handlebars','underscore','jquery', 'bootloaders/fembootloader/fembootloader','components/login/login', 'modules/fem/fem','modules/addgroup/addgroup','modules/selectgroup/selectgroup']
         }
-        
 
-        
-/*        var componentPathMapper = {
-        		'js-create-group'		:		'modules/addgroup/addgroup',
-        		'js-edit-group'			:		'modules/selectgroup/selectgroup',
-        		'js-new-expense'		:		'',
-        		'js-expense-history'	:		'',
-        		'js-dashboard'			:		'',
-        		'js-profile'			:		''
-        	};*/
     ]
 }
