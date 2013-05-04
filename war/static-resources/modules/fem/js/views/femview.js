@@ -146,13 +146,16 @@ define(function(require){
 		showMenu : function(){
 			var self = this;
 			if(is_mobile){
-				this.$('.js-left-side-menu').animate({
-				    top: 0,
-				  }, 1000, function() {
-				    // Animation complete.
-					  self.$('.js-hide-menu').show();
-					  self.$('.js-show-menu').hide();
-				  });
+				this.$('.js-show-hide-section').css({'position':'relative'});
+				window.scrollTo(0,0);
+				self.$('.js-left-side-menu').animate({
+					top: 0,
+				}, 1000, function() {
+					// Animation complete.
+					self.$('.js-hide-menu').show();
+					self.$('.js-show-menu').hide();
+				});
+				
 			}
 		},
 		hideMenu : function(){
@@ -164,7 +167,9 @@ define(function(require){
 				    top: -menuHeight,
 				  }, 1000, function() {
 				    // Animation complete.
+					  self.$('.js-show-hide-section').css({'position':'fixed', top:0});
 				  });
+				
 			}
 		}
 	});
