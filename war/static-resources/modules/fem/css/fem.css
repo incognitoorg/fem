@@ -1,23 +1,31 @@
-body{
-	height : 100%;
+body {
+	height: 100%;
 }
 
-.back-to-menu{
-	position : fixed!important;
+.back-to-menu {
+	position: fixed !important;
 	bottom: 0;
-	opacity : 0.9;
+	opacity: 0.9;
 }
 
-.section-container section .title a{
-	font-size : 20px!important;
+.section-container section .title a {
+	font-size: 20px !important;
 }
 
-
-
-.section-container{
-	margin-bottom:0!important;
+.section-container {
+	margin-bottom: 0 !important;
 }
 
-.js-right-panel>div>div{
-	height : 100%;
+.js-right-panel>div>div {
+	height: 100%;
+}
+
+.js-fixed-section {
+	padding-left: 10px;
+	background: #efefef;
+	padding-right: 10px;
+}
+
+.js-left-side-menu{
+	padding:0!important;
 }
