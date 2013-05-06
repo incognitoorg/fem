@@ -149,13 +149,11 @@ define(function (require) {
 			
 			var storedAllUserData = JSON.parse(localStorage.getItem('user'));
 			
-			var storedUserData = storedAllUserData[userId];
-			
-			storedUserData[endPointType].items.push(dataToSend);
-			
-			console.log('storedUserData', storedUserData);
-			
-			localStorage.setItem('user', JSON.stringify(storedAllUserData));
+			if(storedAllUserData){
+				var storedUserData = storedAllUserData[userId];
+				storedUserData[endPointType].items.push(dataToSend);
+				localStorage.setItem('user', JSON.stringify(storedAllUserData));
+			}
 			callback.call(data.context, data.data);
 			//locallayer.doAdd(data);
 		} else {
@@ -177,16 +175,11 @@ define(function (require) {
 						  var dataToSend = JSON.parse(data.data);
 						  var userId = dataToSend.ownerId;
 						  
-						  var storedAllUserData = JSON.parse(localStorage.getItem('user'));
-						  
-						  var storedUserData = storedAllUserData[userId];
-						  
-						  storedUserData[endPointType].items.push(response);
-						  
-						  console.log('storedUserData', storedUserData);
-						  
-						  localStorage.setItem('user', JSON.stringify(storedAllUserData));
-						  
+						  if(storedAllUserData){
+								var storedUserData = storedAllUserData[userId];
+								storedUserData[endPointType].items.push(dataToSend);
+								localStorage.setItem('user', JSON.stringify(storedAllUserData));
+						  }
 						  callback.call(data.context, response);
 					}
 			});
