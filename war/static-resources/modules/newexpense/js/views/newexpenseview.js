@@ -30,7 +30,7 @@ define(function(require) {
 		showNewExpenseForm : function(groupId){
 			var self = this;
 			this.$('.js-select-group').hide();
-			this.$('.js-new-expense-form').show().html();
+			this.$('.js-new-expense-form').show();
 			
 			this.$('.carousel').each(function(index, el){
 				self.setCarousel(self.$(el));

@@ -34,6 +34,8 @@ define(function(require) {
 		renderGroups : function(data){
 			console.log(data);
 			$(this.el).html(this.template(data));
+			
+			this.$('.error').css({display:data.items.length===0?'':'none'});
 		},
 		reInitialize : function(){
 			this.getGroups();
