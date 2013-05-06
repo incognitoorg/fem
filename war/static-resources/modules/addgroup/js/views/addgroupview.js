@@ -171,7 +171,8 @@ define(function(require) {
 			'click .js-add-friend'						:	'eventAddFriend',
 			'click .js-invite-friend'					:	'eventInviteFriend',
 			'click .js-selected-friend-item-remove'		:	'eventRemoveSelectedFriend',
-			'click .js-save-group'						:	'eventSaveGroup'
+			'click .js-save-group'						:	'eventSaveGroup',
+			'click .new-expense-button'					: 	'showNewExpenseForm'
 		},
 		registerValidator : function(){
 			FormValidator.initialize({'element':this.$(".js-add-group-form"),'errorWidth':'86%'});
@@ -229,12 +230,17 @@ define(function(require) {
 			};
 			Sandbox.doAdd(addAjaxOptions);
 		},
-		groupAddedSuccessFully : function(){
-			console.log('Yeyy, Group added successfully. Now go add some expenses.');
-			Sandbox.publish('fem-newGroupCreated',this.model.attributes);
-			Sandbox.publish('FEM:DESTROY:COMPONENT',{name : 'js-create-group'});
+		groupAddedSuccessFully : function(data){
+			this.$('.js-success-message').show();
+			this.$('.js-add-group-form').hide();
+			this.newAddedGroupInfo = data;
 			
+		},
+		showNewExpenseForm : function(){
+			Sandbox.publish('GROUP:SELECTED:NEW-EXPENSE', this.newAddedGroupInfo.groupId);
+			Sandbox.publish('FEM:DESTROY:COMPONENT',{name : 'js-create-group'});
 		}
+		
 	});
 	return FEMAddGroupView;
 });
