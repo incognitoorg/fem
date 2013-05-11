@@ -75,11 +75,25 @@ public class GroupEndpoint {
 	public Group getGroup(@Named("id") String id) {
 		PersistenceManager mgr = getPersistenceManager();
 		Group group = null;
+		ArrayList<User> alMembers = null;
 		try {
 			group = mgr.getObjectById(Group.class, id);
+			
+			alMembers = (ArrayList<User>)group.getMembers().clone();
+			
+			//TODO : Instead of using for loop, use a select query with in clause if available.
+			for (Iterator iterator = group.getMembersIdList().iterator(); iterator.hasNext();) {
+				String userId = (String) iterator.next();
+				
+				//TODO : To put this in transaction
+				User objMember = new UserEndpoint().getUser(userId);
+				alMembers.add(objMember);
+				
+			}
 		} finally {
 			mgr.close();
 		}
+		group.setMembers(alMembers);
 		return group;
 	}
 

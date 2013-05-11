@@ -295,6 +295,9 @@ public class UserEndpoint {
 		//TODO : Add support for app register and login
 		String apiId = null;
 		
+		long start = new Date().getTime();
+		
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query q = pm.newQuery(User.class);
@@ -317,6 +320,11 @@ public class UserEndpoint {
 		} else {
 			user = this.insertUser(user);
 		}
+		
+		long end = new Date().getTime();
+		
+		System.out.println("Time taken to login: ");
+		System.out.println(end - start/1000*1000 + " Seconds");
 		
 		System.out.println("UserEndpoint.doLogin()");
 		System.out.println(user.getLoginType());
