@@ -20,19 +20,19 @@ define(function(require){
 		  showMenu : function(){
 			  this.options.view.eventShowMenu();
 		  },
-		  showDashboard: function(e,f) {
+		  showDashboard: function(query, page) {
 			  this.options.view.eventShowView('js-dashboard');
 		  },
-		  showNewExpense: function() {
+		  showNewExpense: function(query, page) {
 			  this.options.view.eventShowView('js-new-expense'); 
 		  },
-		  showCreateGroup: function() {
+		  showCreateGroup: function(query, page) {
 			  this.options.view.eventShowView('js-create-group');
 		  },
-		  showExpenseHistory: function() {
+		  showExpenseHistory: function(query, page) {
 			  this.options.view.eventShowView('js-expense-history');
 		  },
-		  showEditGroup: function() {
+		  showEditGroup: function(query, page) {
 			  this.options.view.eventShowView('js-edit-group');
 		  },
 		  showProfile: function(query, page) {
