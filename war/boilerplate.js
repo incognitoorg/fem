@@ -17,8 +17,7 @@ var require = {
 			mediator : 'core/mediator',
 			debugmode : 'libraries/debugmode/debugmode',
 			errorlogger : 'libraries/errorlogger/errorlogger',
-			persistence : 'libraries/lawnchair/lawnchair',
-			fbgraphinitializer : 'components/fbgraph-initializer/fbgraph-initializer'
+			persistence : 'libraries/lawnchair/lawnchair'
 		},
 		shim : {
 			'backbone' : {
