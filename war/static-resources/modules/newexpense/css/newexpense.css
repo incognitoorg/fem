@@ -1,21 +1,53 @@
-div.carousel>div{
+div.carousel>div {
 	position: absolute;
 	height: 100%;
 	float: left;
 }
 
-
-.carousel{
-	position:relative;
-	overflow : hidden;
+.carousel {
+	position: relative;
+	overflow: hidden;
 	height: 106px;
 }
-.item .navigator{
+
+.item .navigator {
 	position: absolute;
 	bottom: 0;
 }
 
-input[type="checkbox"]{
+/* input[type="checkbox"]{
 	width:40px;
 	height:40px;
+}
+ */
+.js-member-name {
+	font-size: 17px;
+	height: 17px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*TODO :Dont know why but styles from  foundation are not getting overridden with this for some reason*/
+	padding : 0!important;
+}
+
+.js-lock-button{
+	cursor : pointer;
+}
+
+.js-contribution-input,.js-pay-input{
+	padding : 0!important;
+}
+
+.item>.row{
+	padding-right : 10px;
+}
+
+.locked{
+	background-color: gray;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

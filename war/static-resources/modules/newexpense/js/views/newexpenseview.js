@@ -4,6 +4,8 @@ define(function(require) {
 	var SelectGroup = require('modules/selectgroup/selectgroup');
 	var CSS = require('css!./../../css/newexpense.css');
 	var JqueryTouch = require('libraries/jquery-mobile/jquery.mobile.touch.min');
+	var memberPayTemplate = require('text!./../../templates/member-pay.html');
+	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	
 	
 	var NewExpenseView = Sandbox.View.extend({
@@ -15,26 +17,90 @@ define(function(require) {
 			this.registerSubscribers();
 			this.start();
 		},
+		totalExpense : 0,
 		template : Handlebars.compile(require('text!./../../templates/newexpense.html')),
 		render : function(data) {
 			$(this.el).html(this.template(data));
+		},
+		events : {
+			'blur input.js-pay-input' : 'divideExpense',
+			'blur input.js-contribution-input' : 'adjustExpense',
+			'click .js-lock-button' : 'eventLockExpense'
 		},
 		start : function(){
 			this.objSelectGroup = SelectGroup.getInstance();
 			this.objSelectGroup.initialize({el:this.$('.js-select-group'), 'owner':'NEW-EXPENSE'});
 		},
 		registerSubscribers : function(){
-			Sandbox.subscribe('GROUP:SELECTED:NEW-EXPENSE', this.showNewExpenseForm, this);
+			Sandbox.subscribe('GROUP:SELECTED:NEW-EXPENSE', this.getGroupInfo, this);
 			                   
 		},
-		showNewExpenseForm : function(groupId){
+		getGroupInfo : function(groupId){
 			var self = this;
+			
+			Sandbox.doGet({
+				url :'_ah/api/groupendpoint/v1/group/' + groupId,
+				callback : this.showNewExpenseForm,
+				context : this
+			});
+			
+			
+			
+		},
+		showNewExpenseForm : function(response){
+			
+			console.log('group data', response);
+			
+		    var self = this;
 			this.$('.js-select-group').hide();
 			this.$('.js-new-expense-form').show();
+			
+			function normalize(data){
+				for ( var i = 0; i < data.members.length; i++) {
+					var d = data.members[i];
+					d.fullName = d.fullName || (d.firstName && d.lastName && d.firstName + ' ' + d.lastName) || '';
+				}
+				return data;
+			}
+			
+			response = normalize(response);
+			
+			this.createPayersSection(response.members);
+			this.createMembersSection(response.members);
 			
 			this.$('.carousel').each(function(index, el){
 				self.setCarousel(self.$(el));
 			});
+		},
+		createPayersSection : function(groupMembers){
+			var payersContainer = this.$('.js-payers');
+			var payerContentTemplate = Handlebars.compile(memberPayTemplate);
+			
+			var itemContainer = null;
+			for ( var i = 0; i < groupMembers.length; i++) {
+				if(i%5==0){
+					itemContainer = $('<div class=item>');
+					payersContainer.append(itemContainer);
+				}
+				var groupMember = groupMembers[i];
+				
+				itemContainer.append(payerContentTemplate(groupMember));
+			}
+		},
+		createMembersSection : function(groupMembers){
+			var payersContainer = this.$('.js-included-members');
+			var payerContentTemplate = Handlebars.compile(memberExpenseTemplate);
+			
+			var itemContainer = null;
+			for ( var i = 0; i < groupMembers.length; i++) {
+				if(i%5==0){
+					itemContainer = $('<div class=item>');
+					payersContainer.append(itemContainer);
+				}
+				var groupMember = groupMembers[i];
+				
+				itemContainer.append(payerContentTemplate(groupMember));
+			}
 		},
 		//TODO : To put this in jquery plugin or component
 		setCarousel : function(element){
@@ -93,6 +159,37 @@ define(function(require) {
 				});
 			});
 			
+		},
+		divideExpense : function(){
+			var payInputs =  this.$('.js-payers').find('input.js-pay-input');
+			var totalPayment = 0;
+			
+			payInputs.each(function(index, el){
+				totalPayment += Math.abs($(el).val());
+			});
+			this.totalExpense = totalPayment;
+			
+			
+			var lockedInputs = this.$('.js-included-members').find('input.js-contribution-input.locked');
+			var lockedExpense = 0;
+			
+			lockedInputs.each(function(index, el){
+				lockedExpense += Math.abs($(el).val());
+			});
+			
+			var expenseToDivide = totalPayment - lockedExpense;
+			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)');
+			contributionInputs.val((expenseToDivide/contributionInputs.length).toFixed(2));
+		},
+		adjustExpenses : function(){
+			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)');
+			contributionInputs.val((totalPayment/contributionInputs.length).toFixed(2));
+		},
+		eventLockExpense : function(event){
+			this.$(event.currentTarget).parent().
+			toggleClass('locked').
+			find('input').
+			toggleClass('locked');
 		}
 	});
 	
