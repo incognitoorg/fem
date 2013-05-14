@@ -1,16 +1,20 @@
 define(function(require) {
 
 	var FBAPI = require('http://connect.facebook.net/en_US/all.js');
+
 	var EnvVariables = require('envvariables');
 
-	// init the Facebook JS SDK
-	FB.init( {
-		appId : EnvVariables.FB_APP_ID,
-		//channelUrl: 'http://localhost:8888/channel.html', // Channel File for x-domain communication
-		status: true, // check the login status upon init?
-		cookie: true, // set sessions cookies to allow your server to access the session?
-		xfbml: true // parse XFBML tags on this page?
-	} );
+	if(typeof FB!=='undefined'){
+		
+		// init the Facebook JS SDK
+		FB.init( {
+			appId : EnvVariables.FB_APP_ID,
+			//channelUrl: 'http://localhost:8888/channel.html', // Channel File for x-domain communication
+			status: true, // check the login status upon init?
+			cookie: true, // set sessions cookies to allow your server to access the session?
+			xfbml: true // parse XFBML tags on this page?
+		} );
+	}
 
 	var FBAuthToken;
 
