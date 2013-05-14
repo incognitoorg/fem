@@ -2,7 +2,6 @@ define(function(require){
 	var Normalize = require('css!libraries/foundation/css/normalize.css');
 	
 	var Sandbox = require('sandbox');
-	var CSS = require('css!./../../css/login.css');
 	
 	var FBAPI = require('components/fbapi/fbapi');
 	var GoogleAPI = require('components/googleapi/googleapi');
