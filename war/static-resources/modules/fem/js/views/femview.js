@@ -1,7 +1,6 @@
 define(function(require){
 	
 	require('css!libraries/foundation/css/normalize.css');
-	require('css!libraries/foundation/css/foundation.min');
 	require('css!./../../css/fem.css');
 	require('css!./../../css/fonts/fonts.css');
 	var Backbone = require('backbone');
