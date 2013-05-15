@@ -24,7 +24,7 @@ define(function(require) {
 		},
 		events : {
 			'blur input.js-pay-input' : 'divideExpense',
-			'blur input.js-contribution-input' : 'adjustExpense',
+			'blur input.js-contribution-input' : 'adjustExpenses',
 			'click .js-lock-button' : 'eventLockExpense'
 		},
 		start : function(){
@@ -181,9 +181,15 @@ define(function(require) {
 			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)');
 			contributionInputs.val((expenseToDivide/contributionInputs.length).toFixed(2));
 		},
-		adjustExpenses : function(){
-			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)');
-			contributionInputs.val((totalPayment/contributionInputs.length).toFixed(2));
+		adjustExpenses : function(event){
+			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)').not(event.currentTarget);
+			var lockedInputs = this.$('.js-included-members').find('input.js-contribution-input.locked');
+			var lockedExpense = 0;
+			lockedInputs.each(function(index, el){
+				lockedExpense += Math.abs($(el).val());
+			});
+			var expenseToDivide = this.totalExpense - lockedExpense - $(event.currentTarget).val();
+			contributionInputs.val((expenseToDivide/contributionInputs.length).toFixed(2));
 		},
 		eventLockExpense : function(event){
 			this.$(event.currentTarget).parent().
