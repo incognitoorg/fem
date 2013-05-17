@@ -16,7 +16,9 @@ public class ExpenseInfo {
     private String expenseInfoId;
 	
 	private String userId;
+	private String expenseId;
 	private double amount;
+	
 	
 	public String getExpenseInfoId() {
 		return expenseInfoId;
@@ -35,6 +37,12 @@ public class ExpenseInfo {
 	}
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	public String getExpenseId() {
+		return expenseId;
+	}
+	public void setExpenseId(String expenseId) {
+		this.expenseId = expenseId;
 	}
 
 }

@@ -20,7 +20,11 @@ public class ExpenseEntity {
 	
 	private String name; 
 	private Date date;
+	
+	@Persistent(defaultFetchGroup = "true")
 	private List<ExpenseInfo> listPayersInfo;
+	
+	@Persistent(defaultFetchGroup = "true")
 	private List<ExpenseInfo> listIncludeMemberInfo;
 	
 	public String getExpenseEntityId() {

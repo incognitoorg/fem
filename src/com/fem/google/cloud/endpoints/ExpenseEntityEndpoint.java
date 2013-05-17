@@ -1,21 +1,19 @@
 package com.fem.google.cloud.endpoints;
 
-import com.fem.google.cloud.endpoints.PMF;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.inject.Named;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import javax.persistence.EntityNotFoundException;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 @Api(name = "expenseentityendpoint")
 public class ExpenseEntityEndpoint {
@@ -95,10 +93,24 @@ public class ExpenseEntityEndpoint {
 	public ExpenseEntity insertExpenseEntity(ExpenseEntity expenseentity) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (containsExpenseEntity(expenseentity)) {
+/*			if (containsExpenseEntity(expenseentity)) {
 				throw new EntityExistsException("Object already exists");
-			}
+			}*/
 			mgr.makePersistent(expenseentity);
+			
+			
+			for (Iterator iterator = expenseentity.getListIncludeMemberInfo().iterator(); iterator.hasNext();) {
+				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
+				objExpenseInfo.setExpenseId(expenseentity.getExpenseEntityId());
+			}
+			
+			for (Iterator iterator = expenseentity.getListPayersInfo().iterator(); iterator.hasNext();) {
+				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
+				objExpenseInfo.setExpenseId(expenseentity.getExpenseEntityId());
+			}
+			
+			mgr.makePersistent(expenseentity);
+			
 		} finally {
 			mgr.close();
 		}
