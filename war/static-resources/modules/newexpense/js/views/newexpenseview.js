@@ -6,6 +6,7 @@ define(function(require) {
 	var JqueryTouch = require('libraries/jquery-mobile/jquery.mobile.touch.min');
 	var memberPayTemplate = require('text!./../../templates/member-pay.html');
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
+	var ExpenseModel = require('./../models/expensemodel');
 	
 	
 	var NewExpenseView = Sandbox.View.extend({
@@ -25,7 +26,9 @@ define(function(require) {
 		events : {
 			'blur input.js-pay-input' : 'divideExpense',
 			'blur input.js-contribution-input' : 'adjustExpenses',
-			'click .js-lock-button' : 'eventLockExpense'
+			'click .js-lock-button' : 'eventLockExpense',
+			'click .js-select-expense' : 'toggleExpense',
+			'click .js-save-expense' : 'eventSaveExpense'
 		},
 		start : function(){
 			this.objSelectGroup = SelectGroup.getInstance();
@@ -54,6 +57,9 @@ define(function(require) {
 		    var self = this;
 			this.$('.js-select-group').hide();
 			this.$('.js-new-expense-form').show();
+			
+			var today = new Date();
+			this.$('.js-expense-date').val(1900+today.getYear() + '-' + ((today.getMonth()+1)>=10?today.getMonth()+1 : '0' +(today.getMonth()+1)) +'-' + today.getDate());
 			
 			function normalize(data){
 				for ( var i = 0; i < data.members.length; i++) {
@@ -183,7 +189,7 @@ define(function(require) {
 		},
 		adjustExpenses : function(event){
 			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)').not(event.currentTarget);
-			var lockedInputs = this.$('.js-included-members').find('input.js-contribution-input.locked');
+			var lockedInputs = this.$('.js-included-members').find('input.js-contribution-input.locked').not(event.currentTarget);
 			var lockedExpense = 0;
 			lockedInputs.each(function(index, el){
 				lockedExpense += Math.abs($(el).val());
@@ -196,6 +202,59 @@ define(function(require) {
 			toggleClass('locked').
 			find('input').
 			toggleClass('locked');
+		},
+		toggleExpense : function(event){
+			if(!$(event.currentTarget).is(':checked')){
+				this.$(event.currentTarget).parents('.js-expense-div')
+				.addClass('locked').addClass('selected')
+				.find('input.js-contribution-input')
+				.addClass('locked')
+				.attr('disabled', true)
+				.val(0);
+			} else {
+				this.$(event.currentTarget).parents('.js-expense-div')
+				.removeClass('locked').removeClass('selected')
+				.find('input.js-contribution-input')
+				.removeClass('locked')
+				.attr('disabled', false);
+			}
+			this.divideExpense();
+		},
+		eventSaveExpense : function(){
+			var payersInfo = [];
+			var includeMemberInfo = [];
+			
+			var payersInputs = this.$('.js-pay-input');
+			
+			payersInputs.each(function(index, el){
+				if(parseInt($(el).val())>0){
+					payersInfo.push({userId : $(el).data('userd'), amount:$(el).val()});
+				}
+			});
+			
+			var includedMembersInputs = this.$('.js-contribution-input[disabled!="disabled"]');
+			includedMembersInputs.each(function(index, el){
+				if(parseInt($(el).val())>0){
+					includeMemberInfo.push({userId : $(el).data('userd'), amount:$(el).val()});
+				}
+			});
+			
+			var objExpenseModel = new ExpenseModel({
+				name : this.$('.js-expense-name').val()!=""?this.$('.js-expense-name').val() : "Untitled",
+				date : this.$('.js-expense-date').val(),
+				listPayersInfo : payersInfo,
+				listIncludeMemberInfo : includeMemberInfo
+			});
+			
+			
+			Sandbox.doPost({
+				url :'_ah/api/expenseentityendpoint/v1/expenseentity',
+				callback : this.expenseSaved,
+				data : JSON.stringify(objExpenseModel.attributes)
+			});
+		},
+		expenseSaved : function(response){
+			
 		}
 	});
 	
