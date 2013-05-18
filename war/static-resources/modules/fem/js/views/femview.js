@@ -16,7 +16,7 @@ define(function(require){
 		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
 		'js-edit-group'			:		'modules/selectgroup/selectgroup', //TODO : Add wrapper of editgroup here and then in build.js
 		'js-new-expense'		:		'modules/newexpense/newexpense',
-		'js-expense-history'	:		'',
+		'js-expense-history'	:		'modules/expensehistory/expensehistory',
 		'js-dashboard'			:		'',
 		'js-profile'			:		'modules/profile/profile'
 	};
@@ -26,7 +26,7 @@ define(function(require){
 	this.femDashboard={};
 	//this.femProfile={};
 	//this.femCreateExpense={};
-	this.femEditExpense={};
+	//this.femEditExpense={};
 	
 	//Module instance mapper for identifying component
 	var componentMapper = {
