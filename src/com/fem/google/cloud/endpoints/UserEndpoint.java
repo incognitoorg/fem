@@ -333,5 +333,50 @@ public class UserEndpoint {
 		System.out.println(user.getGoogleId());
 		return user;
 	}
+
+	
+	/**
+	 * This method is supposed to retrieve all the expenses of a user with id.
+	 * @param id UserId of the user whose expenses to be fetched
+	 * */
+	@SuppressWarnings("unchecked")
+	@ApiMethod(
+ 			httpMethod = "GET", 
+ 			name = "user.expenses",
+			path="user/{id}/expenses"
+			)
+	public List<ExpenseEntity> getExpenses(@Named("id") String id) {
+		
+		List<ExpenseEntity> alExpenses = new ArrayList<ExpenseEntity>();
+		ExpenseInfo objExpenseInfo = null;
+		int iCounter = 0;
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query q = pm.newQuery(ExpenseInfo.class);
+
+		q.setFilter("userId == userIdParam");
+		q.declareParameters("String userIdParam");
+		
+		List<ExpenseInfo> execute = null;
+		
+		execute = (List<ExpenseInfo>)q.execute(id);
+		
+		while(iCounter < execute.size()){
+			objExpenseInfo = execute.get(iCounter++);
+			
+			q = pm.newQuery(ExpenseEntity.class);
+			
+			q.setFilter("expenseEntityId == expenseIdParam");
+			q.declareParameters("String expenseIdParam");
+			
+			alExpenses.addAll((List<ExpenseEntity>)q.execute(objExpenseInfo.getExpenseId()));
+		}
+		
+		return alExpenses;
+	}
 	
 }
+
+
+
