@@ -30,17 +30,20 @@ define(function(require) {
 			
 			var loginType = userInfo.loginType;
 			
+			var userInfo = login.getInfo();
 			
-			this.$('.js-fb-autocomplete').css('display', loginType==='facebook'?'':'none');
-			this.$('.js-fb-login').css('display', loginType!='facebook'?'':'none');
-			this.$('.js-google-autocomplete').css('display', loginType==='google'?'':'none' );
-			this.$('.js-google-login').css('display',  loginType!=='google'?'':'none');
+			
+			
+			this.$('.js-facebook-autocomplete').css('display', userInfo.facebook?'':'none');
+			this.$('.js-facebook-login').css('display', !userInfo.facebook?'':'none');
+			this.$('.js-google-autocomplete').css('display', userInfo.google?'':'none' );
+			this.$('.js-google-login').css('display',  !userInfo.google?'':'none');
 			
 		},
 		pluginInitializer : function(){
 			var self=this;
 			this.FBAuthToken=userInfo.facebook && userInfo.facebook.authToken;//TODO : This token expires in two months
-			this.$('.js-fb-friend-selector').autocomplete({
+			this.$('.js-facebook-friend-selector').autocomplete({
 				source: (function(){
 					var isDataObtained = false;
 					var dataObtained = [];
@@ -69,7 +72,7 @@ define(function(require) {
 						if(!isDataObtained){
 							// Call out to the Graph API for the friends list
 							$.ajax({
-								url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + self.FBAuthToken + '&pretty=0&sdk=joey',
+								url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + login.getInfo().facebook.authToken + '&pretty=0&sdk=joey',
 								dataType: "jsonp",
 								success: function(response){
 									var results = response;
@@ -89,7 +92,7 @@ define(function(require) {
 				select: function(event, ui) {
 					// Fill in the input fields
 					//self.$('.js-friend-selector').val(ui.item.label);
-					self.$('.js-fb-friend-selector').val('').focus();
+					self.$('.js-facebook-friend-selector').val('').focus();
 					var friendInfo = ui.item.value;
 					var normalizedFriendInfo = {
 						'fullName' : friendInfo.name,
@@ -104,7 +107,7 @@ define(function(require) {
 			});
 			
 			
-			var googleAccessToken = userInfo.google && userInfo.google.authToken;
+			var googleAccessToken =  userInfo.google && userInfo.google.authToken;
 			this.$('.js-google-friend-selector').autocomplete({
 				source: (function(){
 					var isDataObtained = false;
@@ -134,13 +137,17 @@ define(function(require) {
 								url: "https://www.google.com/m8/feeds/contacts/default/full?alt=json&max-results=9999",
 				                dataType: "jsonp",
 				                headers: "GData-Version: 3.0",
-				                data:{access_token: googleAccessToken},
+				                data:{access_token:  login.getInfo().google.authToken},
 								success: function(results){
 									isDataObtained = true;
 									dataObtained = results.feed.entry;
 									// Filter the results and return a label/value object array  
 									var formatted = filterData(dataObtained);
 									add(formatted);
+								}, 
+								error : function(xhr, errorText, error){
+								    console.log(error);
+								    console.log(errorText);
 								}
 							});
 						} else {
@@ -250,13 +257,19 @@ define(function(require) {
 			Sandbox.publish('FEM:DESTROY:COMPONENT',{name : 'js-create-group'});
 		},
 		doFacebookLogin : function(){
-			login.doFacebookLogin({userInfo : userInfo});
+			login.doFacebookLogin({userInfo : userInfo,context : this,  callback : this.reInitialize});
 		},
 		doGoogleLogin : function(){
-			login.doGoogleLogin({userInfo : userInfo});
+			login.doGoogleLogin({userInfo : userInfo, context : this, callback : this.reInitialize});
 		},
 		reInitialize : function(userData){
-			this.render(userData);
+			console.log('reinitialize create group view');
+			
+			var loginType = userData.loginType;
+			
+			
+			this.$('.js-' + loginType + '-autocomplete').css('display', '');
+			this.$('.js-' + loginType +'-login').css('display', 'none');
 		}
 		
 	});

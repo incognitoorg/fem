@@ -47,6 +47,7 @@ define(function(require){
 			// Step 6: Execute the API request
 			request.execute(function(resp) {
 				if(options.callback){
+					resp.authToken = authToken;
 					options.callback.call(options.context||this, {loginType : 'google', googleId : resp.id, data : resp});
 				}
 			});

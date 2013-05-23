@@ -8,7 +8,7 @@ define(function(require) {
 			this.view = new LoginView(options);
 		},
 		getInfo : function(){
-			return this.view.userInfo;
+			return this.view.getUserInfo();
 		},
 		doFacebookLogin : function(options){
 			this.view.eventDoFacebookLogin(options);

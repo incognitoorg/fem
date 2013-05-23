@@ -35,19 +35,32 @@ define(function(require){
 			
 		},
 		eventDoFacebookLogin : function(options){
+			var self = this;
 			FBAPI.checkAndDoLogin({callback : function(data){
+				self.addToUser({facebook:data.data});
 				if(options && options.userInfo){
 					data.userId = options.userInfo.userId;
 				}
-				this.doActualLogin.call(this, data);
+				if(options && options.callback){
+					options.callback.call(options.context, {loginType : 'facebook', data : data});
+				} else {
+					this.doActualLogin.call(this, data);
+				}
 			}, context : this});
 		},
 		eventDoGoogleLogin : function(options){
+		    var self = this;
 			GoogleAPI.checkAndDoLogin({callback : function(data){
+			    self.addToUser({google:data.data});
 				if(options && options.userInfo){
 					data.userId = options.userInfo.userId;
 				}
-				this.doActualLogin.call(this, data);
+
+				if(options && options.callback){
+					options.callback.call(options.context,  {loginType : 'google', data : data});
+				} else {
+					this.doActualLogin.call(this, data);
+				}
 			}, context : this});
 		},
 		doActualLogin : function(data){
@@ -57,7 +70,13 @@ define(function(require){
 
 			var ajaxOptions = {
 				url : '_ah/api/userendpoint/v1/user/doLogin',
-				callback : this.loginSucceded, 
+				callback : function(response){
+					if(data.callback){
+						data.callback.call(this, response);
+					} else {
+						this.loginSucceded.call(this, response);
+					}
+				}, 
 				errorCallback : this.somethingBadHappend,
 				context : this,
 				dataType: 'json',
@@ -101,6 +120,14 @@ define(function(require){
 		},
 		getFromSession : function(){
 			return localStorage.getItem('loggedInUser');
+		},
+		addToUser : function(data){
+		    var userInfo = JSON.parse(this.getFromSession());
+		    this.userInfo = $.extend(userInfo, data);
+		    this.addInSession(userInfo);
+		},
+		getUserInfo : function(){
+			return JSON.parse(this.getFromSession());
 		}
 	});
 	
