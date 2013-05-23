@@ -9,6 +9,12 @@ define(function(require) {
 		},
 		getInfo : function(){
 			return this.view.userInfo;
+		},
+		doFacebookLogin : function(options){
+			this.view.eventDoFacebookLogin(options);
+		}, 
+		doGoogleLogin : function(options){
+			this.view.eventDoGoogleLogin(options);
 		}
 	};
 

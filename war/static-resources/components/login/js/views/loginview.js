@@ -34,11 +34,21 @@ define(function(require){
 			'click .google' : 'eventDoGoogleLogin'
 			
 		},
-		eventDoFacebookLogin : function(){
-			FBAPI.checkAndDoLogin({callback : this.doActualLogin, context : this});
+		eventDoFacebookLogin : function(options){
+			FBAPI.checkAndDoLogin({callback : function(data){
+				if(options && options.userInfo){
+					data.userId = options.userInfo.userId;
+				}
+				this.doActualLogin.call(this, data);
+			}, context : this});
 		},
-		eventDoGoogleLogin : function(){
-			GoogleAPI.checkAndDoLogin({callback : this.doActualLogin, context : this});
+		eventDoGoogleLogin : function(options){
+			GoogleAPI.checkAndDoLogin({callback : function(data){
+				if(options && options.userInfo){
+					data.userId = options.userInfo.userId;
+				}
+				this.doActualLogin.call(this, data);
+			}, context : this});
 		},
 		doActualLogin : function(data){
 			var heightForLoader = document.getElementById('login').offsetHeight;

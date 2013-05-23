@@ -4,23 +4,26 @@ define(function(require) {
 	var Sandbox = require('sandbox');
 	var FBAPI = require('components/fbapi/fbapi');
 	var GoogleAPi = require('components/googleapi/googleapi');
-	var userInfo = require('components/login/login').getInfo();
+	var login = require('components/login/login');
 	var FormValidator = require("./../validator/addgroupvalidator");
 	var FEMFriendManager = require('modules/friendmanager/friendmanager');
 	require('http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
 	require('css!libraries/jquery-ui/css/themes/base/jquery.ui.autocomplete.css');
 	require('css!../../css/addgroup.css');
+	var userInfo = login.getInfo();
 
 	var FEMAddGroupView = Sandbox.View.extend({
 		initialize : function(options){
 			
-			this.render();
+			this.render(userInfo);
 			this.pluginInitializer();
 			this.registerValidator();
 			this.initializeSubComponents();
+			
+			Sandbox.subscribe('APP:START', this.reInitialize, this);
 		},
 		template : Handlebars.compile(require('text!./../../templates/addgrouptemplate.html')),
-		render : function(){
+		render : function(userInfo){
 			console.log('userInfo',userInfo);
 			
 			$(this.el).html(this.template());
@@ -60,12 +63,16 @@ define(function(require) {
 							return formatted;
 						}
 					
+						
+						
+						
 						if(!isDataObtained){
 							// Call out to the Graph API for the friends list
 							$.ajax({
 								url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + self.FBAuthToken + '&pretty=0&sdk=joey',
 								dataType: "jsonp",
-								success: function(results){
+								success: function(response){
+									var results = response;
 									isDataObtained = true;
 									dataObtained = results.data;
 									// Filter the results and return a label/value object array  
@@ -172,7 +179,9 @@ define(function(require) {
 			'click .js-invite-friend'					:	'eventInviteFriend',
 			'click .js-selected-friend-item-remove'		:	'eventRemoveSelectedFriend',
 			'click .js-save-group'						:	'eventSaveGroup',
-			'click .new-expense-button'					: 	'showNewExpenseForm'
+			'click .new-expense-button'					: 	'showNewExpenseForm',
+			'click .zocial.facebook'                    :   'doFacebookLogin',
+			'click .zocial.google'                      :   'doGoogleLogin'
 		},
 		registerValidator : function(){
 			FormValidator.initialize({'element':this.$(".js-add-group-form"),'errorWidth':'86%'});
@@ -239,6 +248,15 @@ define(function(require) {
 		showNewExpenseForm : function(){
 			Sandbox.publish('GROUP:SELECTED:NEW-EXPENSE', this.newAddedGroupInfo.groupId);
 			Sandbox.publish('FEM:DESTROY:COMPONENT',{name : 'js-create-group'});
+		},
+		doFacebookLogin : function(){
+			login.doFacebookLogin({userInfo : userInfo});
+		},
+		doGoogleLogin : function(){
+			login.doGoogleLogin({userInfo : userInfo});
+		},
+		reInitialize : function(userData){
+			this.render(userData);
 		}
 		
 	});

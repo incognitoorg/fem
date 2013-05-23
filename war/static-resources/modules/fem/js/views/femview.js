@@ -41,6 +41,7 @@ define(function(require){
 	
 	var menuHeight = 0;
 	var is_mobile = null;
+	var appstarted = false;
 	
 	var FEMView = Sandbox.View.extend({
 		initialize : function(options){
@@ -90,7 +91,10 @@ define(function(require){
 		},
 		start : function(userdata){
 			var redirectURL = location.href.substr(location.href.indexOf('#'));
-			this.render();
+			if(!appstarted){
+				this.render();
+				appstarted = true;
+			}
 			
 			//TODO : Put this in some common place
 			if( $('.is-mobile').css('display') == 'none' ) {
@@ -109,9 +113,10 @@ define(function(require){
 			this.menulength = this.$('.js-menu').length;
 			//Trying to make height responsive. Experimental. May need to throw this away.
 			//this.makeResponsive();
-			
-			this.router = new AppRouter({view : this});
-			Backbone.history.start();
+			if(!this.router){
+				this.router = new AppRouter({view : this});
+				Backbone.history.start();
+			}
 			this.router.navigate('#menu');
 
 			if(redirectURL.length>1){
@@ -119,6 +124,9 @@ define(function(require){
 			} else {
 				this.eventShowView('js-dashboard');
 			}
+			
+			Sandbox.publish('APP:START', userdata.data);
+			
 		},
 		redirectView : function(data){
 			this.eventShowView('js-dashboard');
