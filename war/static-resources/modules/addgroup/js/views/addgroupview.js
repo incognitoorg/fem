@@ -75,6 +75,10 @@ define(function(require) {
 								url: 'https://graph.facebook.com/me/friends?method=get&access_token=' + login.getInfo().facebook.authToken + '&pretty=0&sdk=joey',
 								dataType: "jsonp",
 								success: function(response){
+								    if(response.error && response.error.type==="OAuthException"){
+								        self.doFacebookLogin();
+								        return;
+								    }
 									var results = response;
 									isDataObtained = true;
 									dataObtained = results.data;
@@ -110,8 +114,8 @@ define(function(require) {
 			var googleAccessToken =  userInfo.google && userInfo.google.authToken;
 			this.$('.js-google-friend-selector').autocomplete({
 				source: (function(){
-					var isDataObtained = false;
-					var dataObtained = [];
+					var isGoogleDataObtained = false;
+					var googleDataObtained = [];
 					return function(request, add) {
 						$this = $(this);
 						var element = this.element;
@@ -131,7 +135,7 @@ define(function(require) {
 						}
 					
 						
-						if(!isDataObtained){
+						if(!isGoogleDataObtained){
 							// Call out to the Graph API for the friends list
 							$.ajax({
 								url: "https://www.google.com/m8/feeds/contacts/default/full?alt=json&max-results=9999",
@@ -139,19 +143,20 @@ define(function(require) {
 				                headers: "GData-Version: 3.0",
 				                data:{access_token:  login.getInfo().google.authToken},
 								success: function(results){
-									isDataObtained = true;
-									dataObtained = results.feed.entry;
+									isGoogleDataObtained = true;
+									googleDataObtained = results.feed.entry;
 									// Filter the results and return a label/value object array  
-									var formatted = filterData(dataObtained);
+									var formatted = filterData(googleDataObtained);
 									add(formatted);
 								}, 
 								error : function(xhr, errorText, error){
+								    self.doGoogleLogin();
 								    console.log(error);
 								    console.log(errorText);
 								}
 							});
 						} else {
-							var formatted = filterData(dataObtained);
+							var formatted = filterData(googleDataObtained);
 							add(formatted);
 						}
 					};

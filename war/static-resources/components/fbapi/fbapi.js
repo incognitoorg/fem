@@ -21,7 +21,7 @@ define(function(require) {
 
 	function getUserInfo(options){
 		FB.api('/me', function(response) {
-
+            response.authToken = FBAuthToken;
 			if(options.callback){
 				options.callback.call(options.context || this, {
 					loginType:'facebook', 
