@@ -40,7 +40,7 @@ define(function (require) {
 		var data = options.data;
 		var loader = options.loader;
 		
-		$.ajax({
+		return $.ajax({
 		  'url':url,
 		  'type': type, 
 		  'contentType':contentType,
@@ -85,7 +85,7 @@ define(function (require) {
 		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doUpdate(data);
 		} else {
-			this.doAjax(data);
+			return this.doAjax(data);
 		}
 	};
 	
@@ -121,7 +121,7 @@ define(function (require) {
 				}
 			});
 		
-			this.doAjax(extendedData);
+			return this.doAjax(extendedData);
 		}
 	};
 	
@@ -129,7 +129,7 @@ define(function (require) {
 		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doDelete(data);
 		} else {
-			this.doAjax(data);
+			return this.doAjax(data);
 		}
 	};
 	
@@ -187,7 +187,7 @@ define(function (require) {
 					}
 			});
 			
-			this.doAjax(data);
+			return this.doAjax(data);
 		}
 	};
 	
@@ -202,7 +202,7 @@ define(function (require) {
 					type : 'POST'
 			});
 			
-			this.doAjax(data);
+			return this.doAjax(data);
 		}
 	};
 	

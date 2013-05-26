@@ -42,36 +42,9 @@ define(function(require) {
 					amountToDistribute -= amountToDeduct;
 				}
 				calculatedIOU[payer.userId +"-"+ member.userId]={amount:amountToDeduct};
-				
-				
 			}
-			
-			
-			
-			
-			//payers[payer.userId] = {amount : payer.amount};
-			
-			
-			
-			
-			
 		}
-		
 		console.log('calculatedIOU', calculatedIOU);
-		
-		
-		
-		
-		
-		
-		/*for ( var i = 0; i < listIncludeMemberInfo.length; i++) {
-			var member = listIncludeMemberInfo[i];
-			membersIncluded[member.userId] = {amount : member.amount};
-		}*/
-		
-		
-		
-		
 		
 		var iouList = group.iouList;
 		for ( var i = 0; i < iouList.length; i++) {
@@ -92,13 +65,8 @@ define(function(require) {
 			}
 			
 		}
-		
 		console.log('iouList', iouList);
 		console.log('group', group);
-		
-		
-		
-		
 	};
 	
 	var NewExpenseView = Sandbox.View.extend({
