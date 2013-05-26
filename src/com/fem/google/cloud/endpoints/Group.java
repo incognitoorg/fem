@@ -23,12 +23,10 @@ public class Group {
 	private String ownerId;
 	
 	private ArrayList<User> members;
-	
 	private ArrayList<String> membersIdList;
 	
-	
-	
-	
+	@Persistent(defaultFetchGroup = "true")
+	private ArrayList<IOU> iouList;
 	
 	public String getGroupName() {
 		return groupName;
@@ -66,6 +64,12 @@ public class Group {
 	}
 	public void setMembersIdList(ArrayList<String> membersIdList) {
 		this.membersIdList = membersIdList;
+	}
+	public ArrayList<IOU> getIouList() {
+		return iouList;
+	}
+	public void setIouList(ArrayList<IOU> iouList) {
+		this.iouList = iouList;
 	}
 	
 	

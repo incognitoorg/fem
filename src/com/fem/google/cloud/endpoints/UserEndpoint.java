@@ -294,6 +294,7 @@ public class UserEndpoint {
 	public User getOrInsertUser(User user){
 		//TODO : Add support for app register and login
 		String apiId = null;
+		String userId = user.getUserId();
 		
 		long start = new Date().getTime();
 		

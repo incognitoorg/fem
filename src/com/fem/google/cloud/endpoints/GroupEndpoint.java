@@ -141,7 +141,10 @@ public class GroupEndpoint {
 				mgr.makePersistent(objGroupMemberMapping);
 			}
 			
-			this.generateIOUEntries(alTotalMembers, group, mgr);
+			ArrayList<IOU> alIOU = this.generateIOUEntries(alTotalMembers, group);
+			group.setIouList(alIOU);
+			
+			group = mgr.makePersistent(group);
 			
 		} finally {
 			mgr.close();
@@ -150,8 +153,9 @@ public class GroupEndpoint {
 	}
 
 	
-	private Object generateIOUEntries(ArrayList<User> allMembers, Group objGroup, PersistenceManager pm){
+	private ArrayList<IOU> generateIOUEntries(ArrayList<User> allMembers, Group objGroup){
 		
+		ArrayList<IOU> alIOU = new ArrayList<IOU>();
 		for (int i = 0; i < allMembers.size(); i++) {
 
 			User fromUser = allMembers.get(i);
@@ -164,14 +168,11 @@ public class GroupEndpoint {
 				objIOU.setFromUserId(fromUser.getUserId());
 				objIOU.setToUserId(toUser.getUserId());
 				objIOU.setAmount(0);
-				pm.makePersistent(objIOU);
+				alIOU.add(objIOU);
+				//pm.makePersistent(objIOU);
 			}
 		}
-		
-		
-		
-		
-		return null;
+		return alIOU;
 		
 	}
 	
@@ -189,6 +190,8 @@ public class GroupEndpoint {
 			if (!containsGroup(group)) {
 				throw new EntityNotFoundException("Object does not exist");
 			}
+			group.setMembers(null);//Removing members as they are not embedded.
+			
 			mgr.makePersistent(group);
 		} finally {
 			mgr.close();
