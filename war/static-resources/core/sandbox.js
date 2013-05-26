@@ -79,6 +79,9 @@ define(function (require) {
 	
 
 	Sandbox.doUpdate= function(data){
+		data.type="PUT";
+		data.dataType='json';
+		data.contentType='application/json';
 		if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doUpdate(data);
 		} else {

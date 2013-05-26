@@ -8,6 +8,98 @@ define(function(require) {
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	var ExpenseModel = require('./../models/expensemodel');
 	
+	function updatedIOU(expenseModel, group){
+		console.log(expenseModel);
+		console.log(group);
+		
+		var payers = {};
+		var membersIncluded = {};
+		var calculatedIOU = {};
+		
+		var listPayersInfo = expenseModel.listPayersInfo;
+		var listIncludeMemberInfo = expenseModel.listIncludeMemberInfo;
+		
+		for ( var i = 0,j=0; i < listPayersInfo.length; i++) {
+			var payer = listPayersInfo[i];
+			
+			var amountToDistribute = payer.amount;
+			while(amountToDistribute>0){
+				var member = listIncludeMemberInfo[j++];
+				//TODO : This is put when amount to distribute is not summing up with member amounts
+				//Need to put better approach here
+				if(!member){
+				    break;
+				}
+				var amountToDeduct = member.amount;
+				
+				if(amountToDistribute<amountToDeduct){
+					amountToDeduct = amountToDistribute;
+					//TODO : To check on the round approach for more correctness
+					member.amount -= Math.round(amountToDistribute);
+					amountToDistribute = 0;
+					j--;
+				} else {
+					amountToDistribute -= amountToDeduct;
+				}
+				calculatedIOU[payer.userId +"-"+ member.userId]={amount:amountToDeduct};
+				
+				
+			}
+			
+			
+			
+			
+			//payers[payer.userId] = {amount : payer.amount};
+			
+			
+			
+			
+			
+		}
+		
+		console.log('calculatedIOU', calculatedIOU);
+		
+		
+		
+		
+		
+		
+		/*for ( var i = 0; i < listIncludeMemberInfo.length; i++) {
+			var member = listIncludeMemberInfo[i];
+			membersIncluded[member.userId] = {amount : member.amount};
+		}*/
+		
+		
+		
+		
+		
+		var iouList = group.iouList;
+		for ( var i = 0; i < iouList.length; i++) {
+			var iou = iouList[i];
+			
+			var forwardKey = iou.fromUserId + "-" +iou.toUserId;
+			var forwardObj = calculatedIOU[forwardKey];
+			
+			if(forwardObj){
+				iou.amount +=forwardObj.amount;
+			} else {
+				var backwardKey = iou.toUserId + "-" +iou.fromUserId;
+				var backwardObj = calculatedIOU[backwardKey];
+				if(backwardObj){
+					iou.amount -=backwardObj.amount;
+				}
+				
+			}
+			
+		}
+		
+		console.log('iouList', iouList);
+		console.log('group', group);
+		
+		
+		
+		
+	};
 	
 	var NewExpenseView = Sandbox.View.extend({
 		initialize : function(options) {
@@ -54,6 +146,8 @@ define(function(require) {
 			
 			console.log('group data', response);
 			
+			this.group = response;
+			
 		    var self = this;
 			this.$('.js-select-group').hide();
 			this.$('.js-new-expense-form').show();
@@ -73,6 +167,8 @@ define(function(require) {
 			
 			this.createPayersSection(response.members);
 			this.createMembersSection(response.members);
+			
+			console.log('Group Info', response);
 			
 			this.$('.carousel').each(function(index, el){
 				self.setCarousel(self.$(el));
@@ -227,15 +323,15 @@ define(function(require) {
 			var payersInputs = this.$('.js-pay-input');
 			
 			payersInputs.each(function(index, el){
-				if(parseInt($(el).val())>0){
-					payersInfo.push({userId : $(el).data('userd'), amount:$(el).val()});
+				if(parseFloat($(el).val())>0){
+					payersInfo.push({userId : $(el).data('userd'), amount:parseFloat($(el).val())});
 				}
 			});
 			
 			var includedMembersInputs = this.$('.js-contribution-input[disabled!="disabled"]');
 			includedMembersInputs.each(function(index, el){
-				if(parseInt($(el).val())>0){
-					includeMemberInfo.push({userId : $(el).data('userd'), amount:$(el).val()});
+				if(parseFloat($(el).val())>0){
+					includeMemberInfo.push({userId : $(el).data('userd'), amount:parseFloat($(el).val())});
 				}
 			});
 			
@@ -252,9 +348,19 @@ define(function(require) {
 				callback : this.expenseSaved,
 				data : JSON.stringify(objExpenseModel.attributes)
 			});
+			
+			
+			updatedIOU(objExpenseModel.attributes, this.group);
+			
+			Sandbox.doUpdate({
+				url :'_ah/api/groupendpoint/v1/group/',
+				callback : this.expenseSaved,
+				context : this,
+				data : JSON.stringify(this.group)
+			});
 		},
 		expenseSaved : function(response){
-			
+			console.log(response);
 		}
 	});
 	

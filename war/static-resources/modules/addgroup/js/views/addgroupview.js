@@ -190,6 +190,7 @@ define(function(require) {
 			'click .js-add-friend'						:	'eventAddFriend',
 			'click .js-invite-friend'					:	'eventInviteFriend',
 			'click .js-selected-friend-item-remove'		:	'eventRemoveSelectedFriend',
+			'click .js-selected-friend-item-invite'		:	'eventInviteSelectedFriend',
 			'click .js-save-group'						:	'eventSaveGroup',
 			'click .new-expense-button'					: 	'showNewExpenseForm',
 			'click .zocial.facebook'                    :   'doFacebookLogin',
@@ -221,6 +222,11 @@ define(function(require) {
 			var removeFriend=$(event.currentTarget).parent('.js-selected-friend-remove-container').find('.js-selected-friend-remove-name').html();
 			$(event.currentTarget).parents('.js-selected-friend-item').remove();
 			this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
+		},
+		eventInviteSelectedFriend : function(event){
+			var removeFriend=$(event.currentTarget).parent('.js-selected-friend-remove-container').find('.js-selected-friend-remove-name').html();
+			$(event.currentTarget).parents('.js-selected-friend-item').remove();
+			//this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
 		},
 		eventSaveGroup : function(){
 			
