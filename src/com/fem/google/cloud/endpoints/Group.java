@@ -18,12 +18,14 @@ public class Group {
     @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
     private String groupId;
 
+	
 	private String groupName;
 	private String groupType;
 	private String ownerId;
 	
 	private ArrayList<User> members;
 	private ArrayList<String> membersIdList;
+	
 	
 	@Persistent(defaultFetchGroup = "true")
 	private ArrayList<IOU> iouList;

@@ -3,6 +3,7 @@ package com.fem.google.cloud.endpoints;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -206,9 +207,15 @@ public class UserEndpoint {
 			
 			q.setFilter("groupId == groupIdParam");
 			q.declareParameters("String groupIdParam");
+			//alGroups.addAll((List<Group>) q.execute(groupMemberMapping.getGroupId()));
+			//TODO : Doing too many queries here, Need to put in transaction and optimize using single query
+			alGroups.add(new GroupEndpoint().getGroup(groupMemberMapping.getGroupId()));
 			
-			alGroups.addAll((List<Group>) q.execute(groupMemberMapping.getGroupId()));
 		}
+		
+		
+		
+		
 		
 		return alGroups;
 	}
@@ -348,7 +355,10 @@ public class UserEndpoint {
 			)
 	public List<ExpenseEntity> getExpenses(@Named("id") String id) {
 		
-		List<ExpenseEntity> alExpenses = new ArrayList<ExpenseEntity>();
+		List<ExpenseEntity> alExpenses = null;
+		
+		HashMap<String, ExpenseEntity> hmExpenses = new HashMap<String, ExpenseEntity>();
+		
 		ExpenseInfo objExpenseInfo = null;
 		int iCounter = 0;
 		
@@ -371,11 +381,65 @@ public class UserEndpoint {
 			q.setFilter("expenseEntityId == expenseIdParam");
 			q.declareParameters("String expenseIdParam");
 			
-			alExpenses.addAll((List<ExpenseEntity>)q.execute(objExpenseInfo.getExpenseId()));
+			List<ExpenseEntity> listExpenseResult = (List<ExpenseEntity>)q.execute(objExpenseInfo.getExpenseId());
+			hmExpenses.put(listExpenseResult.get(0).getExpenseEntityId(), listExpenseResult.get(0));
 		}
+		
+		alExpenses = new ArrayList<ExpenseEntity>(hmExpenses.values());
 		
 		return alExpenses;
 	}
+	
+	
+	/**
+	 * This method is supposed to retrieve all the expenses of a user with id.
+	 * @param id UserId of the user whose expenses to be fetched
+	 * */
+	@SuppressWarnings("unchecked")
+	@ApiMethod(
+ 			httpMethod = "GET", 
+ 			name = "user.iou",
+			path="user/{id}/iou"
+			)
+	public List<IOU> getIOU(@Named("id") String id) {
+		
+		List<IOU> alIOU = null;
+		
+		HashMap<String, ExpenseEntity> hmExpenses = new HashMap<String, ExpenseEntity>();
+		
+		IOU objIOU = null;
+		int iCounter = 0;
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query q = pm.newQuery(IOU.class);
+
+		q.setFilter("fromUserId == userIdParam");
+		q.setFilter("toUserId == userIdParam");
+		q.declareParameters("String userIdParam");
+		q.declareParameters("String userIdParam");
+		
+		List<IOU> execute = null;
+		execute = (List<IOU>)q.execute(id);
+		
+		/*while(iCounter < execute.size()){
+			objIOU = execute.get(iCounter++);
+			
+			q = pm.newQuery(ExpenseEntity.class);
+			
+			q.setFilter("expenseEntityId == expenseIdParam");
+			q.declareParameters("String expenseIdParam");
+			
+			List<ExpenseEntity> listExpenseResult = (List<ExpenseEntity>)q.execute(objExpenseInfo.getExpenseId());
+			hmExpenses.put(listExpenseResult.get(0).getExpenseEntityId(), listExpenseResult.get(0));
+		}
+		
+		alExpenses = new ArrayList<ExpenseEntity>(hmExpenses.values());
+		*/
+		return execute;
+	}
+	
+	
 	
 }
 

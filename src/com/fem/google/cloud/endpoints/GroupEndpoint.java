@@ -90,6 +90,7 @@ public class GroupEndpoint {
 				alMembers.add(objMember);
 				
 			}
+			group.getIouList();//Cause The datastore does not support joins and therefore cannot honor requests to place related objects in the default fetch group. 
 		} finally {
 			mgr.close();
 		}
