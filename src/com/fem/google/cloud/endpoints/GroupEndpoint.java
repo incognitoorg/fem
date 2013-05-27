@@ -90,7 +90,9 @@ public class GroupEndpoint {
 				alMembers.add(objMember);
 				
 			}
-			group.getIouList();//Cause The datastore does not support joins and therefore cannot honor requests to place related objects in the default fetch group. 
+			for(IOU objIOU : group.getIouList()){
+				objIOU.getFromUserId();//Cause The datastore does not support joins and therefore cannot honor requests to place related objects in the default fetch group. 
+			}
 		} finally {
 			mgr.close();
 		}
@@ -131,7 +133,6 @@ public class GroupEndpoint {
 				alMembersIdList.add(user.getUserId());
 			}
 			//Pushing to databse since needs group id
-			group.setMembersIdList(alMembersIdList);
 			group = mgr.makePersistent(group);
 			
 			for (Iterator<User> iterator = alTotalMembers.iterator(); iterator.hasNext();) {
@@ -146,6 +147,7 @@ public class GroupEndpoint {
 			group.setIouList(alIOU);
 			
 			group = mgr.makePersistent(group);
+			group.setMembersIdList(alMembersIdList);
 			
 		} finally {
 			mgr.close();

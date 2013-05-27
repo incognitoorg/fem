@@ -14,11 +14,17 @@ public class IOU{
     @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String iouId;
 	
+	@Persistent
 	private String groupId;
+	@Persistent
 	private String fromUserId;
+	@Persistent
 	private String toUserId;
+	@Persistent
 	private double amount; 
 
+	
+	
 	public String getGroupId() {
 		return groupId;
 	}

@@ -33,6 +33,7 @@ public class User implements Serializable {
 	private String accessToken;
 
 	
+	
 	public String getFirstName() {
 		return firstName;
 	}

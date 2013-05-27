@@ -2,6 +2,7 @@ package com.fem.google.cloud.endpoints;
 
 import java.util.ArrayList;
 
+import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -26,8 +27,7 @@ public class Group {
 	private ArrayList<User> members;
 	private ArrayList<String> membersIdList;
 	
-	
-	@Persistent(defaultFetchGroup = "true")
+	@Persistent
 	private ArrayList<IOU> iouList;
 	
 	public String getGroupName() {
@@ -54,6 +54,7 @@ public class Group {
 	public void setMembers(ArrayList<User> members) {
 		this.members = members;
 	}
+	
 	public String getGroupId() {
 		return groupId;
 	}
