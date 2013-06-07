@@ -13,8 +13,10 @@ define(function(require){
 	
 	var LoginView = Backbone.View.extend({
 		initialize : function(options){
+			$('#mask').html('Checking if logged in....');
 			var userInfo = this.getFromSession();
 			if(userInfo && JSON.parse(userInfo)){
+				$('#mask').html('Logging in....');
 				this.userInfo = JSON.parse(userInfo);
 				this.startApp(userInfo);
 				document.getElementById('js-loader').setAttribute('style', 'display:none');
@@ -25,6 +27,9 @@ define(function(require){
 				//defaults here
 			}, options);
 			this.render();
+			this.show();
+			hideMask();
+			//$('#mask').css('z-index', 0).html('').hide();
 		},
 		render : function(){
 			//$(this.el).html(this.template());
@@ -64,9 +69,10 @@ define(function(require){
 			}, context : this});
 		},
 		doActualLogin : function(data){
+			showMask('Logging you in...');
 			var heightForLoader = document.getElementById('login').offsetHeight;
 			document.getElementById('logincontainer').setAttribute('style', 'display:none;');
-			document.getElementById('js-loader').setAttribute('style', 'height:'+ heightForLoader +'px');
+			//document.getElementById('js-loader').setAttribute('style', 'height:'+ heightForLoader +'px');
 
 			var ajaxOptions = {
 				url : '_ah/api/userendpoint/v1/user/doLogin',
@@ -88,7 +94,6 @@ define(function(require){
 			Sandbox.doPost(ajaxOptions);
 		},
 		loginSucceded : function(response){
-			document.getElementById('js-loader').setAttribute('style', 'display:none');
 
 			console.log('In loginSucceded');
 			console.log(response);
@@ -100,6 +105,7 @@ define(function(require){
 			this.userInfo[response.loginType].authToken = APIMapper[response.loginType].getAuthToken();
 			this.hide();
 			this.addInSession();
+			hideMask();
 			this.startApp();
 		},
 		startApp : function(){
@@ -110,6 +116,9 @@ define(function(require){
 		},
 		hide : function(){
 			$(this.el).hide();
+		},
+		show : function(){
+			$(this.el).show();
 		},
 		//TODO : Normalize data from different services in one common format
 		normalizeUserData : function(data){
