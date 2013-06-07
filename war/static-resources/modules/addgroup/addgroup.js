@@ -7,7 +7,10 @@ define(function(require) {
 			return {
 				initialize : function(options){
 					this.view = new FEMAddGroupView(options);
-				}
+				},
+				reInitialize : function(){
+					this.view.start();
+				} 
 			};
 		}
 	};

@@ -39,6 +39,10 @@ define(function(require) {
 				
 				var groupMembersMap = {};
 				
+				if(!iouList){
+					continue;
+				}
+				
 				for ( var j = 0; j < iouList.length; j++) {
 					var iou = iouList[j];
 					if(iou.fromUserId===userId){

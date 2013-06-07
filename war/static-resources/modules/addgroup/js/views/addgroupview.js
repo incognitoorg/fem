@@ -14,19 +14,21 @@ define(function(require) {
 
 	var FEMAddGroupView = Sandbox.View.extend({
 		initialize : function(options){
-			
+			this.start();
+		},
+		start : function(){
 			this.render(userInfo);
 			this.pluginInitializer();
 			this.registerValidator();
 			this.initializeSubComponents();
-			
-			Sandbox.subscribe('APP:START', this.reInitialize, this);
 		},
 		template : Handlebars.compile(require('text!./../../templates/addgrouptemplate.html')),
 		render : function(userInfo){
 			console.log('userInfo',userInfo);
 			
 			$(this.el).html(this.template());
+			
+			
 			
 			var loginType = userInfo.loginType;
 			
@@ -229,12 +231,10 @@ define(function(require) {
 			//this.friendCollection.remove(this.friendCollection.where({name : removeFriend}));
 		},
 		eventSaveGroup : function(){
-			
+			var self = this;
 			if(!$('.js-add-group-form').valid()){
 				return;
 			}
-			
-		    var self = this;
 			this.model = new self.friendManager.friendModel({
 				'groupName' 		: 	this.$('.js-group-name').val(),
 				'members'	:	(function(){

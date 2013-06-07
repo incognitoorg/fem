@@ -26,7 +26,11 @@ div.carousel>div {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	/*TODO :Dont know why but styles from  foundation are not getting overridden with this for some reason*/
-	padding : 0!important;
+	/*padding : 0!important;*/
+}
+
+.js-included-members .js-member-name {
+	padding-left : 0!important;
 }
 
 .js-lock-button{
@@ -45,9 +49,20 @@ div.carousel>div {
 	background-color: gray;
 }
 
+.all-container{
+	height : 30px;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+.js-lock-button{
+	float: left;
+	background: url("http://cdn3.iconfinder.com/data/icons/pyconic-icons-1-2/512/lock-48.png");
+	background-size: 35px;
+	background-position-x: 50%;
+	background-position-y: -75%;
+	height: 39px;
 }

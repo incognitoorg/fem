@@ -13,7 +13,6 @@ define(function(require){
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
 		'js-create-group'		:		'modules/addgroup/addgroup',
-		//'js-edit-group'			:		'modules/groupmanager/groupmanager',
 		'js-edit-group'			:		'modules/selectgroup/selectgroup', //TODO : Add wrapper of editgroup here and then in build.js
 		'js-new-expense'		:		'modules/newexpense/newexpense',
 		'js-expense-history'	:		'modules/expensehistory/expensehistory',
@@ -126,7 +125,9 @@ define(function(require){
 			}
 			
 			Sandbox.publish('APP:START', userdata.data);
-			
+			//TODO 
+			hideMask();
+					
 		},
 		redirectView : function(data){
 			this.eventShowView('js-dashboard');
@@ -141,7 +142,7 @@ define(function(require){
 			}else {
 				$(publishedData['element']).show();
 				if(componentMapper[publishedData.clickedMenu].reInitialize){
-					componentMapper[publishedData.clickedMenu].reInitialize();
+					componentMapper[publishedData.clickedMenu].reInitialize.apply(componentMapper[publishedData.clickedMenu]);
 				}
 			}
 			this.hideMenu();

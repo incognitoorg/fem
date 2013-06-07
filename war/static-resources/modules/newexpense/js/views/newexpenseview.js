@@ -12,8 +12,6 @@ define(function(require) {
 		console.log(expenseModel);
 		console.log(group);
 		
-		var payers = {};
-		var membersIncluded = {};
 		var calculatedIOU = {};
 		
 		var listPayersInfo = expenseModel.listPayersInfo;
@@ -41,7 +39,7 @@ define(function(require) {
 				} else {
 					amountToDistribute -= amountToDeduct;
 				}
-				calculatedIOU[payer.userId +"-"+ member.userId]={amount:amountToDeduct};
+				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
 			}
 		}
 		console.log('calculatedIOU', calculatedIOU);
@@ -88,10 +86,26 @@ define(function(require) {
 			'blur input.js-contribution-input' : 'adjustExpenses',
 			'click .js-lock-button' : 'eventLockExpense',
 			'click .js-select-expense' : 'toggleExpense',
-			'click .js-save-expense' : 'eventSaveExpense'
+			'click .js-save-expense' : 'eventSaveExpense',
+			'click .js-allmembers' : 'toggleAllMembers'
+		},
+		reInitialize : function(){
+			this.$('.js-select-group').show();
+			this.$('.js-new-expense-form').hide();
+			this.$('.js-success-message').hide();
+			this.objSelectGroup.reInitialize();
+			
 		},
 		start : function(){
-			this.objSelectGroup = SelectGroup.getInstance();
+			if(this.objSelectGroup){
+				Sandbox.destroy(this.objSelectGroup);
+			} else {
+				this.objSelectGroup = SelectGroup.getInstance();
+			}
+			
+			this.$('.js-select-group').show();
+			this.$('.js-new-expense-form').hide();
+			this.$('.js-success-message').hide();
 			this.objSelectGroup.initialize({el:this.$('.js-select-group'), 'owner':'NEW-EXPENSE'});
 		},
 		registerSubscribers : function(){
@@ -143,7 +157,7 @@ define(function(require) {
 			});
 		},
 		createPayersSection : function(groupMembers){
-			var payersContainer = this.$('.js-payers');
+			var payersContainer = this.$('.js-payers').html('');
 			var payerContentTemplate = Handlebars.compile(memberPayTemplate);
 			
 			var itemContainer = null;
@@ -158,7 +172,7 @@ define(function(require) {
 			}
 		},
 		createMembersSection : function(groupMembers){
-			var payersContainer = this.$('.js-included-members');
+			var payersContainer = this.$('.js-included-members').html('');
 			var payerContentTemplate = Handlebars.compile(memberExpenseTemplate);
 			
 			var itemContainer = null;
@@ -285,6 +299,7 @@ define(function(require) {
 			this.divideExpense();
 		},
 		eventSaveExpense : function(){
+			var self = this;
 			var payersInfo = [];
 			var includeMemberInfo = [];
 			
@@ -313,22 +328,37 @@ define(function(require) {
 			
 			Sandbox.doPost({
 				url :'_ah/api/expenseentityendpoint/v1/expenseentity',
-				callback : this.expenseSaved,
-				data : JSON.stringify(objExpenseModel.attributes)
+				callback : function(response){
+					self.expenseSaved(response, objExpenseModel);
+				},
+				data : JSON.stringify(objExpenseModel.attributes),
+				contex : self
 			});
 			
 			
-			updatedIOU(objExpenseModel.attributes, this.group);
 			
+		},
+		expenseSaved : function(response, objExpenseModel){
+			var self = this;
+			//TODO : Use promise to make both calls simultaneouly
+			updatedIOU(objExpenseModel.attributes, this.group);
 			Sandbox.doUpdate({
 				url :'_ah/api/groupendpoint/v1/group/',
-				callback : this.expenseSaved,
-				context : this,
+				callback : function(response){
+					self.groupSaved(objExpenseModel);
+				},
+				context : self,
 				data : JSON.stringify(this.group)
 			});
 		},
-		expenseSaved : function(response){
-			console.log(response);
+		groupSaved : function(objExpenseModel){
+			this.$('.js-new-expense-form').hide();
+			this.$('.js-success-message').show();
+		},
+		toggleAllMembers : function(event){
+			var selectAll = $(event.currentTarget).is(':checked');
+			this.$('.js-select-expense').prop('checked', !selectAll).click();
+			this.divideExpense();
 		}
 	});
 	
