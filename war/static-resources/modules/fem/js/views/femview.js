@@ -29,12 +29,12 @@ define(function(require){
 	
 	//Module instance mapper for identifying component
 	var componentMapper = {
-		'js-create-group'		:	this.femCreateGroup,
-		'js-edit-group'			:	this.femEditGroup,
-		'js-new-expense'		:	this.femCreateExpense,
-		'js-expense-history'	:	this.femEditExpense,
-		'js-dashboard'			:	this.femDashboard,
-		'js-profile'			:	this.femProfile
+		'js-create-group'		:	{module :this.femCreateGroup, 'name' : 'Create Group'},
+		'js-edit-group'			:	{module :this.femEditGroup, 'name' : 'Edit Group'},
+		'js-new-expense'		:	{module :this.femCreateExpense, 'name' : 'Add New Expense'},
+		'js-expense-history'	:	{module :this.femEditExpense, 'name' : 'Expnese History'},
+		'js-dashboard'			:	{module :this.femDashboard, 'name' : 'Dashboard'},
+		'js-profile'			:	{module :this.femProfile, 'name' : 'My Profile'}
 	};
 	
 	
@@ -133,11 +133,12 @@ define(function(require){
 			this.eventShowView('js-dashboard');
 		},
 		showFEMComponent : function(publishedData){
-			console.log('publishedData',publishedData);
-			if(!componentMapper[publishedData.clickedMenu]){
+			this.$('.js-currently-showing').html(componentMapper[publishedData.clickedMenu].name);
+			if(!componentMapper[publishedData.clickedMenu].module){
 				require([componentPathMapper[publishedData.clickedMenu]],function(FEMComponent){
-					componentMapper[publishedData.clickedMenu]=FEMComponent.getInstance();
-					componentMapper[publishedData.clickedMenu].initialize({'moduleName':publishedData.clickedMenu,'el':publishedData['element']});
+					componentMapper[publishedData.clickedMenu]=componentMapper[publishedData.clickedMenu];
+					componentMapper[publishedData.clickedMenu].module =FEMComponent.getInstance();
+					componentMapper[publishedData.clickedMenu].module.initialize({'moduleName':publishedData.clickedMenu,'el':publishedData['element']});
 				});
 			}else {
 				$(publishedData['element']).show();
@@ -151,31 +152,30 @@ define(function(require){
 			Sandbox.destroy(componentMapper[data.name]);
 			componentMapper[data.name]=null;
 		},
-		showMenu : function(){
+		showMenu : function(event){
+			
 			var self = this;
 			if(is_mobile){
-				this.$('.js-show-hide-section').css({'position':'relative'});
+				//this.$('.js-show-hide-section').css({'position':'relative'});
+				this.$('.js-show-menu').removeClass('js-show-menu').addClass('js-hide-menu');
 				window.scrollTo(0,0);
 				self.$('.js-left-side-menu').animate({
-					top: 0,
+					top: this.$('.js-show-hide-section').height(),
 				}, 1000, function() {
 					// Animation complete.
-					self.$('.js-hide-menu').show();
-					self.$('.js-show-menu').hide();
 				});
 				
 			}
 		},
-		hideMenu : function(){
+		hideMenu : function(event){
+			console.time('hidemenu');
 			var self = this;
 			if(is_mobile){
-				self.$('.js-show-menu').show();
-				self.$('.js-hide-menu').hide();
+				self.$('.js-hide-menu').removeClass('js-hide-menu').addClass('js-show-menu');
 				this.$('.js-left-side-menu').animate({
 				    top: -menuHeight,
 				  }, 1000, function() {
 				    // Animation complete.
-					  self.$('.js-show-hide-section').css({'position':'fixed', top:0});
 				  });
 				
 			}
