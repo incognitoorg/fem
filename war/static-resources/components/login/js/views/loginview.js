@@ -19,7 +19,6 @@ define(function(require){
 				$('#mask').html('Logging in....');
 				this.userInfo = JSON.parse(userInfo);
 				this.startApp(userInfo);
-				document.getElementById('js-loader').setAttribute('style', 'display:none');
 				this.hide();
 				return;
 			}
@@ -29,7 +28,6 @@ define(function(require){
 			this.render();
 			this.show();
 			hideMask();
-			//$('#mask').css('z-index', 0).html('').hide();
 		},
 		render : function(){
 			//$(this.el).html(this.template());
@@ -70,9 +68,7 @@ define(function(require){
 		},
 		doActualLogin : function(data){
 			showMask('Logging you in...');
-			var heightForLoader = document.getElementById('login').offsetHeight;
 			document.getElementById('logincontainer').setAttribute('style', 'display:none;');
-			//document.getElementById('js-loader').setAttribute('style', 'height:'+ heightForLoader +'px');
 
 			var ajaxOptions = {
 				url : '_ah/api/userendpoint/v1/user/doLogin',
