@@ -29,8 +29,8 @@ define(function(require) {
 			console.log('groups', groups);
 			
 			
-			var payers = {};
-			var owers = {};
+			var owesToMe = {};
+			var iOweToThem = {};
 			var allMembers = {};
 			for ( var i = 0; i < groups.length; i++) {
 				var group = groups[i];
@@ -47,20 +47,20 @@ define(function(require) {
 					var iou = iouList[j];
 					if(iou.fromUserId===userId){
 						if(iou.amount>0){
-							payers[iou.toUserId] = payers[iou.toUserId] || {amount : 0};
-							payers[iou.toUserId].amount += iou.amount;
+							owesToMe[iou.toUserId] = owesToMe[iou.toUserId] || {amount : 0};
+							owesToMe[iou.toUserId].amount += iou.amount;
 						} else {
-							owers[iou.toUserId] = owers[iou.toUserId] || {amount : 0};
-							owers[iou.toUserId].amount += iou.amount;
+							iOweToThem[iou.toUserId] = iOweToThem[iou.toUserId] || {amount : 0};
+							iOweToThem[iou.toUserId].amount += iou.amount;
 						}
 						
 					} else if(iou.toUserId===userId){
 						if(iou.amount>0){
-							payers[iou.fromUserId] = payers[iou.toUserId] || {amount : 0};
-							payers[iou.fromUserId].amount += iou.amount;
+							owesToMe[iou.fromUserId] = owesToMe[iou.toUserId] || {amount : 0};
+							owesToMe[iou.fromUserId].amount += iou.amount;
 						} else {
-							owers[iou.fromUserId] = owers[iou.fromUserId] || {amount : 0};
-							owers[iou.fromUserId].amount += iou.amount;
+							iOweToThem[iou.fromUserId] = iOweToThem[iou.fromUserId] || {amount : 0};
+							iOweToThem[iou.fromUserId].amount += iou.amount;
 						}
 					}
 				}
@@ -74,22 +74,22 @@ define(function(require) {
 				
 			}
 			
-			console.log('payers', payers);
-			console.log('owers', owers);
+			console.log('owesToMe', owesToMe);
+			console.log('iOweToThem', iOweToThem);
 			console.log('allMembers', allMembers);
 			
-			for(payerIndex in payers){
-				var payer = payers[payerIndex];
-				var memberInfo = allMembers[payerIndex];
-				
-				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + payer.amount));
-			}
-			
-			for(owerIndex in owers){
-				var ower = owers[owerIndex];
+			for(owerIndex in owesToMe){
+				var ower = owesToMe[owerIndex];
 				var memberInfo = allMembers[owerIndex];
 				
 				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + ower.amount));
+			}
+			
+			for(payerIndex in iOweToThem){
+				var payer = iOweToThem[payerIndex];
+				var memberInfo = allMembers[payerIndex];
+				
+				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + payer.amount));
 			}
 			
 		}

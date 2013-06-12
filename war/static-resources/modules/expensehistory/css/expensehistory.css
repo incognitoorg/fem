@@ -1,5 +1,4 @@
 .expense {
-	height: 2em;
 	line-height: 2em;
 	cursor: pointer;
 	margin : auto 0!important;
@@ -19,3 +18,14 @@ div.expense:nth-child(2n){
 	border-bottom : 0px solid gray;
 }
 
+.sentense-fillers{
+	padding-left:5px;
+	padding-right:5px;
+	font-size: 0.9em;
+}
+.on.sentense-fillers{
+	padding-left:0;
+}
+.amount,.expense-name{
+	font-size: 2em;
+}
