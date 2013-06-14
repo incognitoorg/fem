@@ -33,6 +33,7 @@ define(function(require) {
 			
 			
 			function normalizeExpense(expense){
+				//var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 				for ( var i = 0; i < expense.listIncludeMemberInfo.length; i++) {
 					var memberInfo = expense.listIncludeMemberInfo[i];
 					if(memberInfo.userId==userInfo.userId){
@@ -40,6 +41,8 @@ define(function(require) {
 						break;
 					}
 				}
+				expense.day = new Date(expense.date).toDateString();
+				//expense.date = new Date(expense.date);
 				return expense;
 			}
 			

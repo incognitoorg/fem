@@ -25,6 +25,7 @@ div.expense:nth-child(2n){
 }
 .on.sentense-fillers{
 	padding-left:0;
+	font-style:italic;
 }
 .amount,.expense-name{
 	font-size: 2em;
