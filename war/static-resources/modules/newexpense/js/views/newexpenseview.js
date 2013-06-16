@@ -325,7 +325,7 @@ define(function(require) {
 				listIncludeMemberInfo : includeMemberInfo
 			});
 			
-			
+			showMask('Adding expense...');
 			Sandbox.doPost({
 				url :'_ah/api/expenseentityendpoint/v1/expenseentity',
 				callback : function(response){
@@ -354,6 +354,7 @@ define(function(require) {
 		groupSaved : function(objExpenseModel){
 			this.$('.js-new-expense-form').hide();
 			this.$('.js-success-message').show();
+			hideMask();
 		},
 		toggleAllMembers : function(event){
 			var selectAll = $(event.currentTarget).is(':checked');

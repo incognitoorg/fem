@@ -255,12 +255,14 @@ define(function(require) {
 				context : this,
 				data : this.model.attributes
 			};
+			showMask('Creating group...');
 			Sandbox.doAdd(addAjaxOptions);
 		},
 		groupAddedSuccessFully : function(data){
 			this.$('.js-success-message').show();
 			this.$('.js-add-group-form').hide();
 			this.newAddedGroupInfo = data;
+			hideMask();
 			
 		},
 		showNewExpenseForm : function(){

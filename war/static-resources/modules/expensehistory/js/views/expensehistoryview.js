@@ -47,6 +47,11 @@ define(function(require) {
 			}
 			
 			var expenses = response.items;
+			
+			expenses = expenses.sort(function(a,b){
+				 return a.date<b.date?1:a.date>b.date?-1:0;
+			});
+			
 			var expensesContainer = this.$('.js-expenses-container').html('');
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];

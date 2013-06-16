@@ -6,6 +6,9 @@ define(function(require) {
 			return {
 				initialize : function(options) {
 					this.view = new DashboardView(options);
+				},
+				reInitialize : function(){
+					this.view.reInitialize();
 				}
 			};
 		}

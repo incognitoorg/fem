@@ -30,3 +30,8 @@ div.expense:nth-child(2n){
 .amount,.expense-name{
 	font-size: 2em;
 }
+
+.amount-row{
+	height: 35px;
+	overflow: hidden;
+}

@@ -78,12 +78,36 @@ define(function(require) {
 			console.log('iOweToThem', iOweToThem);
 			console.log('allMembers', allMembers);
 			
+			
+			
+			
+			function consolidateOwerPayers(owesToMe, iOweToThem){
+				for(var index in owesToMe){
+					if(iOweToThem[index]){
+						var difference = Math.abs(Math.abs(iOweToThem[index].amount) - owesToMe[index].amount);
+						if(Math.abs(iOweToThem[index].amount)>Math.abs(owesToMe[index].amount)){
+							iOweToThem[index].amount = -difference;
+							delete owesToMe[index];
+						} else {
+							owesToMe[index].amount = difference;
+							delete iOweToThem[index];
+						}
+					}
+				}
+			}
+			
+			consolidateOwerPayers(owesToMe, iOweToThem);
+			this.$('.js-owers').html('');
 			for(owerIndex in owesToMe){
 				var ower = owesToMe[owerIndex];
 				var memberInfo = allMembers[owerIndex];
 				
 				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + ower.amount));
 			}
+			
+			this.$('.js-payers').html('');
+			
+			
 			
 			for(payerIndex in iOweToThem){
 				var payer = iOweToThem[payerIndex];
@@ -92,6 +116,9 @@ define(function(require) {
 				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + payer.amount));
 			}
 			
+		},
+		reInitialize : function(){
+			this.getDashboardData();
 		}
 	});
 	return DashboardView;

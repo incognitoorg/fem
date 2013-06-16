@@ -142,8 +142,8 @@ define(function(require){
 				});
 			}else {
 				$(publishedData['element']).show();
-				if(componentMapper[publishedData.clickedMenu].reInitialize){
-					componentMapper[publishedData.clickedMenu].reInitialize.apply(componentMapper[publishedData.clickedMenu]);
+				if(componentMapper[publishedData.clickedMenu].module.reInitialize){
+					componentMapper[publishedData.clickedMenu].module.reInitialize.apply(componentMapper[publishedData.clickedMenu].module);
 				}
 			}
 			this.hideMenu();
