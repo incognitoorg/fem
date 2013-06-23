@@ -70,6 +70,8 @@ define(function(require){
 			showMask('Logging you in...');
 			document.getElementById('logincontainer').setAttribute('style', 'display:none;');
 
+			this.normalizeUserData(data);
+			
 			var ajaxOptions = {
 				url : '_ah/api/userendpoint/v1/user/doLogin',
 				callback : function(response){
@@ -118,6 +120,12 @@ define(function(require){
 		},
 		//TODO : Normalize data from different services in one common format
 		normalizeUserData : function(data){
+			console.log('Normalize user data',data);
+			if(data.loginType==='facebook'){
+				data.fullName = data.fullName || (data.firstName + ' ' + data.lastName);
+			} else if(data.loginType==='google'){
+				data.fullName = data.fullName || (data.data.name.givenName + ' ' + data.data.name.familyName);
+			}
 			return data;
 		},
 		addInSession : function(){
