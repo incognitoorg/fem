@@ -3,8 +3,8 @@ define(function(require){
 	
 	var Sandbox = require('sandbox');
 	
-	var FBAPI = require('components/fbapi/fbapi');
 	var GoogleAPI = require('components/googleapi/googleapi');
+	var FBAPI = require('components/fbapi/fbapi');
 	
 	var APIMapper = {
 			facebook : FBAPI,
@@ -132,7 +132,9 @@ define(function(require){
 			localStorage.setItem('loggedInUser',JSON.stringify( this.userInfo));
 		},
 		getFromSession : function(){
-			return localStorage.getItem('loggedInUser');
+			var loggedInUser = localStorage.getItem('loggedInUser');
+			
+			return loggedInUser;
 		},
 		addToUser : function(data){
 		    var userInfo = JSON.parse(this.getFromSession());
@@ -140,7 +142,12 @@ define(function(require){
 		    this.addInSession(userInfo);
 		},
 		getUserInfo : function(){
-			return JSON.parse(this.getFromSession());
+			var userObject = JSON.parse(this.getFromSession());
+			if(userObject && userObject.userId && localStorage.getItem('user')){
+				var userData = JSON.parse(localStorage.getItem('user'))[userObject.userId];
+				_.extend(userObject, userData);
+			}
+			return userObject;
 		}
 	});
 	
