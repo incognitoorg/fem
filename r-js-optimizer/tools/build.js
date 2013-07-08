@@ -162,7 +162,11 @@
         //In this example, common.js will hold jquery, so backbone
         //needs to be delayed from loading until common.js finishes.
         //That loading sequence is controlled in page1.js.
-        
+        /*{
+        	name :'envvariables',
+            include: ['core/envvariables'],
+        	exclude: []
+        },*/
         {
         	name :'bootloaders/fembootloader/fembootloader',
             include: ['bootloaders/fembootloader/fembootloader'],
