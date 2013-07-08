@@ -2,7 +2,7 @@
 define(function (require) {
 
 	var mediator = require('mediator'), 
-	Mz = require('http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'),
+	//Mz = require('http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'),
 	EnvVariables = require('envvariables'),
 	locallayer = require('locallayer');
 	
@@ -82,24 +82,40 @@ define(function (require) {
 		data.type="PUT";
 		data.dataType='json';
 		data.contentType='application/json';
-		if(Modernizr.localstorage && !navigator.onLine){
+		/*if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doUpdate(data);
-		} else {
+		} else */{
 			return this.doAjax(data);
 		}
 	};
 	
-	Sandbox.doGet = function(data){
-	    var callback = data.callback;
-		if(Modernizr.localstorage && !navigator.onLine){
-			locallayer.doGet(data);
-		} else {
-			var extendedData = _.extend(data, {
+	Sandbox.doGet = function(options){
+	    var callback = options.callback;
+	    
+	    var URL = options.url;
+	    var endPointURL = URL.substr(URL.indexOf('endpoint'));
+
+	    var splits = endPointURL.split('/');
+
+	    splits = splits.splice(2);
+
+	    var endPointType = splits[0];
+	    var thisEndPoint = {};
+
+	    var typeOfEndPointObject = (localStorage.getItem(endPointType) && JSON.parse(localStorage.getItem(endPointType))) || {};
+	    if(splits[1]){
+	    	thisEndPoint = typeOfEndPointObject[splits[1]] = typeOfEndPointObject[splits[1]] || {};
+	    }
+	    
+		/*if(Modernizr.localstorage && !navigator.onLine){
+			locallayer.doGet(options);
+		} else */{
+			var extendedData = _.extend(options, {
 				dataType: 'json',
 				contentType: 'application/json',
 				type : 'GET',
 				callback : function(response){
-					  var URL = data.url;
+					  /*var URL = data.url;
 					  var endPointURL = URL.substr(URL.indexOf('endpoint'));
 					  
 					  var splits = endPointURL.split('/');
@@ -111,24 +127,29 @@ define(function (require) {
 					  var typeOfEndPointObject = (localStorage.getItem(endPointType) && JSON.parse(localStorage.getItem(endPointType))) || {};
 					  if(splits[1]){
 						  var thisEndPoint = typeOfEndPointObject[splits[1]] = typeOfEndPointObject[splits[1]] || {};
-					  }
+					  }*/
 					  if(splits[2]){
-						  var thisEndPointInfo = thisEndPoint[splits[2]] = response;
+						  thisEndPoint[splits[2]] = response;
 					  }
 					  localStorage.setItem(endPointType, JSON.stringify(typeOfEndPointObject));
 					  
-					  callback.call(data.context, response);
+					  callback.call(options.context, response);
 				}
 			});
-		
+
+			
+			if(options.cached){
+				var cachedData = thisEndPoint[splits[2]];
+				callback.call(options.context, cachedData);
+			}
 			return this.doAjax(extendedData);
 		}
 	};
 	
 	Sandbox.doDelete = function(data){
-		if(Modernizr.localstorage && !navigator.onLine){
+		/*if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doDelete(data);
-		} else {
+		} else */{
 			return this.doAjax(data);
 		}
 	};
@@ -137,8 +158,8 @@ define(function (require) {
 		var callback = data.callback;
 		
 		
-		
-		if(Modernizr.localstorage && !navigator.onLine){
+		var storedAllUserData;
+		/*if(Modernizr.localstorage && !navigator.onLine){
 			var URL = data.url;
 			var endPointURL = URL.substr(URL.indexOf('endpoint'));
 			
@@ -159,7 +180,7 @@ define(function (require) {
 			}
 			callback.call(data.context, data.data);
 			//locallayer.doAdd(data);
-		} else {
+		} else */{
 			
 			var data = _.extend(data, {
 					dataType: 'json',
@@ -192,9 +213,9 @@ define(function (require) {
 	};
 	
 	Sandbox.doPost = function(data){
-		if(Modernizr.localstorage && !navigator.onLine){
+		/*if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doPost(data);
-		} else {
+		} else */{
 			
 			var data = _.extend(data, {
 					dataType: 'json',
