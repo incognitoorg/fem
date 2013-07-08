@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#version 1.0.1.1 4-23-2013
+#version 1.0.1.1.1.1 4-23-2013
 CACHE:
 
 #images
@@ -11,6 +11,7 @@ CACHE:
 #fonts
 built-static-resources/modules/fem/css/fonts/aller_rg-webfont.ttf
 built-static-resources/modules/fem/css/fonts/aller_rg-webfont.svg#allerregular
+built-static-resources/modules/fem/css/fonts/aller_rg-webfont.woff
 
 
 #style sheets
@@ -44,6 +45,9 @@ built-static-resources/modules/addgroup/addgroup.js
 http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js
 built-static-resources/modules/selectgroup/selectgroup.js
 built-static-resources/modules/newexpense/newexpense.js
+built-static-resources/modules/dashboard/dashboard.js
+built-static-resources/modules/expensehistory/expensehistory.js
+built-static-resources/modules/profile/profile.js
 
 NETWORK:
 *
