@@ -289,7 +289,6 @@ public class UserEndpoint {
 	)
 	public User doLogin(User user) {
 		user = getOrInsertUser(user);
-		//TODO : To implement session handling
 		user.setLastLoggedInAt(new Date());
 		user.setAccessToken(UUID.randomUUID().toString());
 		return user;
@@ -335,11 +334,6 @@ public class UserEndpoint {
 		System.out.println("Time taken to login: ");
 		System.out.println(end - start/1000*1000 + " Seconds");
 		
-		System.out.println("UserEndpoint.doLogin()");
-		System.out.println(user.getLoginType());
-		System.out.println(user.getUserId());
-		System.out.println(user.getFacebookId());
-		System.out.println(user.getGoogleId());
 		return user;
 	}
 
