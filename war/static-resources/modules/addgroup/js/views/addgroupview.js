@@ -109,7 +109,7 @@ define(function(require) {
 					self.addFriendToGroup(normalizedFriendInfo);
 					return false;
 				},
-				minLength:3
+				minLength:1
 			});
 			
 			
@@ -179,7 +179,7 @@ define(function(require) {
 					self.addFriendToGroup(normalizedFriendInfo);
 					return false;
 				},
-				minLength:3
+				minLength:1
 			});
 			this.$('span.ui-helper-hidden-accessible').hide();
 		},
