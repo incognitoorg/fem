@@ -97,25 +97,62 @@ define(function(require) {
 			}
 			
 			consolidateOwerPayers(owesToMe, iOweToThem);
+			
+			function filterZeros(members){
+				for(index in members){
+					var member = members[index];
+					if(parseInt(member.amount)===0){
+						delete members[index];
+					}
+				}
+			}
+			
+			filterZeros(owesToMe);
+			filterZeros(iOweToThem);
+			
+			
+			function sort(objectToSort){
+				var sortedResult = _.sortBy(objectToSort, function(val, key, object) {
+				    // return an number to index it by. then it is sorted from smallest to largest number
+				    console.log('val', val, 'key', key, 'object',object);
+				    val.key = key;
+				    return -(Math.abs(val.amount));
+				});
+				var result = {};
+				for(var index in sortedResult){
+					result[sortedResult[index].key] = sortedResult[index];
+				}
+				return result;
+				
+			}
+			
+			
+			owesToMe = sort(owesToMe);
+			iOweToThem = sort(iOweToThem);
+			
+			
+			
 			this.$('.js-owers').html('');
 			for(owerIndex in owesToMe){
 				var ower = owesToMe[owerIndex];
 				var memberInfo = allMembers[owerIndex];
 				
-				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + ower.amount));
+				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(ower.amount)));
+			}
+			if(this.$('.js-owers').html()===''){
+				this.$('.js-owers').html('Nobody owes you.');
 			}
 			
 			this.$('.js-payers').html('');
-			
-			
-			
 			for(payerIndex in iOweToThem){
 				var payer = iOweToThem[payerIndex];
 				var memberInfo = allMembers[payerIndex];
 				
-				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + payer.amount));
+				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(payer.amount)));
 			}
-			
+			if(this.$('.js-payers').html()===''){
+				this.$('.js-payers').html('Hurray, you owe no one.');
+			}
 		},
 		reInitialize : function(){
 			this.getDashboardData();

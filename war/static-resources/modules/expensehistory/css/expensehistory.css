@@ -35,3 +35,14 @@ div.expense:nth-child(2n){
 	height: 35px;
 	overflow: hidden;
 }
+
+.js-expenses-container.cards{
+	position: relative;
+	/* width: 230px;
+	height: 480px; */
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	list-style: none;
+	-webkit-perspective: 400px;}

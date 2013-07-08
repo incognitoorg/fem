@@ -4,7 +4,11 @@
 </div>
 <div class="row groups-container" style="height:100%;">
 	{{#each items}}
-		<div data-group-id="{{groupId}}" class="small-12 columns js-group-entry">{{groupName}}</div>
+		<div data-group-id="{{groupId}}" class="small-12 columns js-group-entry">
+			<div class=group-name>{{groupName}}</div>
+			<div class=members>{{membersNames}}</div>
+		</div>
+		
 	{{/each}}
 </div>
 <div class=error>You don't have any groups created. Lets <a href="#creategroup">Create</a> one</div>

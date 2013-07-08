@@ -27,12 +27,25 @@ define(function(require) {
 				callback : this.renderGroups,
 				context : this,
 				dataType: 'json',
-				loader : this.$('.groups-container')
+				loader : this.$('.groups-container'),
+				cached : true
 			};
 			Sandbox.doGet(data);
 		},
 		renderGroups : function(data){
-			console.log(data);
+			this.groupsMap = {};
+			for(var groupIndex in data.items){
+				this.groupsMap[data.items[groupIndex].groupId] = data.items[groupIndex];
+			}
+			_.each(data.items, function(group){
+				var membersNames = [];
+				_.each(group.members, function(member){
+					membersNames.push(member.fullName);
+				});
+				
+				group.membersNames =((membersNames.length>1)? membersNames.slice(0, membersNames.length - 1).join(', ') + ' and ' :'Only ').concat(
+			            membersNames[membersNames.length - 1]);
+			});
 			$(this.el).html(this.template(data));
 			
 			this.$('.error').css({display:data.items.length===0?'':'none'});
@@ -41,7 +54,7 @@ define(function(require) {
 			this.getGroups();
 		},
 		groupClicked : function(event){
-			Sandbox.publish('GROUP:SELECTED:'+this.options.owner || 'ALL', $(event.currentTarget).data('groupId'));
+			Sandbox.publish('GROUP:SELECTED:'+this.options.owner || 'ALL', this.groupsMap[$(event.currentTarget).data('groupId')]);
 		}
 	});
 

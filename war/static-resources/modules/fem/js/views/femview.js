@@ -31,10 +31,10 @@ define(function(require){
 	var componentMapper = {
 		'js-create-group'		:	{module :this.femCreateGroup, 'name' : 'Create Group'},
 		'js-edit-group'			:	{module :this.femEditGroup, 'name' : 'Edit Group'},
-		'js-new-expense'		:	{module :this.femCreateExpense, 'name' : 'Add New Expense'},
+		'js-new-expense'		:	{module :this.femCreateExpense, 'name' : 'Add Expense'},
 		'js-expense-history'	:	{module :this.femEditExpense, 'name' : 'Expnese History'},
 		'js-dashboard'			:	{module :this.femDashboard, 'name' : 'Dashboard'},
-		'js-profile'			:	{module :this.femProfile, 'name' : 'My Profile'}
+		'js-profile'			:	{module :this.femProfile, 'name' : 'Profile'}
 	};
 	
 	
@@ -52,6 +52,7 @@ define(function(require){
 			Sandbox.subscribe('fem-newGroupCreated',this.redirectView,this);
 			Sandbox.subscribe('FEM:MENU:CLICK',this.showFEMComponent,this);
 			Sandbox.subscribe('FEM:DESTROY:COMPONENT',this.destroyFEMComponent,this);
+			Sandbox.subscribe('FEM:NAVIGATE',this.navigate,this);
 		},
 		template : Handlebars.compile(require('text!../../templates/femtemplate.html')),
 		render : function(){
@@ -87,6 +88,9 @@ define(function(require){
 		},
 		makeResponsive : function(){
 			this.$('.js-left-side-menu p').height(parseInt(this.$('.js-left-side-menu').height()/this.menulength)-1);
+		},
+		navigate : function(url){
+			this.router.navigate(url);
 		},
 		start : function(userdata){
 			var redirectURL = location.href.substr(location.href.indexOf('#'));

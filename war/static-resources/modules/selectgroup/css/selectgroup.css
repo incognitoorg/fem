@@ -1,6 +1,6 @@
 .js-group-entry{
-	height: 2em;
-	line-height : 2em;
+	/* height: 2em; */
+	/*line-height : 2em;*/
 	cursor: pointer;
 	border-bottom : 1px solid gray;
 }
@@ -17,4 +17,12 @@ div.js-group-entry:nth-child(2n){
 
 div.js-group-entry:last-child{
 	border-bottom : 0;
+}
+
+.members{
+	font-style: italic;
+	font-size : 13px;
+}
+.group-name{
+	font-size : 2em;
 }

@@ -1,7 +1,11 @@
 define(function(require) {
 	var Sandbox = require('sandbox');
-	var userInfo = require('components/login/login').getInfo();
+	var user = require('components/login/login');
 	var expenseTemplate = Handlebars.compile(require('text!./../../templates/expense.html'));
+	var expenseDeatailTemplate = Handlebars.compile(require('text!./../../templates/detailexpenseview.html'));
+	
+	var strolljs = require('plugins/jquery/stroll/js/stroll.min');
+	var strollcss = require('css!plugins/jquery/stroll/css/stroll.min.css');
 
 	var css = require('css!./../../css/expensehistory.css');
 	
@@ -10,6 +14,8 @@ define(function(require) {
 			this.options = _.extend({
 			//defaults here
 			}, options);
+			this.expenses=[];
+			this.expenseHitoryMap = {};
 			this.render();
 			this.getExpenses();
 		},
@@ -21,9 +27,12 @@ define(function(require) {
 		render : function(data) {
 			$(this.el).html(this.template(data));
 		},
+		events : {
+			'click .expense' : 'showExpenseDetail'
+		},
 		getExpenses : function(){
 			var data = {
-				url : '_ah/api/userendpoint/v1/user/' + userInfo.userId + '/expenses',
+				url : '_ah/api/userendpoint/v1/user/' + user.getInfo().userId + '/expenses',
 				callback : this.showExpenseHistory,
 				context : this,
 			};
@@ -31,35 +40,78 @@ define(function(require) {
 		},
 		showExpenseHistory : function(response){
 			
+			var expenses = response.items;
+			this.expenses = expenses;
+			var userInfo = user.getInfo();
+			var groups = userInfo.group.items;
+			var allMembers = {};
+			for(var groupIndex in groups){
+				var groupInfo = groups[groupIndex];
+				for(var memberIndex in groupInfo.members ){
+					allMembers[groupInfo.members[memberIndex].userId] = groupInfo.members[memberIndex];
+				}
+				
+			}
+
+			this.$('.js-expenses-container').show();
+			this.$('.js-detail-expnese-container').hide();
 			
 			function normalizeExpense(expense){
 				//var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 				for ( var i = 0; i < expense.listIncludeMemberInfo.length; i++) {
 					var memberInfo = expense.listIncludeMemberInfo[i];
-					if(memberInfo.userId==userInfo.userId){
+					memberInfo.userInfo = allMembers[memberInfo.userId];
+					if(memberInfo.userId== user.getInfo().userId){
 						expense.userExpenseAmount=memberInfo.amount;
-						break;
 					}
+				}
+				
+				for ( var i = 0; i < expense.listPayersInfo.length; i++) {
+					var memberInfo = expense.listPayersInfo[i];
+					memberInfo.userInfo = allMembers[memberInfo.userId];
 				}
 				expense.day = new Date(expense.date).toDateString();
 				//expense.date = new Date(expense.date);
 				return expense;
 			}
 			
-			var expenses = response.items;
+			
 			
 			expenses = expenses.sort(function(a,b){
 				 return a.date<b.date?1:a.date>b.date?-1:0;
 			});
 			
 			var expensesContainer = this.$('.js-expenses-container').html('');
+			
+			
+			
+			
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];
+				this.expenseHitoryMap[expense.expenseEntityId] = expense;
 				//TODO : To convert this into a view
 				var html = expenseTemplate(normalizeExpense(expense));
 				expensesContainer.append(html);
 				
 			}
+			
+			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
+			stroll.bind( this.$( '.js-expenses-container'));
+			
+			
+		},
+		showExpenseDetail : function(event){
+			this.$('.js-expenses-container').hide();
+			this.$('.js-detail-expnese-container').show();
+			
+			var expense = this.expenseHitoryMap[$(event.currentTarget).data('expense-id')];
+			
+			var userInfo = user.getInfo();
+			
+			var detailHTML = expenseDeatailTemplate(expense);
+			
+			this.$('.js-detail-expnese-container').html(detailHTML);
+			Sandbox.publish('FEM:NAVIGATE', '#expensedetail');
 		}
 	});
 

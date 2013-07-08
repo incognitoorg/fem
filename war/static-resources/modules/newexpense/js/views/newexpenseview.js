@@ -8,6 +8,7 @@ define(function(require) {
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	var ExpenseModel = require('./../models/expensemodel');
 	
+	
 	function updatedIOU(expenseModel, group){
 		console.log(expenseModel);
 		console.log(group);
@@ -112,16 +113,16 @@ define(function(require) {
 			Sandbox.subscribe('GROUP:SELECTED:NEW-EXPENSE', this.getGroupInfo, this);
 			                   
 		},
-		getGroupInfo : function(groupId){
+		getGroupInfo : function(group){
 			var self = this;
 			
-			Sandbox.doGet({
+			/*Sandbox.doGet({
 				url :'_ah/api/groupendpoint/v1/group/' + groupId,
 				callback : this.showNewExpenseForm,
 				context : this
-			});
+			});*/
 			
-			
+			this.showNewExpenseForm(group);
 			
 		},
 		showNewExpenseForm : function(response){
@@ -135,7 +136,7 @@ define(function(require) {
 			this.$('.js-new-expense-form').show();
 			
 			var today = new Date();
-			this.$('.js-expense-date').val(1900+today.getYear() + '-' + ((today.getMonth()+1)>=10?today.getMonth()+1 : '0' +(today.getMonth()+1)) +'-' + today.getDate());
+			this.$('.js-expense-date').val(1900+today.getYear() + '-' + ((today.getMonth()+1)>=10?today.getMonth()+1 : '0' +(today.getMonth()+1)) +'-' + (today.getDate()>=10?today.getDate() : '0' +today.getDate()));
 			
 			function normalize(data){
 				for ( var i = 0; i < data.members.length; i++) {

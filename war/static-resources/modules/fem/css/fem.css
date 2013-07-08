@@ -33,6 +33,8 @@ body {
 	position : fixed!important;
 	top : 0;
 	cursor : pointer;
+	background : white;
+	box-shadow: 0 0 1em;
 }
 .menu-icon{
 	background: url("/static-resources/images/icons/icons.jpg") -103px -149px;
@@ -42,4 +44,8 @@ body {
 	background-position-x: 183;
 	display: inline-block;
 	float:right;
+}
+.js-currently-showing{
+	display: inline-block;
+	padding-top: 1em;
 }
