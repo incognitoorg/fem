@@ -38,7 +38,7 @@ div.expense:nth-child(2n){
 	overflow: hidden;
 }
 
-.js-expenses-container.cards{
+.js-expenses-container{
 	position: relative;
 	/* width: 230px;
 	height: 480px; */

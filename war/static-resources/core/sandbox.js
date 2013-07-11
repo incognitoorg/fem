@@ -137,12 +137,12 @@ define(function (require) {
 				}
 			});
 
-			
+			var promise = this.doAjax(extendedData);
 			if(options.cached){
 				var cachedData = thisEndPoint[splits[2]];
-				callback.call(options.context, cachedData);
+				cachedData && callback.call(options.context, cachedData);
 			}
-			return this.doAjax(extendedData);
+			return promise;
 		}
 	};
 	
