@@ -15,6 +15,7 @@ define(function(require) {
 			this.getGroups();
 		},
 		template : Handlebars.compile(require('text!./../../templates/selectgrouptemplate.html')),
+		elementTemplate : Handlebars.compile(require('text!./../../templates/groupelement.html')),
 		render : function(data) {
 			//$(this.el).html(this.template(data));
 		},
@@ -22,13 +23,14 @@ define(function(require) {
 			'click .js-group-entry' : 'groupClicked'
 		},
 		getGroups : function(){
+			$(this.el).html(this.template(data));
 			var data = {
 				url : '_ah/api/userendpoint/v1/user/' + user.getInfo().userId + '/group',
 				callback : this.renderGroups,
 				context : this,
 				dataType: 'json',
-				loader : this.$('.groups-container'),
-				cached : true
+				cached : true,
+				loaderContainer : this.$('.groups-container')
 			};
 			Sandbox.doGet(data);
 		},
@@ -46,9 +48,9 @@ define(function(require) {
 				group.membersNames =((membersNames.length>1)? membersNames.slice(0, membersNames.length - 1).join(', ') + ' and ' :'Only ').concat(
 			            membersNames[membersNames.length - 1]);
 			});
-			$(this.el).html(this.template(data));
-			
-			this.$('.error').css({display:data.items.length===0?'':'none'});
+			this.$('.groups-container').html(this.elementTemplate(data));
+
+			this.$('.error').css({display:data.items.length!==0?'none':''});
 		},
 		reInitialize : function(){
 			this.getGroups();

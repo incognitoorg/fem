@@ -110,6 +110,7 @@ define(function (require) {
 		/*if(Modernizr.localstorage && !navigator.onLine){
 			locallayer.doGet(options);
 		} else */{
+			options.loaderContainer && options.loaderContainer.addClass('global-loader');
 			var extendedData = _.extend(options, {
 				dataType: 'json',
 				contentType: 'application/json',
@@ -133,6 +134,7 @@ define(function (require) {
 					  }
 					  localStorage.setItem(endPointType, JSON.stringify(typeOfEndPointObject));
 					  
+					  options.loaderContainer && options.loaderContainer.removeClass('global-loader');
 					  callback.call(options.context, response);
 				}
 			});
@@ -140,7 +142,7 @@ define(function (require) {
 			var promise = this.doAjax(extendedData);
 			if(options.cached){
 				var cachedData = thisEndPoint[splits[2]];
-				cachedData && callback.call(options.context, cachedData);
+				//cachedData && callback.call(options.context, cachedData);// && options.loaderContainer && options.loaderContainer.removeClass('global-loader');;
 			}
 			return promise;
 		}

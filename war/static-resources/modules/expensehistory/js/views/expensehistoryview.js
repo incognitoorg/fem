@@ -35,7 +35,8 @@ define(function(require) {
 				url : '_ah/api/userendpoint/v1/user/' + user.getInfo().userId + '/expenses',
 				callback : this.showExpenseHistory,
 				context : this,
-				cached : true
+				cached : true,
+				loaderContainer : this.$('.js-expenses-container')
 			};
 			Sandbox.doGet(data);
 		},

@@ -350,3 +350,8 @@ button:-moz-focus-inner {
 	background-position: 50%;
 }
 
+.global-loader{
+	background: url("images/loader.gif") no-repeat;
+	background-position-x: 50%;
+	min-height : 100px;
+}
