@@ -323,7 +323,8 @@ define(function(require) {
 				name : this.$('.js-expense-name').val()!=""?this.$('.js-expense-name').val() : "Untitled",
 				date : this.$('.js-expense-date').val(),
 				listPayersInfo : payersInfo,
-				listIncludeMemberInfo : includeMemberInfo
+				listIncludeMemberInfo : includeMemberInfo,
+				groupId : this.group.groupId
 			});
 			
 			showMask('Adding expense...');

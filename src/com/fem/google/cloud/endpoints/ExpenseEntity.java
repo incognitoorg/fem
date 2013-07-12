@@ -27,6 +27,8 @@ public class ExpenseEntity {
 	@Persistent(defaultFetchGroup = "true")
 	private List<ExpenseInfo> listIncludeMemberInfo;
 	
+	private String groupId;
+	
 	public String getExpenseEntityId() {
 		return expenseEntityId;
 	}
@@ -57,5 +59,10 @@ public class ExpenseEntity {
 	public void setListIncludeMemberInfo(List<ExpenseInfo> listIncludeMemberInfo) {
 		this.listIncludeMemberInfo = listIncludeMemberInfo;
 	}
-	
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 }

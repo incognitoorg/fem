@@ -33,6 +33,10 @@ div.expense:nth-child(2n){
 	font-size: 2em;
 }
 
+.group.sentense-fillers{
+	font-size : 1em;
+}
+
 .amount-row{
 	height: 35px;
 	overflow: hidden;

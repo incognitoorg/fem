@@ -47,11 +47,13 @@ define(function(require) {
 			var userInfo = user.getInfo();
 			var groups = userInfo.group.items;
 			var allMembers = {};
+			var groupMap = {};
 			for(var groupIndex in groups){
 				var groupInfo = groups[groupIndex];
 				for(var memberIndex in groupInfo.members ){
 					allMembers[groupInfo.members[memberIndex].userId] = groupInfo.members[memberIndex];
 				}
+				groupMap[groupInfo.groupId] = groupInfo;
 				
 			}
 
@@ -74,6 +76,7 @@ define(function(require) {
 				}
 				expense.day = new Date(expense.date).toDateString();
 				//expense.date = new Date(expense.date);
+				expense.group = expense.groupId && groupMap[expense.groupId];
 				return expense;
 			}
 			
@@ -86,7 +89,7 @@ define(function(require) {
 			var expensesContainer = this.$('.js-expenses-container').html('');
 			
 			
-			
+			var userInfo = user.getInfo();
 			
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];
