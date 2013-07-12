@@ -17,13 +17,12 @@ define(function(require) {
 		template : Handlebars.compile(require('text!./../../templates/selectgrouptemplate.html')),
 		elementTemplate : Handlebars.compile(require('text!./../../templates/groupelement.html')),
 		render : function(data) {
-			//$(this.el).html(this.template(data));
+			$(this.el).html(this.template(data));
 		},
 		events : {
 			'click .js-group-entry' : 'groupClicked'
 		},
 		getGroups : function(){
-			$(this.el).html(this.template(data));
 			var data = {
 				url : '_ah/api/userendpoint/v1/user/' + user.getInfo().userId + '/group',
 				callback : this.renderGroups,
