@@ -66,7 +66,7 @@ define(function(require) {
 					var memberInfo = expense.listIncludeMemberInfo[i];
 					memberInfo.userInfo = allMembers[memberInfo.userId];
 					if(memberInfo.userId== user.getInfo().userId){
-						expense.userExpenseAmount=memberInfo.amount;
+						expense.userExpenseAmount=parseInt(memberInfo.amount);
 					}
 				}
 				
