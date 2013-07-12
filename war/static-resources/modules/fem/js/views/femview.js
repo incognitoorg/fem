@@ -32,7 +32,7 @@ define(function(require){
 		'js-create-group'		:	{module :this.femCreateGroup, 'name' : 'Create Group'},
 		'js-edit-group'			:	{module :this.femEditGroup, 'name' : 'Edit Group'},
 		'js-new-expense'		:	{module :this.femCreateExpense, 'name' : 'Add Expense'},
-		'js-expense-history'	:	{module :this.femEditExpense, 'name' : 'Expnese History'},
+		'js-expense-history'	:	{module :this.femEditExpense, 'name' : 'Expense History'},
 		'js-dashboard'			:	{module :this.femDashboard, 'name' : 'Dashboard'},
 		'js-profile'			:	{module :this.femProfile, 'name' : 'Profile'}
 	};
