@@ -5,7 +5,7 @@ define(function(require) {
 	var expenseDeatailTemplate = Handlebars.compile(require('text!./../../templates/detailexpenseview.html'));
 	
 	var strolljs = require('plugins/jquery/stroll/js/stroll.min');
-	var strollcss = require('css!plugins/jquery/stroll/css/stroll.min.css');
+	var strollcss = require('css!plugins/jquery/stroll/css/stroll-stripped.css');
 
 	var css = require('css!./../../css/expensehistory.css');
 	
