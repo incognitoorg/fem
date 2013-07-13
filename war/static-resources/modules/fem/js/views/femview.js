@@ -13,19 +13,12 @@ define(function(require){
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
 		'js-create-group'		:		'modules/addgroup/addgroup',
-		'js-edit-group'			:		'modules/selectgroup/selectgroup', //TODO : Add wrapper of editgroup here and then in build.js
+		'js-edit-group'			:		'modules/selectgroup/selectgroup', //TODO : Edit group implementation pending
 		'js-new-expense'		:		'modules/newexpense/newexpense',
 		'js-expense-history'	:		'modules/expensehistory/expensehistory',
 		'js-dashboard'			:		'modules/dashboard/dashboard',
 		'js-profile'			:		'modules/profile/profile'
 	};
-	
-	//Hardcoded for avoiding error since these components are not created yet. No logical use of the below code.
-	//Used to just further the flow without errors. TODO : Should be removed once all the components have been created.
-	//this.femDashboard={};
-	//this.femProfile={};
-	//this.femCreateExpense={};
-	//this.femEditExpense={};
 	
 	//Module instance mapper for identifying component
 	var componentMapper = {
@@ -129,7 +122,6 @@ define(function(require){
 			}
 			
 			Sandbox.publish('APP:START', userdata.data);
-			//TODO 
 			hideMask();
 					
 		},

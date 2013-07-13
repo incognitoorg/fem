@@ -342,7 +342,7 @@ define(function(require) {
 		},
 		expenseSaved : function(response, objExpenseModel){
 			var self = this;
-			//TODO : Use promise to make both calls simultaneouly
+			//TODO : Use one request to keep integrity of the data
 			updatedIOU(objExpenseModel.attributes, this.group);
 			Sandbox.doUpdate({
 				url :'_ah/api/groupendpoint/v1/group/',

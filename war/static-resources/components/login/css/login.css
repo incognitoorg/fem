@@ -345,6 +345,8 @@ button:-moz-focus-inner {
 	padding: 0;
 }
 
+
+/*******************Common CSS****************************/
 .js-loader{
 	background: url(images/loader.gif) no-repeat;
 	background-position: 50% 0;
@@ -355,4 +357,8 @@ button:-moz-focus-inner {
 	background-position:50% 0;
 	min-height : 100px;
 	overflow-y: hidden; 
+}
+
+.top-bar .columns{
+	background: rgb(209, 204, 204);
 }

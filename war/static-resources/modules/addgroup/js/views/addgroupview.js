@@ -44,7 +44,7 @@ define(function(require) {
 		},
 		pluginInitializer : function(){
 			var self=this;
-			this.FBAuthToken=userInfo.facebook && userInfo.facebook.authToken;//TODO : This token expires in two months
+			this.FBAuthToken=userInfo.facebook && userInfo.facebook.authToken;
 			this.$('.js-facebook-friend-selector').autocomplete({
 				source: (function(){
 					var isDataObtained = false;

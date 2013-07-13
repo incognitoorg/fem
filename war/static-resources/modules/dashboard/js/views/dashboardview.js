@@ -22,6 +22,7 @@ define(function(require) {
 			Sandbox.doGet({
 				url : '_ah/api/userendpoint/v1/user/' + user.userId +'/group',
 				callback : this.renderDashboard,
+				loaderContainer : this.$('.js-owers,.js-payers')
 			});
 		},
 		renderDashboard : function(response){

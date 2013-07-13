@@ -1,7 +1,7 @@
 .expense {
 	line-height: 2em;
 	cursor: pointer;
-	background: rgb(162, 151, 151);
+	background: rgb(213, 213, 213);
 	margin: 7px!important;
 }
 .expense:hover{
@@ -9,7 +9,6 @@
 }
 div.expense:nth-child(2n){
 	/* background-color: #CCC; */
-	
 }
 
 .expense{

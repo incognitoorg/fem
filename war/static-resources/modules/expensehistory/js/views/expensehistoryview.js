@@ -94,13 +94,14 @@ define(function(require) {
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];
 				this.expenseHitoryMap[expense.expenseEntityId] = expense;
-				//TODO : To convert this into a view
+				
+				//TODO : Convert this into view
 				var html = expenseTemplate(normalizeExpense(expense));
 				expensesContainer.append(html);
 				
 			}
 			
-			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
+			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height()-this.$('.top-bar').height()-10);
 			//stroll.bind( this.$( '.js-expenses-container'));
 			
 			
