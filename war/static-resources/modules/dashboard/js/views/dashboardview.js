@@ -2,6 +2,7 @@ define(function(require) {
 	var Sandbox = require('sandbox');
 
 	var login = require('components/login/login');
+	var css = require('css!./../../css/dashboard.css');
 	var user = login.getInfo();
 	
 	var DashboardView = Sandbox.View.extend({
