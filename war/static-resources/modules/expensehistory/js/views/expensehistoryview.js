@@ -4,8 +4,8 @@ define(function(require) {
 	var expenseTemplate = Handlebars.compile(require('text!./../../templates/expense.html'));
 	var expenseDeatailTemplate = Handlebars.compile(require('text!./../../templates/detailexpenseview.html'));
 	
-	var strolljs = require('plugins/jquery/stroll/js/stroll.min');
-	var strollcss = require('css!plugins/jquery/stroll/css/stroll-stripped.css');
+//	var strolljs = require('plugins/jquery/stroll/js/stroll.min');
+//	var strollcss = require('css!plugins/jquery/stroll/css/stroll-stripped.css');
 
 	var css = require('css!./../../css/expensehistory.css');
 	
@@ -101,7 +101,7 @@ define(function(require) {
 			}
 			
 			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
-			stroll.bind( this.$( '.js-expenses-container'));
+			//stroll.bind( this.$( '.js-expenses-container'));
 			
 			
 		},
