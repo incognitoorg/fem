@@ -101,7 +101,7 @@ define(function(require) {
 				
 			}
 			
-			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height()-this.$('.top-bar').height()-10);
+			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
 			//stroll.bind( this.$( '.js-expenses-container'));
 			
 			

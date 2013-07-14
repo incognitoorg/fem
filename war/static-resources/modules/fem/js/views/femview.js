@@ -58,9 +58,10 @@ define(function(require){
 			'click .js-hide-menu' : 'hideMenu',
 		},
 		eventShowView : function(event){
+			var self = this;
 			var clickedMenu = (event.currentTarget && $(event.currentTarget).data('menu')) ||event;
 			this.$('.js-view-item').hide();
-			this.$('.' + clickedMenu).show();
+			self.$('.' + clickedMenu).fadeIn(1500);
 			/*this.$('.js-left-side-menu').addClass('hide-for-small');
 			this.$('.js-right-panel').removeClass('hide-for-small');*/
 			var navLink = clickedMenu.toLowerCase().split('-').join('');
@@ -170,7 +171,7 @@ define(function(require){
 				self.$('.js-hide-menu').removeClass('js-hide-menu').addClass('js-show-menu');
 				this.$('.js-left-side-menu').animate({
 				    top: -menuHeight,
-				  }, 1000, function() {
+				  }, 300, function() {
 				    // Animation complete.
 				  });
 				
