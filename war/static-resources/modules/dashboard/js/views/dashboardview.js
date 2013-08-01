@@ -49,11 +49,11 @@ define(function(require) {
 					var iou = iouList[j];
 					if(iou.fromUserId===userId){
 						if(iou.amount>0){
-							owesToMe[iou.toUserId] = owesToMe[iou.toUserId] || {amount : 0};
-							owesToMe[iou.toUserId].amount += iou.amount;
-						} else {
 							iOweToThem[iou.toUserId] = iOweToThem[iou.toUserId] || {amount : 0};
 							iOweToThem[iou.toUserId].amount += iou.amount;
+						} else {
+							owesToMe[iou.toUserId] = owesToMe[iou.toUserId] || {amount : 0};
+							owesToMe[iou.toUserId].amount += iou.amount;
 						}
 						
 					} else if(iou.toUserId===userId){
