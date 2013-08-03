@@ -25,6 +25,7 @@ define(function(require) {
 				loaderContainer : this.$('.js-owers,.js-payers')
 			});
 		},
+		//TODO : Remove old code commented out for calculation of dashboard.
 		renderDashboard : function(response){
 			var groups = response.items;
 			var userId = user.userId;
@@ -34,6 +35,10 @@ define(function(require) {
 			var owesToMe = {};
 			var iOweToThem = {};
 			var allMembers = {};
+			
+			
+			var oweInformation = {};
+			
 			for ( var i = 0; i < groups.length; i++) {
 				var group = groups[i];
 				var members = group.members;
@@ -48,22 +53,31 @@ define(function(require) {
 				for ( var j = 0; j < iouList.length; j++) {
 					var iou = iouList[j];
 					if(iou.fromUserId===userId){
-						if(iou.amount>0){
+						oweInformation[iou.toUserId] = oweInformation[iou.toUserId] || {amount : 0};
+						oweInformation[iou.toUserId].amount -= iou.amount;
+						
+						
+						/*if(iou.amount>0){
 							iOweToThem[iou.toUserId] = iOweToThem[iou.toUserId] || {amount : 0};
 							iOweToThem[iou.toUserId].amount += iou.amount;
 						} else {
 							owesToMe[iou.toUserId] = owesToMe[iou.toUserId] || {amount : 0};
 							owesToMe[iou.toUserId].amount += iou.amount;
-						}
+						}*/
 						
 					} else if(iou.toUserId===userId){
-						if(iou.amount>0){
+						
+						
+						oweInformation[iou.fromUserId] = oweInformation[iou.fromUserId] || {amount : 0};
+						oweInformation[iou.fromUserId].amount += iou.amount;
+						
+						/*if(iou.amount>0){
 							owesToMe[iou.fromUserId] = owesToMe[iou.toUserId] || {amount : 0};
 							owesToMe[iou.fromUserId].amount += iou.amount;
 						} else {
 							iOweToThem[iou.fromUserId] = iOweToThem[iou.fromUserId] || {amount : 0};
 							iOweToThem[iou.fromUserId].amount += iou.amount;
-						}
+						}*/
 					}
 				}
 				
@@ -76,14 +90,17 @@ define(function(require) {
 				
 			}
 			
-			console.log('owesToMe', owesToMe);
+			
+			console.log('oweInformation', oweInformation);
+			
+			/*console.log('owesToMe', owesToMe);
 			console.log('iOweToThem', iOweToThem);
-			console.log('allMembers', allMembers);
+			console.log('allMembers', allMembers);*/
 			
 			
 			
 			
-			function consolidateOwerPayers(owesToMe, iOweToThem){
+			/*function consolidateOwerPayers(owesToMe, iOweToThem){
 				for(var index in owesToMe){
 					if(iOweToThem[index]){
 						var difference = Math.abs(Math.abs(iOweToThem[index].amount) - owesToMe[index].amount);
@@ -98,10 +115,10 @@ define(function(require) {
 				}
 			}
 			
-			consolidateOwerPayers(owesToMe, iOweToThem);
+			consolidateOwerPayers(owesToMe, iOweToThem);*/
 			
 			function filterZeros(members){
-				for(index in members){
+				for(var index in members){
 					var member = members[index];
 					if(parseInt(member.amount)===0){
 						delete members[index];
@@ -109,8 +126,10 @@ define(function(require) {
 				}
 			}
 			
-			filterZeros(owesToMe);
-			filterZeros(iOweToThem);
+			/*filterZeros(owesToMe);
+			filterZeros(iOweToThem);*/
+			
+			filterZeros(oweInformation);
 			
 			
 			function sort(objectToSort){
@@ -129,14 +148,49 @@ define(function(require) {
 			}
 			
 			
-			owesToMe = sort(owesToMe);
-			iOweToThem = sort(iOweToThem);
+		/*	owesToMe = sort(owesToMe);
+			iOweToThem = sort(iOweToThem);*/
 			
+			
+			oweInformation =  sort(oweInformation);
+			
+			var debt = {};
+			var credit = {};
+			
+			for(var index in oweInformation){
+				if(oweInformation[index].amount<0){
+					debt[index] = oweInformation[index];
+				} else {
+					credit[index] = oweInformation[index];
+				}
+			}
+			
+			/*this.$('.js-owers').html('');
+			for(owerIndex in owesToMe){
+				var ower = owesToMe[owerIndex];
+				var memberInfo = owesToMe[owerIndex];
+				
+				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(ower.amount)));
+			}
+			if(this.$('.js-owers').html()===''){
+				this.$('.js-owers').html('Nobody owes you.');
+			}*/
+			
+			/*this.$('.js-payers').html('');
+			for(payerIndex in iOweToThem){
+				var payer = iOweToThem[payerIndex];
+				var memberInfo = allMembers[payerIndex];
+				
+				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(payer.amount)));
+			}
+			if(this.$('.js-payers').html()===''){
+				this.$('.js-payers').html('Hurray, you owe no one.');
+			}*/
 			
 			
 			this.$('.js-owers').html('');
-			for(owerIndex in owesToMe){
-				var ower = owesToMe[owerIndex];
+			for(owerIndex in credit){
+				var ower = credit[owerIndex];
 				var memberInfo = allMembers[owerIndex];
 				
 				this.$('.js-owers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(ower.amount)));
@@ -146,8 +200,8 @@ define(function(require) {
 			}
 			
 			this.$('.js-payers').html('');
-			for(payerIndex in iOweToThem){
-				var payer = iOweToThem[payerIndex];
+			for(payerIndex in debt){
+				var payer = debt[payerIndex];
 				var memberInfo = allMembers[payerIndex];
 				
 				this.$('.js-payers').append($('<div>').html(memberInfo.fullName + " : " + parseInt(payer.amount)));
