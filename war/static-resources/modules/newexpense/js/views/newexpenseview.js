@@ -58,7 +58,7 @@ define(function(require) {
 				var backwardKey = iou.toUserId + "-" +iou.fromUserId;
 				var backwardObj = calculatedIOU[backwardKey];
 				if(backwardObj){
-					iou.amount +=backwardObj.amount;
+					iou.amount -=backwardObj.amount;
 				}
 				
 			}
