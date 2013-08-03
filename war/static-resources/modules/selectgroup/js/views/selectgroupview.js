@@ -49,7 +49,7 @@ define(function(require) {
 			});
 			this.$('.groups-container').html(this.elementTemplate(data));
 
-			this.$('.error').css({display:data.items.length!==0?'none':''});
+			this.$('.error').css({display:data.items && data.items.length!==0?'none':''});
 		},
 		reInitialize : function(){
 			this.getGroups();
