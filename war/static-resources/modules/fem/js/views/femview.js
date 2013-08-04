@@ -7,9 +7,6 @@ define(function(require){
 	var AppRouter = require('./../router/femrouter');
 	var Sandbox = require('sandbox');
 	
-	
-	
-	
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
 		'js-create-group'		:		'modules/addgroup/addgroup',
@@ -165,7 +162,6 @@ define(function(require){
 			}
 		},
 		hideMenu : function(event){
-			console.time('hidemenu');
 			var self = this;
 			if(is_mobile){
 				self.$('.js-hide-menu').removeClass('js-hide-menu').addClass('js-show-menu');
