@@ -69,6 +69,11 @@ define(function(require) {
 						expense.userExpenseAmount=parseInt(memberInfo.amount);
 					}
 				}
+				expense.userExpenseAmount = expense.userExpenseAmount || 0;
+				
+				if(!expense.userExpenseAmount){
+					expense.type = 'payeronly';
+				}
 				
 				for ( var i = 0; i < expense.listPayersInfo.length; i++) {
 					var memberInfo = expense.listPayersInfo[i];
