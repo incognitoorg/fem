@@ -50,7 +50,7 @@ define(function(require) {
 			gainerLosers[index] = {amount : diff};
 
 			diff>0?gainers[index]={amount : diff} : losers[index]={amount : diff} ;
-			diff>0?gainerArray[gainerCount++]={amount : diff, userId : index} : loserArray[loserCount++]={amount : diff, userId : index} ;
+			diff>0?gainerArray[gainerCount++]={amount : diff, userId : index} : loserArray[loserCount++]={amount : Math.abs(diff), userId : index} ;
 			
 		}
 		
