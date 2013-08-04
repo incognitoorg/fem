@@ -42,12 +42,21 @@ div.carousel>div {
 }
 
 .item>.row{
-	padding-right : 10px;
+	padding-right : 22px;
 }
 
 .locked{
 	background-color: gray;
 }
+
+.item{
+	border-right: 1px dotted gray;
+}
+
+.item:last-child{
+	border-right:none;
+}
+
 
 .all-container{
 	height : 30px;

@@ -226,7 +226,7 @@ define(function(require) {
 		    }
 			
 			var parts = !isMobile?3:1;
-			$(element).children().width($(element).width()/parts);
+			$(element).children().width(($(element).width()/parts)-20);
 			$(element).children().each(function(index, el){
 			     $(el).css({'margin-left':$(el).width()*index});
 			});
