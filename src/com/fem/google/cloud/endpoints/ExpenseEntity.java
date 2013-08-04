@@ -20,6 +20,7 @@ public class ExpenseEntity {
 	
 	private String name; 
 	private Date date;
+	private String type;
 	
 	@Persistent(defaultFetchGroup = "true")
 	private List<ExpenseInfo> listPayersInfo;
@@ -64,5 +65,11 @@ public class ExpenseEntity {
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }
