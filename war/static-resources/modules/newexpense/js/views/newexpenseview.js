@@ -88,34 +88,6 @@ define(function(require) {
 				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
 			}
 		}
-		
-		
-		
-		/*for ( var i = 0,j=0; i < listPayersInfo.length; i++) {
-			var payer = listPayersInfo[i];
-			
-			var amountToDistribute = payer.amount;
-			while(amountToDistribute>0){
-				var member = listIncludeMemberInfo[j++];
-				//TODO : This is put when amount to distribute is not summing up with member amounts
-				//Need to put better approach here
-				if(!member){
-				    break;
-				}
-				var amountToDeduct = member.amount;
-				
-				if(amountToDistribute<amountToDeduct){
-					amountToDeduct = amountToDistribute;
-					//TODO : To check on the round approach for more correctness
-					member.amount -= Math.round(amountToDistribute);
-					amountToDistribute = 0;
-					j--;
-				} else {
-					amountToDistribute -= amountToDeduct;
-				}
-				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
-			}
-		}*/
 		console.log('calculatedIOU', calculatedIOU);
 		
 		var iouList = group.iouList;
@@ -137,8 +109,6 @@ define(function(require) {
 			}
 			
 		}
-		console.log('iouList', iouList);
-		console.log('group', group);
 	};
 	
 	var NewExpenseView = Sandbox.View.extend({
@@ -183,26 +153,11 @@ define(function(require) {
 			this.objSelectGroup.initialize({el:this.$('.js-select-group'), 'owner':'NEW-EXPENSE'});
 		},
 		registerSubscribers : function(){
-			Sandbox.subscribe('GROUP:SELECTED:NEW-EXPENSE', this.getGroupInfo, this);
+			Sandbox.subscribe('GROUP:SELECTED:NEW-EXPENSE', this.showNewExpenseForm, this);
 			                   
 		},
-		getGroupInfo : function(group){
-			var self = this;
-			
-			/*Sandbox.doGet({
-				url :'_ah/api/groupendpoint/v1/group/' + groupId,
-				callback : this.showNewExpenseForm,
-				context : this
-			});*/
-			
-			this.showNewExpenseForm(group);
-			
-		},
-		showNewExpenseForm : function(response){
-			
-			console.log('group data', response);
-			
-			this.group = response;
+		showNewExpenseForm : function(group){
+			this.group = group;
 			
 		    var self = this;
 			this.$('.js-select-group').hide();
@@ -222,12 +177,11 @@ define(function(require) {
 				return data;
 			}
 			
-			response = normalize(response);
+			group = normalize(group);
 			
-			this.createPayersSection(response.members);
-			this.createMembersSection(response.members);
+			this.createPayersSection(group.members);
+			this.createMembersSection(group.members);
 			
-			console.log('Group Info', response);
 			
 			this.$('.carousel').each(function(index, el){
 				self.setCarousel(self.$(el));
