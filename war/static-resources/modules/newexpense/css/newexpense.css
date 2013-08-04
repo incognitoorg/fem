@@ -25,6 +25,7 @@ div.carousel>div {
 	height: 17px;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	margin-top: 14px;
 	/*TODO :Dont know why but styles from  foundation are not getting overridden with this for some reason*/
 	/*padding : 0!important;*/
 }
@@ -51,6 +52,12 @@ div.carousel>div {
 
 .item{
 	border-right: 1px dotted gray;
+}
+
+.carousel input{
+	height: 45px;
+	font-size: 26px;
+	margin-bottom: 10px;
 }
 
 .item:last-child{
