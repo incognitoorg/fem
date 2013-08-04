@@ -8,7 +8,7 @@ define(function(require) {
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	var ExpenseModel = require('./../models/expensemodel');
 	
-	
+	//TODO : Clear code which does not uses gainerLosers algo.
 	function updatedIOU(expenseModel, group){
 		console.log(expenseModel);
 		console.log(group);
@@ -18,7 +18,80 @@ define(function(require) {
 		var listPayersInfo = expenseModel.listPayersInfo;
 		var listIncludeMemberInfo = expenseModel.listIncludeMemberInfo;
 		
-		for ( var i = 0,j=0; i < listPayersInfo.length; i++) {
+		
+		var gainerLosers = {};
+		var payersInfoObject = {};
+		var includedMembersInfoObject = {};
+		
+		for ( var i = 0; i < listPayersInfo.length; i++) {
+			gainerLosers[listPayersInfo[i].userId] = {};
+			payersInfoObject[listPayersInfo[i].userId] = listPayersInfo[i];
+		}
+		
+		for ( var i = 0; i < listIncludeMemberInfo.length; i++) {
+			gainerLosers[listIncludeMemberInfo[i].userId] = {};
+			includedMembersInfoObject[listIncludeMemberInfo[i].userId] = listIncludeMemberInfo[i];
+		}
+		
+		
+		console.log(gainerLosers);
+		var gainers = {};
+		var losers = {};
+		var gainerArray = [];
+		var loserArray = [];
+		var gainerCount = 0;
+		var loserCount = 0;
+		
+		for(var index in gainerLosers){
+			var credit = payersInfoObject[index] && payersInfoObject[index].amount || 0;
+			var debit = includedMembersInfoObject[index] && includedMembersInfoObject[index].amount || 0;
+			var diff = credit - debit;
+			
+			gainerLosers[index] = {amount : diff};
+
+			diff>0?gainers[index]={amount : diff} : losers[index]={amount : diff} ;
+			diff>0?gainerArray[gainerCount++]={amount : diff, userId : index} : loserArray[loserCount++]={amount : diff, userId : index} ;
+			
+		}
+		
+		
+		console.log('gainerLosers', gainerLosers);
+		console.log('gainers', gainers);
+		console.log('losers', losers);
+		console.log('gainerArray', gainerArray);
+		console.log('LoserArray', loserArray);
+		
+		
+		
+		for ( var i = 0,j=0; i < gainerArray.length; i++) {
+			var payer = gainerArray[i];
+			
+			var amountToDistribute = payer.amount;
+			while(amountToDistribute>0){
+				var member = loserArray[j++];
+				//TODO : This is put when amount to distribute is not summing up with member amounts
+				//Need to put better approach here
+				if(!member){
+				    break;
+				}
+				var amountToDeduct = member.amount;
+				
+				if(amountToDistribute<amountToDeduct){
+					amountToDeduct = amountToDistribute;
+					//TODO : To check on the round approach for more correctness
+					member.amount -= Math.round(amountToDistribute);
+					amountToDistribute = 0;
+					j--;
+				} else {
+					amountToDistribute -= amountToDeduct;
+				}
+				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
+			}
+		}
+		
+		
+		
+		/*for ( var i = 0,j=0; i < listPayersInfo.length; i++) {
 			var payer = listPayersInfo[i];
 			
 			var amountToDistribute = payer.amount;
@@ -42,7 +115,7 @@ define(function(require) {
 				}
 				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
 			}
-		}
+		}*/
 		console.log('calculatedIOU', calculatedIOU);
 		
 		var iouList = group.iouList;
