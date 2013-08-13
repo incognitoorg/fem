@@ -115,6 +115,10 @@ define(function(require) {
 						credit[index] = oweInformation[index];
 					}
 				}
+				
+				
+				filterZeros(debt);
+				filterZeros(credit);
 		
 				this.$('.js-owers').html('');
 				for(owerIndex in credit){
