@@ -8,10 +8,7 @@ define(function(require) {
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	var ExpenseModel = require('./../models/expensemodel');
 	
-	//TODO : Clear code which does not uses gainerLosers algo.
 	function updatedIOU(expenseModel, group){
-		console.log(expenseModel);
-		console.log(group);
 		
 		var calculatedIOU = {};
 		
@@ -34,7 +31,6 @@ define(function(require) {
 		}
 		
 		
-		console.log(gainerLosers);
 		var gainers = {};
 		var losers = {};
 		var gainerArray = [];
@@ -53,14 +49,6 @@ define(function(require) {
 			diff>0?gainerArray[gainerCount++]={amount : diff, userId : index} : loserArray[loserCount++]={amount : Math.abs(diff), userId : index} ;
 			
 		}
-		
-		
-		console.log('gainerLosers', gainerLosers);
-		console.log('gainers', gainers);
-		console.log('losers', losers);
-		console.log('gainerArray', gainerArray);
-		console.log('LoserArray', loserArray);
-		
 		
 		
 		for ( var i = 0,j=0; i < gainerArray.length; i++) {
@@ -354,14 +342,16 @@ define(function(require) {
 				date : this.$('.js-expense-date').val(),
 				listPayersInfo : payersInfo,
 				listIncludeMemberInfo : includeMemberInfo,
-				groupId : this.group.groupId
+				groupId : this.group.groupId,
+				group : this.group
 			});
 			
+			updatedIOU(objExpenseModel.attributes, objExpenseModel.attributes.group);
 			showMask('Adding expense...');
 			Sandbox.doPost({
 				url :'_ah/api/expenseentityendpoint/v1/expenseentity',
 				callback : function(response){
-					self.expenseSaved(response, objExpenseModel);
+					self.expenseSaved(objExpenseModel);
 				},
 				data : JSON.stringify(objExpenseModel.attributes),
 				contex : self
@@ -370,7 +360,8 @@ define(function(require) {
 			
 			
 		},
-		expenseSaved : function(response, objExpenseModel){
+		//TODO : Following todo is done, need to remove this old method keep for sake of returning back if something bad happens 13-08-2013. If too many days passed. Just remove this method.
+		expenseSavedOld : function(response, objExpenseModel){
 			var self = this;
 			//TODO : Use one request to keep integrity of the data
 			updatedIOU(objExpenseModel.attributes, this.group);
@@ -382,7 +373,11 @@ define(function(require) {
 				context : self,
 				data : JSON.stringify(this.group)
 			});
+			self.groupSaved(objExpenseModel);
 		},
+		expenseSaved : function(objExpenseModel){
+			this.groupSaved(objExpenseModel);
+		}, 
 		groupSaved : function(objExpenseModel){
 			this.$('.js-new-expense-form').hide();
 			this.$('.js-success-message').show();
