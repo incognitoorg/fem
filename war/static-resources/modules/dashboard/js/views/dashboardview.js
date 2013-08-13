@@ -135,7 +135,7 @@ define(function(require) {
 				}
 				
 				var $selectForUsers = $('<select class="user-selector">');
-				this.$('.js-user-selector-container').append($selectForUsers);
+				this.$('.js-user-selector-container').html('').append($selectForUsers);
 				this.$('.js-user-selector-container').append('Current User : ' + user.fullName);
 				
 				var option = $('<option>').text('Select').val('Select');
