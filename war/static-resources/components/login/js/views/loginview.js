@@ -118,7 +118,6 @@ define(function(require){
 		show : function(){
 			$(this.el).show();
 		},
-		//TODO : Normalize data from different services in one common format
 		normalizeUserData : function(data){
 			console.log('Normalize user data',data);
 			if(data.loginType==='facebook'){
