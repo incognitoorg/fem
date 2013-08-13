@@ -97,6 +97,11 @@ public class ExpenseEntityEndpoint {
 /*			if (containsExpenseEntity(expenseentity)) {
 				throw new EntityExistsException("Object already exists");
 			}*/
+			
+			Group objGroup = expenseentity.getGroup();
+			expenseentity.setGroup(null);
+			
+			
 			mgr.makePersistent(expenseentity);
 			
 			
@@ -111,6 +116,9 @@ public class ExpenseEntityEndpoint {
 			}
 			
 			mgr.makePersistent(expenseentity);
+			
+			//TODO : Use transaction
+			new GroupEndpoint().updateGroup(objGroup);
 			
 		} finally {
 			mgr.close();

@@ -28,6 +28,9 @@ public class ExpenseEntity {
 	@Persistent(defaultFetchGroup = "true")
 	private List<ExpenseInfo> listIncludeMemberInfo;
 	
+	//This element is only for expense addition serialization
+	private Group objGroup;
+	
 	private String groupId;
 	
 	public String getExpenseEntityId() {
@@ -71,5 +74,11 @@ public class ExpenseEntity {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public Group getGroup() {
+		return objGroup;
+	}
+	public void setGroup(Group objGroup) {
+		this.objGroup = objGroup;
 	}
 }
