@@ -60,8 +60,6 @@ define(function(require) {
 				
 			}
 
-			this.$('.js-expenses-container').show();
-			this.$('.js-detail-expnese-container').hide();
 			
 			function normalizeExpense(expense){
 				//var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -96,9 +94,6 @@ define(function(require) {
 			
 			var expensesContainer = this.$('.js-expenses-container').html('');
 			
-			
-			var userInfo = user.getInfo();
-			
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];
 				this.expenseHitoryMap[expense.expenseEntityId] = expense;
@@ -119,8 +114,6 @@ define(function(require) {
 			this.$('.js-detail-expnese-container').show();
 			
 			var expense = this.expenseHitoryMap[$(event.currentTarget).data('expense-id')];
-			
-			var userInfo = user.getInfo();
 			
 			var detailHTML = expenseDeatailTemplate(expense);
 			
