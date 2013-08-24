@@ -41,7 +41,10 @@ define(function(require) {
 			Sandbox.doGet(data);
 		},
 		showExpenseHistory : function(response){
-			
+
+			this.$('.js-detail-expnese-container').hide();
+			this.$('.js-expenses-container').show();
+
 			var expenses = response.items;
 			this.expenses = expenses;
 			var userInfo = user.getInfo();
