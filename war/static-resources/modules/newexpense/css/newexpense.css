@@ -7,7 +7,6 @@ div.carousel>div {
 .carousel {
 	position: relative;
 	overflow: hidden;
-	height: 106px;
 }
 
 .item .navigator {

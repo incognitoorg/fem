@@ -7,6 +7,9 @@ define(function(require) {
 	var memberPayTemplate = require('text!./../../templates/member-pay.html');
 	var memberExpenseTemplate = require('text!./../../templates/member-expense.html');
 	var ExpenseModel = require('./../models/expensemodel');
+	var FormValidator = require("./../validator/newexpensevalidator");
+
+	var expenseInputCounter = 0;
 	
 	function updatedIOU(expenseModel, group){
 		
@@ -76,7 +79,6 @@ define(function(require) {
 				calculatedIOU[member.userId +"-"+ payer.userId]={amount:amountToDeduct};
 			}
 		}
-		console.log('calculatedIOU', calculatedIOU);
 		
 		var iouList = group.iouList;
 		for ( var i = 0; i < iouList.length; i++) {
@@ -107,6 +109,7 @@ define(function(require) {
 			this.render();
 			this.registerSubscribers();
 			this.start();
+			
 		},
 		totalExpense : 0,
 		template : Handlebars.compile(require('text!./../../templates/newexpense.html')),
@@ -120,6 +123,9 @@ define(function(require) {
 			'click .js-select-expense' : 'toggleExpense',
 			'click .js-save-expense' : 'eventSaveExpense',
 			'click .js-allmembers' : 'toggleAllMembers'
+		},
+		registerValidator : function(){
+			FormValidator.initialize({'element':this.$(".js-add-expense-form"),'errorWidth':'86%'});
 		},
 		reInitialize : function(){
 			this.$('.js-select-group').show();
@@ -174,6 +180,8 @@ define(function(require) {
 			this.$('.carousel').each(function(index, el){
 				self.setCarousel(self.$(el));
 			});
+			
+			this.registerValidator();
 		},
 		createPayersSection : function(groupMembers){
 			var payersContainer = this.$('.js-payers').html('');
@@ -186,6 +194,7 @@ define(function(require) {
 					payersContainer.append(itemContainer);
 				}
 				var groupMember = groupMembers[i];
+				groupMember.inputNumber = expenseInputCounter++;
 				
 				itemContainer.append(payerContentTemplate(groupMember));
 			}
@@ -201,6 +210,7 @@ define(function(require) {
 					payersContainer.append(itemContainer);
 				}
 				var groupMember = groupMembers[i];
+				groupMember.inputNumber = expenseInputCounter++;
 				
 				itemContainer.append(payerContentTemplate(groupMember));
 			}
@@ -264,6 +274,9 @@ define(function(require) {
 			
 		},
 		divideExpense : function(){
+			
+			
+			
 			var payInputs =  this.$('.js-payers').find('input.js-pay-input');
 			var totalPayment = 0;
 			
@@ -282,9 +295,29 @@ define(function(require) {
 			
 			var expenseToDivide = totalPayment - lockedExpense;
 			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)');
-			contributionInputs.val((expenseToDivide/contributionInputs.length).toFixed(2));
+			var dividedShare = (expenseToDivide/contributionInputs.length).toFixed(2);
+			contributionInputs.val(dividedShare!=="NaN"?dividedShare : '');
+			
+			var self = this;
+			
+			if(!self.$('.js-add-expense-form').valid()){
+				//TODO : Setting height dynamically, Put this in common function 
+				self.$('.carousel').each(function(index, carouselEl){
+					var totalHeight = 0;
+					$(carouselEl).height(function(){
+						$($(carouselEl).find('.item')[0]).children().each(function(index, el){
+							totalHeight += $(el).height();
+						});
+						return totalHeight;
+					});
+				});
+				return;
+			}
 		},
 		adjustExpenses : function(event){
+			
+			var self = this;
+			
 			var contributionInputs = this.$('.js-included-members').find('input.js-contribution-input:not(.locked)').not(event.currentTarget);
 			var lockedInputs = this.$('.js-included-members').find('input.js-contribution-input.locked').not(event.currentTarget);
 			var lockedExpense = 0;
@@ -292,7 +325,24 @@ define(function(require) {
 				lockedExpense += Math.abs($(el).val());
 			});
 			var expenseToDivide = this.totalExpense - lockedExpense - $(event.currentTarget).val();
-			contributionInputs.val((expenseToDivide/contributionInputs.length).toFixed(2));
+			
+			var dividedShare = (expenseToDivide/contributionInputs.length).toFixed(2);
+			contributionInputs.val(dividedShare!=="NaN"?dividedShare : '');
+			
+			if(!self.$('.js-add-expense-form').valid()){
+				//TODO : Setting height dynamically, Put this in common function 
+				self.$('.carousel').each(function(index, carouselEl){
+					var totalHeight = 0;
+					$(carouselEl).height(function(){
+						$($(carouselEl).find('.item')[0]).children().each(function(index, el){
+							totalHeight += $(el).height();
+						});
+						return totalHeight;
+					});
+				});
+				
+				return;
+			}
 		},
 		eventLockExpense : function(event){
 			this.$(event.currentTarget).parent().
@@ -318,6 +368,12 @@ define(function(require) {
 			this.divideExpense();
 		},
 		eventSaveExpense : function(){
+			
+			
+			if(!this.$('.js-add-expense-form').valid()){
+				return;
+			}
+			
 			var self = this;
 			var payersInfo = [];
 			var includeMemberInfo = [];

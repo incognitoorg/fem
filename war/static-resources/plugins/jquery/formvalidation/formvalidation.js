@@ -35,6 +35,11 @@ define(function(require) {
 				jQuery.validator.addMethod("customNumber", function(value, element) {
 					return this.optional(element) || value == value.match(/^[0-9+()-]+$/) && value.length<15;
 				}, "Only Numbers & +,-,(,) Allowed.");
+				
+				jQuery.validator.addMethod("expenseInputValidator", function(value, element) {
+					return this.optional(element) || value == value.match(/^\d+\.?\d*$/) && value.length<15;
+				}, "Enter valid amount...");
+
 
 
 				jQuery.validator.addMethod("customDate-pastDate",function(value, element) {
