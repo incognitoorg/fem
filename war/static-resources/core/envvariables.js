@@ -17,9 +17,7 @@ define(function(require) {
 			FB_APP_ID : '476625022390528',
 			GOOGLE_CLIENT_ID : '675356629669.apps.googleusercontent.com',
 			GOOGLE_API_KEY : 'AIzaSyCxvFWYp8uk3RxCSEaVEo_FLYeqQVUelpg',
-			GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds',
-			//GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds',
-			//https://www.googleapis.com/auth/userinfo.profile
+			GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds'
 		};
 	} else if(mode==="qa"){
 		return {
@@ -27,9 +25,7 @@ define(function(require) {
 			FB_APP_ID : '610955545604534',
 			GOOGLE_CLIENT_ID : '675356629669.apps.googleusercontent.com',
 			GOOGLE_API_KEY : 'AIzaSyCxvFWYp8uk3RxCSEaVEo_FLYeqQVUelpg',
-			GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds',
-			//GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds',
-			//https://www.googleapis.com/auth/userinfo.profile
+			GOOGLE_API_SCOPE : 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds'
 		};
 	}
 });
