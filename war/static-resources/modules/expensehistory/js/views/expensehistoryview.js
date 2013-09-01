@@ -232,7 +232,6 @@ define(function(require) {
 			//TODO : Convert expense entity in a view.
 			this.$(event.currentTarget).parents('li').find('.js-expense-detail-container').html(detailHTML);
 			this.$(event.currentTarget).parents('li').find('.js-expense-detail-container').toggle();
-			Sandbox.publish('FEM:NAVIGATE', '#expensedetail');
 		},
 		deleteExpense : function(event){
 			var expense = this.expenseHitoryMap[$(event.currentTarget).data('expense-id')];
