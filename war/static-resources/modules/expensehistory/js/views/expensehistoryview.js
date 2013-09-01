@@ -216,15 +216,22 @@ define(function(require) {
 			
 			
 		},
+		//TODO : Remove all code of separate detail expense.
 		showExpenseDetail : function(event){
-			this.$('.js-expenses-container').hide();
-			this.$('.js-detail-expnese-container').show();
+			//this.$('.js-expenses-container').hide();
+			//this.$('.js-detail-expnese-container').show();
 			
 			var expense = this.expenseHitoryMap[$(event.currentTarget).data('expense-id')];
 			
 			var detailHTML = expenseDeatailTemplate(expense);
 			
-			this.$('.js-detail-expnese-container').html(detailHTML);
+			
+			
+			
+			//this.$('.js-detail-expnese-container').html(detailHTML);
+			//TODO : Convert expense entity in a view.
+			this.$(event.currentTarget).parents('li').find('.js-expense-detail-container').html(detailHTML);
+			this.$(event.currentTarget).parents('li').find('.js-expense-detail-container').toggle();
 			Sandbox.publish('FEM:NAVIGATE', '#expensedetail');
 		},
 		deleteExpense : function(event){
@@ -239,6 +246,20 @@ define(function(require) {
 			var updatedGroup = updatedIOUForDelete(expense, this.groupMap[expense.groupId]);
 			
 			console.log(JSON.stringify(updatedGroup));
+			
+			Sandbox.doDelete({
+				url : '_ah/api/expenseentityendpoint/v1/expenseentity/deleteandupdateiou', 
+				data : JSON.stringify(expense),
+				type : 'PUT',
+				dataType: 'json',
+				contentType: 'application/json',
+				callback : function(response){
+					console.log('Successfully deleted', response);
+				}, 
+				errorCallback : function(err){
+					console.log('error occured');
+				}
+			});
 			
 			/*Sandbox.publish('FEM:NAVIGATE', '#expensedetail');*/
 		}
