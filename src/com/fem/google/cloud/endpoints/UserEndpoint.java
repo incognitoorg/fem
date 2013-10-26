@@ -3,7 +3,6 @@ package com.fem.google.cloud.endpoints;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -301,7 +300,6 @@ public class UserEndpoint {
 	public User getOrInsertUser(User user){
 		//TODO : Add support for app register and login
 		String apiId = null;
-		String userId = user.getUserId();
 		
 		long start = new Date().getTime();
 		
@@ -398,12 +396,10 @@ public class UserEndpoint {
 			)
 	public List<IOU> getIOU(@Named("id") String id) {
 		
-		List<IOU> alIOU = null;
+/*		List<IOU> alIOU = null;
 		
-		HashMap<String, ExpenseEntity> hmExpenses = new HashMap<String, ExpenseEntity>();
+		HashMap<String, ExpenseEntity> hmExpenses = new HashMap<String, ExpenseEntity>();*/
 		
-		IOU objIOU = null;
-		int iCounter = 0;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
