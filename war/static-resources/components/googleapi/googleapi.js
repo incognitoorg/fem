@@ -46,10 +46,21 @@ define(function(require){
 			});
 			// Step 6: Execute the API request
 			request.execute(function(resp) {
-				if(options.callback){
-					resp.authToken = authToken;
-					options.callback.call(options.context||this, {loginType : 'google', googleId : resp.id, data : resp});
-				}
+				
+				gapi.client.load('oauth2', 'v2', function() {
+					gapi.client.oauth2.userinfo.get().execute(function(emailResp) {
+						console.log(resp.email);
+						if(options.callback){
+							resp.authToken = authToken;
+							resp.email = emailResp.email;
+							options.callback.call(options.context||this, {loginType : 'google', googleId : resp.id, data : resp, email : resp.email});
+						}
+					});
+
+				});
+
+				
+				
 			});
 		});
 
