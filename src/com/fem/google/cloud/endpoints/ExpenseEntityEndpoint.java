@@ -11,6 +11,7 @@ import javax.jdo.Query;
 import javax.persistence.EntityNotFoundException;
 
 import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
@@ -146,6 +147,53 @@ public class ExpenseEntityEndpoint {
 		}
 		return expenseentity;
 	}
+	
+	
+	
+	/*@SuppressWarnings("unchecked")
+	@ApiMethod(
+ 			httpMethod = "PUT", 
+ 			name = "expense.deleteupdateiou",
+			path="expense/deleteandupdateiou"
+			)
+	public ExpenseEntity removeExpenseEntity(ExpenseEntity expenseentity) {
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			if (!containsExpenseEntity(expenseentity)) {
+				throw new EntityNotFoundException("Object does not exist");
+			}
+			
+			
+			
+			
+			
+			Group objGroup = expenseentity.getGroup();
+			expenseentity.setGroup(null);
+			
+			ExpenseInfoEndpoint objExpenseInfoEndPoint = new ExpenseInfoEndpoint();
+			
+			//Removing related expenseinfo
+			for (Iterator iterator = expenseentity.getListIncludeMemberInfo().iterator(); iterator.hasNext();) {
+				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
+				objExpenseInfoEndPoint.removeExpenseInfo(objExpenseInfo.getExpenseInfoId());
+			}
+			
+			for (Iterator iterator = expenseentity.getListPayersInfo().iterator(); iterator.hasNext();) {
+				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
+				objExpenseInfoEndPoint.removeExpenseInfo(objExpenseInfo.getExpenseInfoId());
+			}
+			
+			
+			
+			//mgr.makePersistent(expenseentity);
+			mgr.deletePersistent(expenseentity);
+		} finally {
+			mgr.close();
+		}
+		return expenseentity;
+	}*/
+	
+	
 
 	/**
 	 * This method removes the entity with primary key id.
