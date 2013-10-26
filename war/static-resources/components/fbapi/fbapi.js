@@ -20,7 +20,7 @@ define(function(require) {
 
 
 	function getUserInfo(options){
-		FB.api('/me', function(response) {
+		FB.api('/me?fields=email,username,first_name,last_name', function(response) {
             response.authToken = FBAuthToken;
 			if(options.callback){
 				options.callback.call(options.context || this, {
@@ -28,6 +28,7 @@ define(function(require) {
 					facebookId:response.id,
 					firstName : response.first_name,
 					lastName : response.last_name,
+					email : response.email,
 					data : response
 				});
 			}
@@ -57,7 +58,7 @@ define(function(require) {
 						} else {
 							console.log('User cancelled login or did not fully authorize.');
 						}
-					});
+					},{scope: 'email'});
 				}
 			});
 
