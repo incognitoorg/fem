@@ -31,6 +31,7 @@ public class User implements Serializable {
 	private String loginType;
 	private Date lastLoggedInAt;
 	private String accessToken;
+	private String phone;
 
 	
 	
@@ -111,6 +112,12 @@ public class User implements Serializable {
 	}
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	
