@@ -173,7 +173,9 @@ define(function(require) {
 						fullName : friendInfo.title.$t,
 						name : friendInfo.title.$t,
 						googleId : '',
-						loginType : 'google'
+						loginType : 'google',
+						email : friendInfo.gd$email[0].address,
+						phone : friendInfo.gd$phoneNumber[0].$t
 					};
 					
 					self.addFriendToGroup(normalizedFriendInfo);
