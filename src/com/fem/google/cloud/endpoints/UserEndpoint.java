@@ -316,21 +316,36 @@ public class UserEndpoint {
 			apiId = user.getFacebookId();
 			q.setFilter("facebookId == facebookIdParam");
 			q.declareParameters("String facebookIdParam");
+		} else {
+			apiId = user.getEmail();
+			q.setFilter("email == emailIdParam");
+			q.declareParameters("String emailIdParam");
+			
+			//TODO : In google contacts, you may get entity which might have only phone
+			//This presents opportunity to present user to login with phone.
+			String phone = user.getPhone();
+			q.setFilter("phone == phoneParam");
+			q.declareParameters("String phoneParam");
+			
 		}
 		
 		List<User> execute = null;
 		
-		execute = (List<User>)q.execute(apiId);
-		if(execute.size()>0){
-			user = execute.get(0);
-		} else {
+		if(apiId==null){
 			user = this.insertUser(user);
+		} else {
+			execute = (List<User>)q.execute(apiId);
+			if(execute.size()>0){
+				user = execute.get(0);
+			} else {
+				user = this.insertUser(user);
+			}
 		}
 		
 		long end = new Date().getTime();
 		
 		System.out.println("Time taken to login: ");
-		System.out.println(end - start/1000*1000 + " Seconds");
+		System.out.println(end - start/1000*1000 + " Milliseconds");
 		
 		return user;
 	}
