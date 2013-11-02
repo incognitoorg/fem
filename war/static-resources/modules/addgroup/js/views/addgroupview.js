@@ -129,7 +129,7 @@ define(function(require) {
 								console.log(data[i].name);
 								if (data[i].title.$t.toLowerCase().indexOf($(element).val().toLowerCase()) >= 0)
 									formatted.push({
-										label: data[i].title.$t,
+										label: data[i].title.$t + "(" + data[i].email+ ")",
 										value: data[i]
 									});
 							}
@@ -146,7 +146,19 @@ define(function(require) {
 				                data:{access_token:  login.getInfo().google.authToken},
 								success: function(results){
 									isGoogleDataObtained = true;
-									googleDataObtained = results.feed.entry;
+									googleDataObtained = _.filter(results.feed.entry, function(item){
+										var returnValue = false;
+										if(item.gd$email){
+											for(var i = 0; i<item.gd$email.length; i++){
+												if(item.gd$email[i].address.indexOf("gmail")!==-1){
+													item.email = item.gd$email[i].address;
+													return true;
+												}
+												
+											}
+										}
+										return  returnValue
+									});
 									// Filter the results and return a label/value object array  
 									var formatted = filterData(googleDataObtained);
 									add(formatted);
@@ -174,8 +186,7 @@ define(function(require) {
 						name : friendInfo.title.$t,
 						googleId : '',
 						loginType : 'google',
-						email : friendInfo.gd$email[0].address,
-						phone : friendInfo.gd$phoneNumber[0].$t
+						email : friendInfo.email,
 					};
 					
 					self.addFriendToGroup(normalizedFriendInfo);
