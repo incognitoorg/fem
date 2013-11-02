@@ -13,7 +13,9 @@ war/WEB-INF/lib/jsr107cache-1.1.jar
 war/WEB-INF/lib/jta-1.1.jar
 war/WEB-INF/lib/datanucleus-core-3.1.3.jar
 *.class
+*.jar
 /endpoint-libs
 /.settings
 /.gitignore
 /.project
+/.classpath

@@ -35,11 +35,28 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<!-- Commented ResourceManagerBuilder since it resets build directory to bin. GAE builder doesn't like that. Beware, this might have consequences. -->
+		<!-- <buildCommand>
+			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand> -->
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.appengine.eclipse.core.gaeNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 	</natures>
 </projectDescription>
