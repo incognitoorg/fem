@@ -3,8 +3,8 @@ define(function(require){
 	
 	var Sandbox = require('sandbox');
 	
-	var GoogleAPI = require('components/googleapi/googleapi');
-	var FBAPI = require('components/fbapi/fbapi');
+	var GoogleAPI = require('googleapi');
+	var FBAPI = require('fbapi');
 	
 	var APIMapper = {
 			facebook : FBAPI,

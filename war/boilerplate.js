@@ -17,7 +17,9 @@ var require = {
 			mediator : 'core/mediator',
 			debugmode : 'libraries/debugmode/debugmode',
 			errorlogger : 'libraries/errorlogger/errorlogger',
-			persistence : 'libraries/lawnchair/lawnchair'
+			persistence : 'libraries/lawnchair/lawnchair',
+			fbapi : 'components/fbapi/fbapi',
+			googleapi : 'components/googleapi/googleapi'
 		},
 		shim : {
 			'backbone' : {
