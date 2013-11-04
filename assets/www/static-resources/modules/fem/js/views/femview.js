@@ -3,9 +3,11 @@ define(function(require){
 	require('css!libraries/foundation/css/normalize.css');
 	require('css!./../../css/fem.css');
 	require('css!./../../css/fonts/fonts.css');
+	require('animate');
 	var Backbone = require('backbone');
 	var AppRouter = require('./../router/femrouter');
 	var Sandbox = require('sandbox');
+	
 	
 	//Module path mapper for requiring module dynamically
 	var componentPathMapper = {
@@ -100,8 +102,10 @@ define(function(require){
 			
 			if(is_mobile){
 				//this.$('.js-left-side-menu').css({position:'absolute', 'z-index':1, top:-menuHeight});
-				this.$('.js-fixed-section').css({position:'absolute'});
-				this.$('.js-right-panel').css({position:'absolute',top:this.$('.js-show-hide-section').height()});
+				//this.$('.js-fixed-section').css({position:'absolute'});
+				//this.$('.js-fixed-section').css({position:'absolute'});
+				//this.$('.js-right-panel').css({position:'absolute',top:this.$('.js-show-hide-section').height()});
+				this.$('.js-left-side-menu').css({ left:-$(window).width()});
 			}
 			
 			
@@ -154,13 +158,13 @@ define(function(require){
 			if(is_mobile){
 				//this.$('.js-show-hide-section').css({'position':'relative'});
 				this.$('.js-show-menu').removeClass('js-show-menu').addClass('js-hide-menu');
-				window.scrollTo(0,0);
+				
 				/*self.$('.js-left-side-menu').animate({
 					top: this.$('.js-show-hide-section').height(),
 				}, 1000, function() {
 					// Animation complete.
 				});*/
-				self.$('.js-left-side-menu').animate({
+				/*self.$('.js-left-side-menu').animate({
 					left: 0,
 				}, 1000, function() {
 					// Animation complete.
@@ -169,7 +173,15 @@ define(function(require){
 					left:  $(window).width(),
 				}, 1000, function() {
 					// Animation complete.
+				});*/
+				
+				self.$('.app-container').animate({
+					left: $(window).width(),
+				}, 1000, function() {
+					window.scrollTo(0,0);
+					// Animation complete.
 				});
+				
 				
 			}
 		},
@@ -184,7 +196,7 @@ define(function(require){
 				  });*/
 				
 				
-				this.$('.js-left-side-menu').animate({
+				/*this.$('.js-left-side-menu').animate({
 					left:  -$(window).width(),
 				}, 300, function() {
 					// Animation complete.
@@ -193,6 +205,11 @@ define(function(require){
 				this.$('.js-right-panel').animate({
 					left:  0,
 				}, 300, function() {
+					// Animation complete.
+				});*/
+				self.$('.app-container').animate({
+					left: 0,
+				}, 1000, function() {
 					// Animation complete.
 				});
 				
