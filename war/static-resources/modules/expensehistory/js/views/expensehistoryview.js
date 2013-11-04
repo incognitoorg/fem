@@ -9,7 +9,30 @@ define(function(require) {
 
 	var css = require('css!./../../css/expensehistory.css');
 	
-	
+	function normalizeExpense(expense, allMembers, groupMap){
+		//var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		for ( var i = 0; i < expense.listIncludeMemberInfo.length; i++) {
+			var memberInfo = expense.listIncludeMemberInfo[i];
+			memberInfo.userInfo = allMembers[memberInfo.userId];
+			if(memberInfo.userId== user.getInfo().userId){
+				expense.userExpenseAmount=parseInt(memberInfo.amount);
+			}
+		}
+		expense.userExpenseAmount = expense.userExpenseAmount || 0;
+		
+		if(!expense.userExpenseAmount){
+			expense.extendedType = 'payeronly';
+		}
+		
+		for ( var i = 0; i < expense.listPayersInfo.length; i++) {
+			var memberInfo = expense.listPayersInfo[i];
+			memberInfo.userInfo = allMembers[memberInfo.userId];
+		}
+		expense.day = new Date(expense.date).toDateString();
+		//expense.date = new Date(expense.date);
+		expense.group = expense.groupId && groupMap[expense.groupId];
+		return expense;
+	}
 	
 	//TODO : Following function is common with add expense view. Can be merged into separate utilities.
 	//Only difference is swapping of gainer and loser array.
@@ -134,7 +157,10 @@ define(function(require) {
 		},
 		events : {
 			'click .js-expense' : 'showExpenseDetail',
-			'click .delete-expense' : 'deleteExpense'
+			'click .delete-expense' : 'deleteExpense',
+			'change .js-type-filter-select' :  'showFilteredExpenses',
+			'change .js-user-filter-select' :  'showFilteredExpenses',
+			'change .js-group-filter-select' :  'showFilteredExpenses'
 		},
 		getExpenses : function(){
 			var data = {
@@ -146,6 +172,27 @@ define(function(require) {
 			};
 			Sandbox.doGet(data);
 		},
+		renderFilterOptions : function(){
+			var groupSelect = this.$('.js-group-filter-select');
+			groupSelect.html('').append($('<option>').val('select').text('Select'));
+			var groupMap = this.groupMap;
+			for(var index in groupMap){
+				groupSelect.append($('<option>').val(groupMap[index].groupId).text(groupMap[index].groupName));
+			}
+			var groupSelect = this.$('.js-user-filter-select');
+			groupSelect.html('').append($('<option>').val('select').text('Select'));
+			var allMembers = this.allMembers;
+			for(var index in allMembers){
+				groupSelect.append($('<option>').val(allMembers[index].userId).text(allMembers[index].fullName));
+			}
+			//TODO : If you really dont have anything else to do. Generate the types dynamically rather than hardcoded.
+			/*var typeSelect = this.$('.js-type-filter-select');
+			typeSelect.html('').append($('<option>').val('select').text('Select'));
+			var allMembers = this.allMembers;
+			for(var index in allMembers){
+				typeSelect.append($('<option>').val(allMembers[index].userId).text(allMembers[index].fullName));
+			}*/
+		},
 		showExpenseHistory : function(response){
 
 			this.$('.js-detail-expnese-container').hide();
@@ -156,6 +203,7 @@ define(function(require) {
 			var userInfo = user.getInfo();
 			var groups = userInfo.group.items;
 			var allMembers = {};
+			this.allMembers = allMembers;
 			var groupMap = {};
 			for(var groupIndex in groups){
 				var groupInfo = groups[groupIndex];
@@ -166,68 +214,84 @@ define(function(require) {
 				
 			}
 			this.groupMap = groupMap;
-
-			
-			function normalizeExpense(expense){
-				//var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-				for ( var i = 0; i < expense.listIncludeMemberInfo.length; i++) {
-					var memberInfo = expense.listIncludeMemberInfo[i];
-					memberInfo.userInfo = allMembers[memberInfo.userId];
-					if(memberInfo.userId== user.getInfo().userId){
-						expense.userExpenseAmount=parseInt(memberInfo.amount);
-					}
-				}
-				expense.userExpenseAmount = expense.userExpenseAmount || 0;
-				
-				if(!expense.userExpenseAmount){
-					expense.type = 'payeronly';
-				}
-				
-				for ( var i = 0; i < expense.listPayersInfo.length; i++) {
-					var memberInfo = expense.listPayersInfo[i];
-					memberInfo.userInfo = allMembers[memberInfo.userId];
-				}
-				expense.day = new Date(expense.date).toDateString();
-				//expense.date = new Date(expense.date);
-				expense.group = expense.groupId && groupMap[expense.groupId];
-				return expense;
-			}
 			
 			
-			
+			this.renderFilterOptions();
 			expenses = expenses.sort(function(a,b){
 				 return a.date<b.date?1:a.date>b.date?-1:0;
 			});
 			
+			this.renderExpenses(expenses);
+			
+			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
+			//stroll.bind( this.$( '.js-expenses-container'));
+		},
+		renderExpenses : function(expenses){
+			expenses = expenses || this.expenses;
 			var expensesContainer = this.$('.js-expenses-container').html('');
 			
 			for ( var i = 0; i < expenses.length; i++) {
 				var expense = expenses[i];
 				this.expenseHitoryMap[expense.expenseEntityId] = expense;
-				
 				//TODO : Convert this into view
-				var html = expenseTemplate(normalizeExpense(expense));
+				var html = expenseTemplate(normalizeExpense(expense, this.allMembers, this.groupMap));
 				expensesContainer.append(html);
 				
 			}
+		},
+		showFilteredExpenses : function(){
+			var typeFilter = $('.js-type-filter-select').val();
+			var userFilter = $('.js-user-filter-select').val();
+			var groupFilter = $('.js-group-filter-select').val();
 			
-			this.$('.js-expenses-container').height($(window).height()-$('.js-show-hide-section').height());
-			//stroll.bind( this.$( '.js-expenses-container'));
+			var filteredExpenses = [];
+			var expenses = this.expenses;
 			
+			for(var i=0; i<expenses.length; i++){
+				var toPush = true;
+				//TODO : Travel backward in time kill past yourself for this coding redundancy. Can be designed better with filter functions
+				var expense = expenses[i];
+				if(expense.type!==typeFilter){
+					toPush = false;
+					continue;
+				} 
+				if(groupFilter!=="select"){
+					if(expense.groupId!==groupFilter){
+						toPush = false;
+						continue;
+					} 
+				}
+				if(userFilter!=="select"){
+					
+					var listIncludeMemberInfo = expense.listIncludeMemberInfo;
+					var pushed = false;
+					for(var j=0; j<listIncludeMemberInfo.length; j++){
+						if(listIncludeMemberInfo.userId!==userFilter){
+							pushed = true;
+							continue;
+						}
+					}
+					if(!pushed){
+						var listPayersInfo = expense.listPayersInfo;
+						for(var j=0; j<listPayersInfo.length; j++){
+							if(listPayersInfo.userId===userFilter){
+								pushed = true;
+								continue;
+							}
+						}
+					}
+				}
+				
+				toPush && filteredExpenses.push(expense);
+				
+			}
+			this.renderExpenses(filteredExpenses);
 			
 		},
 		//TODO : Remove all code of separate detail expense.
 		showExpenseDetail : function(event){
-			//this.$('.js-expenses-container').hide();
-			//this.$('.js-detail-expnese-container').show();
-			
 			var expense = this.expenseHitoryMap[$(event.currentTarget).data('expense-id')];
-			
 			var detailHTML = expenseDeatailTemplate(expense);
-			
-			
-			
-			
 			//this.$('.js-detail-expnese-container').html(detailHTML);
 			//TODO : Convert expense entity in a view.
 			this.$(event.currentTarget).parents('li').find('.js-expense-detail-container').html(detailHTML);
