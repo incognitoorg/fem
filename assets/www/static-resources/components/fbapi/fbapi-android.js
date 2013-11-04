@@ -2,6 +2,17 @@ define(function(require) {
 
 	var EnvVariables = require('envvariables');
 
+	if(typeof FB!=='undefined'){
+		
+		// init the Facebook JS SDK
+		FB.init( {
+			appId : EnvVariables.FB_APP_ID,
+			//channelUrl: 'http://localhost:8888/channel.html', // Channel File for x-domain communication
+			status: true, // check the login status upon init?
+			cookie: true, // set sessions cookies to allow your server to access the session?
+			xfbml: true // parse XFBML tags on this page?
+		} );
+	}
 
 	var FBAuthToken;
 
@@ -23,16 +34,6 @@ define(function(require) {
 	
 	
 	function getUserInfoPhoneGap(options){
-		/* var url = "https://graph.facebook.com/me?access_token=" + FBAuthToken;
-		    var req = new XMLHttpRequest();
-
-		    req.open("get", url, true);
-		    req.send(null);
-		    req.onerror = function() {
-		        alert("Error");
-		    };
-		    return req;*/
-		
 		$.ajax({
 			url : "https://graph.facebook.com/me?access_token=" + FBAuthToken,
 			success : function(response){
@@ -57,29 +58,7 @@ define(function(require) {
 		},
 		checkAndDoLogin : function(options){
 
-			/*FB.getLoginStatus(function(loginStatusRes){
-				if(loginStatusRes.status==='connected'){
-
-					FBAuthToken = loginStatusRes.authResponse.accessToken;
-
-					FB.api('/me', function(response) {
-						getUserInfo(options);
-					});
-				} else {
-					FB.login(function(response) {
-
-						if (response.authResponse) {
-							FBAuthToken = response.authResponse.accessToken;
-							getUserInfo(options);
-						} else {
-							console.log('User cancelled login or did not fully authorize.');
-						}
-					});
-				}
-			});*/
-			
-			
-			
+		
 			var redirect_uri = "http://www.facebook.com/connect/login_success.html";
 			var client_id = EnvVariables.FB_APP_ID;
 			var display;

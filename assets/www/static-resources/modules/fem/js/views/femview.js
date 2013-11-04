@@ -100,7 +100,7 @@ define(function(require){
 			
 			if(is_mobile){
 				//this.$('.js-left-side-menu').css({position:'absolute', 'z-index':1, top:-menuHeight});
-				this.$('.js-left-side-menu').css({position:'absolute'});
+				this.$('.js-fixed-section').css({position:'absolute'});
 				this.$('.js-right-panel').css({position:'absolute',top:this.$('.js-show-hide-section').height()});
 			}
 			
@@ -166,7 +166,7 @@ define(function(require){
 					// Animation complete.
 				});
 				this.$('.js-right-panel').animate({
-					left:  this.$('.js-fixed-section').width()+100,
+					left:  $(window).width(),
 				}, 1000, function() {
 					// Animation complete.
 				});
@@ -185,7 +185,7 @@ define(function(require){
 				
 				
 				this.$('.js-left-side-menu').animate({
-					left:  -this.$('.js-fixed-section').width()-100,
+					left:  -$(window).width(),
 				}, 300, function() {
 					// Animation complete.
 				});
