@@ -19,7 +19,8 @@ var require = {
 			errorlogger : 'libraries/errorlogger/errorlogger',
 			persistence : 'libraries/lawnchair/lawnchair',
 			fbapi : 'components/fbapi/fbapi-android',
-			googleapi : 'components/googleapi/googleapi-android'
+			googleapi : 'components/googleapi/googleapi-android',
+			animate : 'plugins/jquery/animate-enhanced/jquery.animate-enhanced.min'
 		},
 		shim : {
 			'backbone' : {
@@ -31,6 +32,9 @@ var require = {
 			},
 			'persistence' : {
 				exports : 'Lawnchair'
+			},
+			'animate' : {
+				deps : [ 'jquery' ]
 			}
 		},
 		waitSeconds : 60,
