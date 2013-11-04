@@ -1,6 +1,6 @@
 define(function(require) {
 	
-	var mode='local';
+	var mode='dev';
 	
 	if(mode==='dev'){
 		return {
