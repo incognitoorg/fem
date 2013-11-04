@@ -51,11 +51,9 @@ define(function (require) {
 		  },
 		  'success': function(response){
 				  callback.call(context, response);
-				  loader && loader.removeClass('js-loader' );
+				  loader && loader.removeClass('js-loader');
 		  },
 		  'error': function(response){
-			  console.error('Error occured while connecting to url : ' +url);
-			  console.error(JSON.stringify(response));
 			  if(errorCallback){
 				  errorCallback.call(context, response);
 			  } else {
@@ -70,7 +68,7 @@ define(function (require) {
 	
 	
 	function errorFallback(response, data){
-		console.log('Something bad happened while communicating with back end, you are on your own. Here is what I have for you.'+  response  + ", data: " +  data);
+		console.log('Something bad happened while communicating with back end, you are on your own. Here is what I have for you.', response, data);
 	}
 	
 	Sandbox.View = Backbone.View;

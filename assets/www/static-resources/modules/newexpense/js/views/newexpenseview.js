@@ -399,7 +399,8 @@ define(function(require) {
 				listPayersInfo : payersInfo,
 				listIncludeMemberInfo : includeMemberInfo,
 				groupId : this.group.groupId,
-				group : this.group
+				group : this.group,
+				type : this.$('.js-expense-type').val()
 			});
 			
 			updatedIOU(objExpenseModel.attributes, objExpenseModel.attributes.group);

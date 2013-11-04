@@ -1,7 +1,7 @@
 var require = {
 		baseUrl : 'file:///android_asset/www/static-resources/',
 		paths : {
-			backbone : 'libraries/backbone/backbone.min',// ['http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min', 'libraries/backbone/backbone'],
+			backbone : 'libraries/backbone/backbone.min',
 			jquery : 'libraries/jquery/jquery-2.0.0.min',//['http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min', 'libraries/jquery/jquery'],
 			underscore : 'libraries/underscore/underscore.min',//['http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min','libraries/underscore/underscore'],
 			handlebars : 'libraries/handlebars/handlebarshelpers',
@@ -17,7 +17,9 @@ var require = {
 			mediator : 'core/mediator',
 			debugmode : 'libraries/debugmode/debugmode',
 			errorlogger : 'libraries/errorlogger/errorlogger',
-			persistence : 'libraries/lawnchair/lawnchair'
+			persistence : 'libraries/lawnchair/lawnchair',
+			fbapi : 'components/fbapi/fbapi-android',
+			googleapi : 'components/googleapi/googleapi-android'
 		},
 		shim : {
 			'backbone' : {
@@ -35,17 +37,3 @@ var require = {
 		/* urlArgs: "v=0.25",  */
 		deps : ['page-js/fem']
 };
-//TODO : Move this to better place
-window.applicationCache.addEventListener('updateready', function(e) {
-	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-		// Browser downloaded a new app cache.
-		// Swap it in and reload the page to get the new hotness.
-		window.applicationCache.swapCache();
-		//TODO : To add beutiful confirm dialogue here
-		if (confirm('A new version of this site is available. Load it?')) {
-			window.location.reload();
-		}
-	} else {
-		// Manifest didn't changed. Nothing new to server.
-	}
-}, false);

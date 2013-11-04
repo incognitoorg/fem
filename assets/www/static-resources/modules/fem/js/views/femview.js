@@ -96,9 +96,11 @@ define(function(require){
 		    }
 			
 			menuHeight = this.$('.js-fixed-section').height();
+			menuWidth = this.$('.js-fixed-section').width();
 			
 			if(is_mobile){
-				this.$('.js-left-side-menu').css({position:'absolute', 'z-index':1, top:-menuHeight});
+				//this.$('.js-left-side-menu').css({position:'absolute', 'z-index':1, top:-menuHeight});
+				this.$('.js-left-side-menu').css({position:'absolute'});
 				this.$('.js-right-panel').css({position:'absolute',top:this.$('.js-show-hide-section').height()});
 			}
 			
@@ -153,8 +155,18 @@ define(function(require){
 				//this.$('.js-show-hide-section').css({'position':'relative'});
 				this.$('.js-show-menu').removeClass('js-show-menu').addClass('js-hide-menu');
 				window.scrollTo(0,0);
-				self.$('.js-left-side-menu').animate({
+				/*self.$('.js-left-side-menu').animate({
 					top: this.$('.js-show-hide-section').height(),
+				}, 1000, function() {
+					// Animation complete.
+				});*/
+				self.$('.js-left-side-menu').animate({
+					left: 0,
+				}, 1000, function() {
+					// Animation complete.
+				});
+				this.$('.js-right-panel').animate({
+					left:  this.$('.js-fixed-section').width()+100,
 				}, 1000, function() {
 					// Animation complete.
 				});
@@ -165,11 +177,24 @@ define(function(require){
 			var self = this;
 			if(is_mobile){
 				self.$('.js-hide-menu').removeClass('js-hide-menu').addClass('js-show-menu');
-				this.$('.js-left-side-menu').animate({
+				/*this.$('.js-left-side-menu').animate({
 				    top: -menuHeight,
 				  }, 300, function() {
 				    // Animation complete.
-				  });
+				  });*/
+				
+				
+				this.$('.js-left-side-menu').animate({
+					left:  -this.$('.js-fixed-section').width()-100,
+				}, 300, function() {
+					// Animation complete.
+				});
+				
+				this.$('.js-right-panel').animate({
+					left:  0,
+				}, 300, function() {
+					// Animation complete.
+				});
 				
 			}
 		}
