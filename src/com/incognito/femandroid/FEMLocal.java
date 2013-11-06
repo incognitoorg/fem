@@ -21,6 +21,7 @@ package com.incognito.femandroid;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
+import org.apache.cordova.softkeyboardbugfix.AndroidBug5497Workaround;
 
 public class FEMLocal extends DroidGap
 {
@@ -30,6 +31,7 @@ public class FEMLocal extends DroidGap
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
+        AndroidBug5497Workaround.assistActivity(this);
         //super.loadUrl("file:///android_asset/www/index.cordova.html");
     }
 }
