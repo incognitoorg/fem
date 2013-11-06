@@ -5,9 +5,8 @@ body {
 }
 
 .section.js-show-menu{
-	/* background: rgb(153, 153, 153); */
-	height: 50px;
-	padding-left: 10px;
+	background: rgb(153, 153, 153);
+	height: 30px;
 }
 
 
@@ -47,7 +46,7 @@ body {
 .menu-icon{
 	background: url("/static-resources/images/icons/icons.jpg") -103px -149px;
 	display: inline-block;
-	height: 58px;
+	height: 30px;
 	width: 58px;
 	background-position-x: 183;
 	display: inline-block;
@@ -55,7 +54,7 @@ body {
 }
 .js-currently-showing{
 	display: inline-block;
-	padding-top: 1em;
+	padding-top: 8px;
 }
 
 .js-menu p{
@@ -69,5 +68,5 @@ body {
 }
 .app-container{
 	background : url('images/background.png') repeat;
-	padding: 15px 30px 3px 30px!important;
+	padding:3px 30px 3px 30px!important;
 }
