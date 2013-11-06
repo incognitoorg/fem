@@ -3,6 +3,7 @@ define(function(require){
 	require('css!libraries/foundation/css/normalize.css');
 	require('css!./../../css/fem.css');
 	require('css!./../../css/fonts/fonts.css');
+	require('animate');
 	var Backbone = require('backbone');
 	var AppRouter = require('./../router/femrouter');
 	var Sandbox = require('sandbox');
