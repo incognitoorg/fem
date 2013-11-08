@@ -313,7 +313,7 @@ define(function(require) {
 			Sandbox.doDelete({
 				url : '_ah/api/expenseentityendpoint/v1/expenseentity/deleteandupdateiou', 
 				data : JSON.stringify(expense),
-				type : 'PUT',
+				type : 'POST',
 				dataType: 'json',
 				contentType: 'application/json',
 				callback : function(response){

@@ -150,13 +150,13 @@ public class ExpenseEntityEndpoint {
 	
 	
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@ApiMethod(
- 			httpMethod = "PUT", 
+ 			httpMethod = "POST", 
  			name = "expense.deleteupdateiou",
-			path="expense/deleteandupdateiou"
+			path="expenseentity/deleteandupdateiou"
 			)
-	public ExpenseEntity removeExpenseEntity(ExpenseEntity expenseentity) {
+	public ExpenseEntity deleteupdateiou(ExpenseEntity expenseentity) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			if (!containsExpenseEntity(expenseentity)) {
@@ -164,16 +164,16 @@ public class ExpenseEntityEndpoint {
 			}
 			
 			
-			
-			
-			
 			Group objGroup = expenseentity.getGroup();
 			expenseentity.setGroup(null);
 			
-			ExpenseInfoEndpoint objExpenseInfoEndPoint = new ExpenseInfoEndpoint();
+			//Attaching to JDO
+			expenseentity = mgr.getObjectById(ExpenseEntity.class, expenseentity.getExpenseEntityId());
+			
+			/*ExpenseInfoEndpoint objExpenseInfoEndPoint = new ExpenseInfoEndpoint();*/
 			
 			//Removing related expenseinfo
-			for (Iterator iterator = expenseentity.getListIncludeMemberInfo().iterator(); iterator.hasNext();) {
+			/*for (Iterator iterator = expenseentity.getListIncludeMemberInfo().iterator(); iterator.hasNext();) {
 				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
 				objExpenseInfoEndPoint.removeExpenseInfo(objExpenseInfo.getExpenseInfoId());
 			}
@@ -181,17 +181,20 @@ public class ExpenseEntityEndpoint {
 			for (Iterator iterator = expenseentity.getListPayersInfo().iterator(); iterator.hasNext();) {
 				ExpenseInfo objExpenseInfo = (ExpenseInfo) iterator.next();
 				objExpenseInfoEndPoint.removeExpenseInfo(objExpenseInfo.getExpenseInfoId());
-			}
+			}*/
 			
 			
 			
-			//mgr.makePersistent(expenseentity);
+			objGroup.setMembers(null);//Removing members as they are not embedded.
+			mgr.makePersistent(objGroup);
+			
+			
 			mgr.deletePersistent(expenseentity);
 		} finally {
 			mgr.close();
 		}
-		return expenseentity;
-	}*/
+		return null;
+	}
 	
 	
 
