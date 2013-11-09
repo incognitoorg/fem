@@ -21,3 +21,4 @@
 /systemsettingsendpoint-v1-rest.discovery
 /systemsettingsendpoint-v1-rpc.discovery
 /.gitignore
+/lib
