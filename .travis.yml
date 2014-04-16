@@ -8,13 +8,13 @@ before_install:
   - mkdir -p vendors
   - pwd
   - ls -l
-  - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
+  - wget https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.3.zip  -nv
   - ls -l
 # - jar -xvf google_appengine_1.8.6.zip
-  - unzip -qd vendors google_appengine_1.8.6.zip
+  - unzip -qd appengine-java-sdk-1.9.3.zip
   - ls -l /home/travis/build/incognitoorg/fem/vendors
   - ls -l /home/travis/build/incognitoorg/fem
-  
+
   
 before_script:
   - node -v
