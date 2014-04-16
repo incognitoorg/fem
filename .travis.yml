@@ -7,9 +7,9 @@ before_install:
   - pwd
   - ls -l
   - cd vendors
-  - ls -l
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
   - unzip -qd google_appengine_1.8.6.zip  -nv
+  - ls -l /home/travis/build/incognitoorg/fem/vendors
   
 before_script:
   - node -v
