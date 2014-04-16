@@ -5,6 +5,7 @@ env:
 before_install:
   - mkdir -p vendors
   - pwd
+  - ls -l
   - cd vendors
   - ls -l
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
