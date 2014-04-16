@@ -3,5 +3,4 @@ before_install:
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
   - unzip -qd vendors/google-app-engine google_appengine_1.7.4.zip
   
- script:"grunt"
- 
+script:"grunt"
