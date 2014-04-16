@@ -11,7 +11,3 @@ before_script:
   - grunt -version
  
 script:grunt
-  
-
-  
- 
