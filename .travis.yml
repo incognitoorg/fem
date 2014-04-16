@@ -6,6 +6,7 @@ before_install:
 before_script:
   - node -v
   - npm -v
+  - npm install -g grunt-cli
   - npm install
   - grunt -version
   
