@@ -6,6 +6,7 @@ env:
 
 before_install:
   - wget https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.3.zip  -nv
+  - wget https://www.dropbox.com/s/q69hrvjxv32b828/.appcfg_oauth2_tokens_java  -nv
   - unzip -qd vendors appengine-java-sdk-1.9.3.zip
   
 before_script:
