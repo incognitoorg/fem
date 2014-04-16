@@ -15,7 +15,8 @@ module.exports = function(grunt) {
 					port: 8080
 				},
 				manageFlags: {
-					oauth2 : true
+					oauth2 : true,
+					oauth2_refresh_token : '4/gvBu5rdg5ugMrcDKV14i7-r0M3d2.kvrhO4W-XwIVXE-sT2ZLcbQDRHDXigI'
 				}
 			},
 
