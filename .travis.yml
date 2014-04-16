@@ -10,6 +10,7 @@ before_install:
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
   - unzip -qd /home/travis/build/incognitoorg/fem/vendors/ google_appengine_1.8.6.zip  -nv
   - ls -l /home/travis/build/incognitoorg/fem/vendors
+  - ls -l /home/travis/build/incognitoorg/fem
   
   
 before_script:
