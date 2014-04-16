@@ -7,7 +7,7 @@ before_install:
   - pwd
   - ls -l
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
-  - jar -xvf vendors google_appengine_1.8.6.zip  
+  - jar -xvf google_appengine_1.8.6.zip  
   - ls -l /home/travis/build/incognitoorg/fem/vendors
   - ls -l /home/travis/build/incognitoorg/fem
   
