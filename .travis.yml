@@ -1,4 +1,4 @@
-before_install:
-  - mkdir -p vendors/google-app-engine
+before_script:
+  - mkdir -p vendors
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
-  - unzip -qd vendors/google-app-engine google_appengine_1.8.6.zip
+  - unzip -qd google_appengine_1.8.6.zip  -nv
