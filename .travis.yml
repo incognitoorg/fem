@@ -15,4 +15,5 @@ before_script:
   - grunt -version
  
 script : 
+ - mvn clean install
  - grunt onlyupload

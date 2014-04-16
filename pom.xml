@@ -35,12 +35,12 @@
       Specify AppEngine version for your project. It should match SDK version pointed to
       by ${gae.home} property (Typically, one used by your Eclipse plug-in)
     -->
-    <gae.version>1.8.6</gae.version>
+    <gae.version>1.9.3</gae.version>
     <!--
       GAE home points to directory where GAE SDK is unpacked in local repository
     -->
     <gae.home>
-      ${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}
+      /home/travis/build/incognitoorg/fem/vendors/appengine-java-sdk-1.9.3
     </gae.home>
     <!-- Upload to http://0.latest.<applicationName>.appspot.com by default -->
     <gae.application.version>1</gae.application.version>
@@ -84,23 +84,6 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>org.apache.wicket</groupId>
-      <artifactId>wicket</artifactId>
-      <version>1.4.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.5.10</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>0.9.18</version>
-      <scope>runtime</scope>
-    </dependency>
-
     <!--
       GAE libraries for local testing as described here:
       http://code.google.com/appengine/docs/java/howto/unittesting.html
