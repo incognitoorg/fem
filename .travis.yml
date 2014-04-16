@@ -1,6 +1,6 @@
 env:
   global:
-    - GAE_SDK: /home/travis/build/incognitoorg/fem/vendors/google_appengine_1.8.6
+    - GAE_SDK: /home/travis/build/incognitoorg/fem/vendors/appengine-java-sdk-1.9.3
     
 language: java
 
@@ -22,4 +22,6 @@ before_script:
   - npm install
   - grunt -version
  
-#script : "grunt onlyupload"
+script : 
+ - mvn clean install
+ - grunt onlyupload
