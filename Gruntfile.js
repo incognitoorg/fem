@@ -2,7 +2,6 @@ module.exports = function(grunt) {
 
 	var requirejsconfig = grunt.file.readJSON('./r-js-optimizer/tools/build.js');
 	var moment = require('moment');
-	console.log('moment', moment);
 
 	// Project configuration.
 	grunt.initConfig({
