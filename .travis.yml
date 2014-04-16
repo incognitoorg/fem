@@ -1,4 +1,14 @@
-before_script:
+before_install:
   - mkdir -p vendors
   - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/google_appengine_1.8.6.zip  -nv
   - unzip -qd google_appengine_1.8.6.zip  -nv
+  
+before_script:
+  - node -version
+  - npm -version
+  - npm install
+  - grunt -version
+  
+
+  
+ 

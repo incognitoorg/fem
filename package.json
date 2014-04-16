@@ -1,0 +1,17 @@
+{
+  "name": "fem",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-version": "~0.3.0",
+    "grunt-appengine": "~0.1.4",
+    "grunt-string-replace": "~0.2.7",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-git": "~0.2.6",
+    "grunt-contrib-watch": "~0.6.1",
+    "moment": "~2.5.1"
+  }
+}
