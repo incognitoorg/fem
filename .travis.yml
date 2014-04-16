@@ -2,26 +2,16 @@ env:
   global:
     - GAE_SDK: /home/travis/build/incognitoorg/fem/vendors/appengine-java-sdk-1.9.3
     
-language: java
+#language: java
 
 before_install:
-  - mkdir -p vendors
-  - pwd
-  - ls -l
   - wget https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.3.zip  -nv
-  - ls -l
   - unzip -qd vendors appengine-java-sdk-1.9.3.zip
-  - ls -l /home/travis/build/incognitoorg/fem/vendors
-  - ls -l /home/travis/build/incognitoorg/fem
-
   
 before_script:
-  - node -v
-  - npm -v
   - npm install -g grunt-cli
   - npm install
   - grunt -version
  
 script : 
- - mvn clean install
  - grunt onlyupload
