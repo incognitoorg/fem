@@ -160,7 +160,7 @@ module.exports = function(grunt) {
 		grunt.task.run(['all']);
 	});
 	
-	grunt.registerTask('all', ['string-replace:toDeploy', 'requirejs', 'string-replace:toLocal'])
+	grunt.registerTask('all', ['string-replace:toDeploy', 'string-replace:toLocal'])
 	grunt.registerTask('onlyupload', ['string-replace:toDeploy', /*'requirejs',*/ 'appengineUpdateWrapper', 'string-replace:toLocal'])
 	grunt.registerTask('appengineUpdateWrapper', function(){
 		var gaeSDK = process.env.GAE_SDK;
