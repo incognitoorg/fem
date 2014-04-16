@@ -1,6 +1,6 @@
 env:
   global:
-    - GAE_SDK: incognitoorg/fem/vendors/google_appengine_1.8.6/
+    - GAE_SDK: /home/travis/build/incognitoorg/fem/vendors/google_appengine_1.8.6
 
 before_install:
   - mkdir -p vendors
