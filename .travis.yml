@@ -10,8 +10,7 @@ before_install:
   - ls -l
   - wget https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.3.zip  -nv
   - ls -l
-# - jar -xvf google_appengine_1.8.6.zip
-  - unzip -qd appengine-java-sdk-1.9.3.zip
+  - unzip -qd vendors appengine-java-sdk-1.9.3.zip
   - ls -l /home/travis/build/incognitoorg/fem/vendors
   - ls -l /home/travis/build/incognitoorg/fem
 
