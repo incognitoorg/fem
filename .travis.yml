@@ -4,10 +4,10 @@ before_install:
   - unzip -qd google_appengine_1.8.6.zip  -nv
   
 before_script:
-  - node -version
-  - npm -version
+  - node -v
+  - npm -v
   - npm install
-  - grunt -version
+  - grunt -v
   
 
   
