@@ -36,6 +36,8 @@ public class UserEndpoint {
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
 		List<User> execute = null;
+		
+		System.out.println("Travis is successfull, I should get a party");
 
 		try {
 			mgr = getPersistenceManager();
