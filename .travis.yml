@@ -5,7 +5,7 @@ env:
 #language: java
 
 before_install:
-  - wget https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.3.zip  -nv
+  - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/appengine-java-sdk-1.8.6.zip  -nv
   - wget https://www.dropbox.com/s/q69hrvjxv32b828/.appcfg_oauth2_tokens_java  -nv
   - unzip -qd vendors appengine-java-sdk-1.9.3.zip
   
@@ -15,5 +15,5 @@ before_script:
   - grunt -version
  
 script : 
- - mvn clean install
+ - ant compile
  - grunt onlyupload
