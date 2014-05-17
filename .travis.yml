@@ -11,9 +11,9 @@ before_install:
   
 before_script:
   - npm install -g grunt-cli
-  - npm install
+  - npm install>/dev/null
   - grunt -version
  
 script : 
  - ant compile
- - grunt onlyupload
+ - grunt 
