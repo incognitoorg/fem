@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
 
 	var requirejsconfig = grunt.file.readJSON('./r-js-optimizer/tools/build.js');
-	var moment = require('moment');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -100,14 +99,7 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		gittag: {
-	        task: {
-	            options: {
-	                tag: moment().format('DDMMYYYY'),
-	                message: 'Testing'
-	            }
-	        }
-	    },
+		
 		version: {
 			options: {
 				// Task-specific options go here.
