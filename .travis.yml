@@ -5,7 +5,7 @@ env:
 #language: java
 
 before_install:
-  - wget https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/186/appengine-java-sdk-1.8.6.zip  -nv
+  - wget https://00e9e64bac9f936cfde17c78a27cd162d18ed9344e66d3796e-apidata.googleusercontent.com/download/storage/v1_internal/b/appengine-sdks/o/deprecated%2F186%2Fappengine-java-sdk-1.8.6.zip?qk=AD5uMEt3RWz5__7qpM9T13B0Nrn6vvlLVOPVR6ClViXoLgNOFRVhPDtQYreg-23N5DjthdtQYZfpTjo6WtxWOFLo-YGrXfTjG2Hd8dKMXRkhGVwKUudZ8lcvPZVwCqTlcdlEq33LfvvK8q1Aag1lSCPulNBBjY6b8WYU8imQGo4MY6ko1h86ePYpFH6-uLb_VMrpmbXw1Kv7JOhRk1FVtRAHtXRFoA8QZvxd6cocbnBEt2NTqaTVNnP_HWPWC-qZZJuX9z85TP1q4wHJIrW8Cz8g5encXI9pXLJW0XvOB_imrrSnMySd5ukgiSTVOS6CeiLrlYnCCZJQj7X2fBtU6qV98totFBKSlk8N2-DNBghmJRg0CTbpzn6gTcZzYer0zReXKVi6mbnc3hczpm681_CvYo6har03oGA0NFhyvREYEf0kDWbUPI1PVLTla_yayDaLlA45GKdeEFHYzc-7-6cz6pJy5XywIj2rPY6MhHT_IlKruo4FhCc30qV3b2OmXWSmzNkyX-gRsZYbInomoxRdkaEffASDVtlxhMnwizdNb3IqEi_5QMFcFSFoTSl54SEiPwanH5VkwzL-zWi4woaHFZMjHBmZUX85KS3e2BtY5yTQKdC1iV2AEjnBSl98R07xiTek7Mil5fFp78xy9MZDwFJHvZpkmBDA4IicssQUWSYzfYADxcx17VgDDxWnNG9C8l6nevhG-g7dIuG4VD4jmtJ7Psy5ogK1t47O365kQGu2x_3spXX9yZbPz3JcV9M4xStBBBMb  -nv
   - wget https://www.dropbox.com/s/q69hrvjxv32b828/.appcfg_oauth2_tokens_java  -nv
   - unzip -qd vendors appengine-java-sdk-1.9.3.zip
   
