@@ -1,5 +1,6 @@
 <project>
-  <property name="sdk.dir" location="D:/chrome-downloads/appengine-java-sdk-1.8.6" />
+   <property environment="env"/>
+  <property name="sdk.dir" location=${env.GAE_SDK} />
 
   <import file="${sdk.dir}/config/user/ant-macros.xml" />
 
