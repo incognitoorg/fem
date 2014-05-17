@@ -1,6 +1,6 @@
 <project>
    <property environment="env"/>
-  <property name="sdk.dir" location=${env.GAE_SDK} />
+  <property name="sdk.dir" location="${env.GAE_SDK}" />
 
   <import file="${sdk.dir}/config/user/ant-macros.xml" />
 
